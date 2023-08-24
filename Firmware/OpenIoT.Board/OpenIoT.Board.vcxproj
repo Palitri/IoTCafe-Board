@@ -1,0 +1,336 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>16.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{f30bf534-e949-48fa-98d2-bc32af79c8c7}</ProjectGuid>
+    <RootNamespace>OpenIoTTest</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>OpenIoT.Board</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="Source\OpenIoT\BoardFeatures.h" />
+    <ClInclude Include="Source\OpenIoT\DebugUtils.h" />
+    <ClInclude Include="Source\OpenIoT\IPersistence.h" />
+    <ClInclude Include="Source\OpenIoT\OpenIoTPersistence.h" />
+    <ClInclude Include="Source\OpenIoT\OpenIoTCodeProcessor.h" />
+    <ClInclude Include="Source\OpenIoT\BoardESP32WebClient.h" />
+    <ClInclude Include="Source\OpenIoT\BoardESP32BluetoothTransmissionChannel.h" />
+    <ClInclude Include="Source\OpenIoT\BoardESP32Features.h" />
+    <ClInclude Include="Source\OpenIoT\AllTests.h" />
+    <ClInclude Include="Source\OpenIoT\IBoardTest.h" />
+    <ClInclude Include="Source\OpenIoT\MemoryStream.h" />
+    <ClInclude Include="Source\OpenIoT\OpenIoTTransmissionProtocol.h" />
+    <ClInclude Include="Source\OpenIoT\CommandTransmissionProtocol.h" />
+    <ClInclude Include="Source\OpenIoT\IStream.h" />
+    <ClInclude Include="Source\OpenIoT\ITransmissionProtocol.h" />
+    <ClInclude Include="Source\OpenIoT\BoardESP8266Features.h" />
+    <ClInclude Include="Source\OpenIoT\ATCommandUtils.h" />
+    <ClInclude Include="Source\OpenIoT\ISMSClient.h" />
+    <ClInclude Include="Source\OpenIoT\HttpUtils.h" />
+    <ClInclude Include="Source\OpenIoT\PeripheralDeviceDetails.h" />
+    <ClInclude Include="Source\OpenIoT\IClusterDevice.h" />
+    <ClInclude Include="Source\OpenIoT\IWebClient.h" />
+    <ClInclude Include="Source\OpenIoT\PeripheralWebAlert.h" />
+    <ClInclude Include="Source\OpenIoT\PeripheralWebLink.h" />
+    <ClInclude Include="Source\OpenIoT\PeripheralWifiESP8266.h" />
+    <ClInclude Include="Source\OpenIoT\RS232Protocol.h" />
+    <ClInclude Include="Source\OpenIoT\PeripheralGeoDistance.h" />
+    <ClInclude Include="Source\OpenIoT\PeripheralGpsNmea.h" />
+    <ClInclude Include="Source\OpenIoT\GpsNmeaProtocol.h" />
+    <ClInclude Include="Source\OpenIoT\PeripheralAccelerometerGyroMPU6050.h" />
+    <ClInclude Include="Source\OpenIoT\AccelerometerGyroscopeMPU6050.h" />
+    <ClInclude Include="Source\OpenIoT\Matrix3.h" />
+    <ClInclude Include="Source\OpenIoT\OpenIoT.h" />
+    <ClInclude Include="Source\OpenIoT\SerialTransmissionChannel.h" />
+    <ClInclude Include="Source\OpenIoT\ServoControl.h" />
+    <ClInclude Include="Source\OpenIoT\BasePropertiesObject.h" />
+    <ClInclude Include="Source\OpenIoT\StreamManipulator.h" />
+    <ClInclude Include="Source\OpenIoT\BitUtils.h" />
+    <ClInclude Include="Source\OpenIoT\Board.h" />
+    <ClInclude Include="Source\OpenIoT\BoardPinProperty.h" />
+    <ClInclude Include="Source\OpenIoT\BrushlessMotor.h" />
+    <ClInclude Include="Source\OpenIoT\ChunkTransmissionProtocol.h" />
+    <ClInclude Include="Source\OpenIoT\Cluster.h" />
+    <ClInclude Include="Source\OpenIoT\PeripheralAnimation.h" />
+    <ClInclude Include="Source\OpenIoT\PeripheralBrushlessMotor.h" />
+    <ClInclude Include="Source\OpenIoT\PeripheralExponent.h" />
+    <ClInclude Include="Source\OpenIoT\PeripheralHlsToRgb.h" />
+    <ClInclude Include="Source\OpenIoT\PeripheralInterpolation.h" />
+    <ClInclude Include="Source\OpenIoT\PeripheralIRInput.h" />
+    <ClInclude Include="Source\OpenIoT\PeripheralIROutput.h" />
+    <ClInclude Include="Source\OpenIoT\Peripheral.h" />
+    <ClInclude Include="Source\OpenIoT\PeripheralParameter.h" />
+    <ClInclude Include="Source\OpenIoT\PeripheralPID.h" />
+    <ClInclude Include="Source\OpenIoT\PeripheralPin.h" />
+    <ClInclude Include="Source\OpenIoT\PeripheralRFID.h" />
+    <ClInclude Include="Source\OpenIoT\PeripheralServo.h" />
+    <ClInclude Include="Source\OpenIoT\PeripheralSine.h" />
+    <ClInclude Include="Source\OpenIoT\PeripheralStepMotor.h" />
+    <ClInclude Include="Source\OpenIoT\PeripheralTransition.h" />
+    <ClInclude Include="Source\OpenIoT\PeripheralTrigger.h" />
+    <ClInclude Include="Source\OpenIoT\PeripheralUltrasonicSensor.h" />
+    <ClInclude Include="Source\OpenIoT\CodeProcessor.h" />
+    <ClInclude Include="Source\OpenIoT\EEPROMStream.h" />
+    <ClInclude Include="Source\OpenIoT\GenericIRProtocol.h" />
+    <ClInclude Include="Source\OpenIoT\InterruptVector.h" />
+    <ClInclude Include="Source\OpenIoT\IPropertiesObject.h" />
+    <ClInclude Include="Source\OpenIoT\IRProtocol.h" />
+    <ClInclude Include="Source\OpenIoT\ITransmissionChannel.h" />
+    <ClInclude Include="Source\OpenIoT\List.h" />
+    <ClInclude Include="Source\OpenIoT\Log.h" />
+    <ClInclude Include="Source\OpenIoT\Math.h" />
+    <ClInclude Include="Source\OpenIoT\Mem.h" />
+    <ClInclude Include="Source\OpenIoT\Motor.h" />
+    <ClInclude Include="Source\OpenIoT\Property.h" />
+    <ClInclude Include="Source\OpenIoT\PropertyTransmissionProtocol.h" />
+    <ClInclude Include="Source\OpenIoT\RotationBuffer.h" />
+    <ClInclude Include="Source\OpenIoT\ShiftRegister.h" />
+    <ClInclude Include="Source\OpenIoT\SoftwareSerialTransmissionChannel.h" />
+    <ClInclude Include="Source\OpenIoT\StepMotorDriver.h" />
+    <ClInclude Include="Source\OpenIoT\Strings.h" />
+    <ClInclude Include="Source\OpenIoT\Timer.h" />
+    <ClInclude Include="Source\OpenIoT\UltrasonicSensor.h" />
+    <ClInclude Include="Source\OpenIoT\Vectors.h" />
+    <ClInclude Include="Source\OpenIoT\StringProcessor.h" />
+    <ClInclude Include="Source\OpenIoT\PeripheralGPRS.h" />
+    <ClInclude Include="Source\OpenIoT\PeripheralSMSMessage.h" />
+    <ClInclude Include="Source\OpenIoT\PeripheralUSB.h" />
+    <ClInclude Include="Source\OpenIoT\PeripheralBluetooth.h" />
+    <ClInclude Include="Source\OpenIoT\WebServices.h" />
+    <ClInclude Include="Source\OpenIoT\StreamingInputDetector.h" />
+    <ClInclude Include="Source\OpenIoT\StringStream.h" />
+    <ClInclude Include="Source\OpenIoT\EepromBoardTest.h" />
+    <ClInclude Include="Source\OpenIoT\EndianTest.h" />
+    <ClInclude Include="Source\OpenIoT\BoardESP8266WebClient.h" />
+    <ClInclude Include="Source\OpenIoT\Uid128.h" />
+    <ClInclude Include="Source\OpenIoT\PeripheralSoftware.h" />
+    <ClInclude Include="Source\OpenIoT\PeripheralGenericWiFi.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Source\OpenIoT\BoardFeatures.cpp" />
+    <ClCompile Include="Source\OpenIoT\DebugUtils.cpp" />
+    <ClCompile Include="Source\OpenIoT\OpenIoTPersistence.cpp" />
+    <ClCompile Include="Source\OpenIoT\OpenIoTCodeProcessor.cpp" />
+    <ClCompile Include="Source\OpenIoT\BoardESP32WebClient.cpp" />
+    <ClCompile Include="Source\OpenIoT\BoardESP32BluetoothTransmissionChannel.cpp" />
+    <ClCompile Include="Source\OpenIoT\BoardESP32Features.cpp" />
+    <ClCompile Include="Source\OpenIoT\AllTests.cpp" />
+    <ClCompile Include="Source\OpenIoT\MemoryStream.cpp" />
+    <ClCompile Include="Source\OpenIoT\OpenIoTTransmissionProtocol.cpp" />
+    <ClCompile Include="Source\OpenIoT\CommandTransmissionProtocol.cpp" />
+    <ClCompile Include="Source\OpenIoT\BoardESP32.cpp" />
+    <ClCompile Include="Source\OpenIoT\BoardESP8266Features.cpp" />
+    <ClCompile Include="Source\OpenIoT\BoardPC.cpp" />
+    <ClCompile Include="Source\OpenIoT\BoardSTM32F103C.cpp" />
+    <ClCompile Include="Source\OpenIoT\ATCommandUtils.cpp" />
+    <ClCompile Include="Source\OpenIoT\HttpUtils.cpp" />
+    <ClCompile Include="Source\OpenIoT\PeripheralDeviceDetails.cpp" />
+    <ClCompile Include="Source\OpenIoT\PeripheralWebAlert.cpp" />
+    <ClCompile Include="Source\OpenIoT\PeripheralWebLink.cpp" />
+    <ClCompile Include="Source\OpenIoT\PeripheralWifiESP8266.cpp" />
+    <ClCompile Include="Source\OpenIoT\RS232Protocol.cpp" />
+    <ClCompile Include="Source\OpenIoT\PeripheralGeoDistance.cpp" />
+    <ClCompile Include="Source\OpenIoT\PeripheralGpsNmea.cpp" />
+    <ClCompile Include="Source\OpenIoT\GpsNmeaProtocol.cpp" />
+    <ClCompile Include="Source\OpenIoT\PeripheralAccelerometerGyroMPU6050.cpp" />
+    <ClCompile Include="Source\main.cpp" />
+    <ClCompile Include="Source\OpenIoT\AccelerometerGyroscopeMPU6050.cpp" />
+    <ClCompile Include="Source\OpenIoT\Matrix3.cpp" />
+    <ClCompile Include="Source\OpenIoT\SerialTransmissionChannel.cpp" />
+    <ClCompile Include="Source\OpenIoT\ServoControl.cpp" />
+    <ClCompile Include="Source\OpenIoT\BasePropertiesObject.cpp" />
+    <ClCompile Include="Source\OpenIoT\StreamManipulator.cpp" />
+    <ClCompile Include="Source\OpenIoT\BitUtils.cpp" />
+    <ClCompile Include="Source\OpenIoT\BoardESP8266.cpp" />
+    <ClCompile Include="Source\OpenIoT\BoardPinProperty.cpp" />
+    <ClCompile Include="Source\OpenIoT\BrushlessMotor.cpp" />
+    <ClCompile Include="Source\OpenIoT\ChunkTransmissionProtocol.cpp" />
+    <ClCompile Include="Source\OpenIoT\Cluster.cpp" />
+    <ClCompile Include="Source\OpenIoT\PeripheralAnimation.cpp" />
+    <ClCompile Include="Source\OpenIoT\PeripheralBrushlessMotor.cpp" />
+    <ClCompile Include="Source\OpenIoT\PeripheralExponent.cpp" />
+    <ClCompile Include="Source\OpenIoT\PeripheralHlsToRgb.cpp" />
+    <ClCompile Include="Source\OpenIoT\PeripheralInterpolation.cpp" />
+    <ClCompile Include="Source\OpenIoT\PeripheralIRInput.cpp" />
+    <ClCompile Include="Source\OpenIoT\PeripheralIROutput.cpp" />
+    <ClCompile Include="Source\OpenIoT\Peripheral.cpp" />
+    <ClCompile Include="Source\OpenIoT\PeripheralParameter.cpp" />
+    <ClCompile Include="Source\OpenIoT\PeripheralPID.cpp" />
+    <ClCompile Include="Source\OpenIoT\PeripheralPin.cpp" />
+    <ClCompile Include="Source\OpenIoT\PeripheralRFID.cpp" />
+    <ClCompile Include="Source\OpenIoT\PeripheralServo.cpp" />
+    <ClCompile Include="Source\OpenIoT\PeripheralSine.cpp" />
+    <ClCompile Include="Source\OpenIoT\PeripheralStepMotor.cpp" />
+    <ClCompile Include="Source\OpenIoT\PeripheralTransition.cpp" />
+    <ClCompile Include="Source\OpenIoT\PeripheralTrigger.cpp" />
+    <ClCompile Include="Source\OpenIoT\PeripheralUltrasonicSensor.cpp" />
+    <ClCompile Include="Source\OpenIoT\CodeProcessor.cpp" />
+    <ClCompile Include="Source\OpenIoT\EEPROMStream.cpp" />
+    <ClCompile Include="Source\OpenIoT\GenericIRProtocol.cpp" />
+    <ClCompile Include="Source\OpenIoT\InterruptVector.cpp" />
+    <ClCompile Include="Source\OpenIoT\IRProtocol.cpp" />
+    <ClCompile Include="Source\OpenIoT\Log.cpp" />
+    <ClCompile Include="Source\OpenIoT\Math.cpp" />
+    <ClCompile Include="Source\OpenIoT\Mem.cpp" />
+    <ClCompile Include="Source\OpenIoT\Motor.cpp" />
+    <ClCompile Include="Source\OpenIoT\OpenIoT.cpp" />
+    <ClCompile Include="Source\OpenIoT\Property.cpp" />
+    <ClCompile Include="Source\OpenIoT\PropertyTransmissionProtocol.cpp" />
+    <ClCompile Include="Source\OpenIoT\ShiftRegister.cpp" />
+    <ClCompile Include="Source\OpenIoT\SoftwareSerialTransmissionChannel.cpp" />
+    <ClCompile Include="Source\OpenIoT\StepMotorDriver.cpp" />
+    <ClCompile Include="Source\OpenIoT\Strings.cpp" />
+    <ClCompile Include="Source\OpenIoT\Timer.cpp" />
+    <ClCompile Include="Source\OpenIoT\Uid128.cpp" />
+    <ClCompile Include="Source\OpenIoT\UltrasonicSensor.cpp" />
+    <ClCompile Include="Source\OpenIoT\ITransmissionChannel.cpp" />
+    <ClCompile Include="Source\OpenIoT\StringProcessor.cpp" />
+    <ClCompile Include="Source\OpenIoT\PeripheralGPRS.cpp" />
+    <ClCompile Include="Source\OpenIoT\PeripheralSMSMessage.cpp" />
+    <ClCompile Include="Source\OpenIoT\PeripheralUSB.cpp" />
+    <ClCompile Include="Source\OpenIoT\PeripheralBluetooth.cpp" />
+    <ClCompile Include="Source\OpenIoT\WebServices.cpp" />
+    <ClCompile Include="Source\OpenIoT\StreamingInputDetector.cpp" />
+    <ClCompile Include="Source\OpenIoT\StringStream.cpp" />
+    <ClCompile Include="Source\OpenIoT\EepromBoardTest.cpp" />
+    <ClCompile Include="Source\OpenIoT\EndianTest.cpp" />
+    <ClCompile Include="Source\OpenIoT\BoardESP8266WebClient.cpp" />
+    <ClCompile Include="Source\OpenIoT\PeripheralSoftware.cpp" />
+    <ClCompile Include="Source\OpenIoT\PeripheralGenericWiFi.cpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
