@@ -1,0 +1,631 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source">
+      <UniqueIdentifier>{84dcdc40-193f-46ad-a03a-4990fd13e5c6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\OpenIoT">
+      <UniqueIdentifier>{5cb84395-126a-4c31-a331-b77532726ad7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\OpenIoT\Framework">
+      <UniqueIdentifier>{8829e0a7-0c01-4a9c-909e-8bfe9b67ceab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\OpenIoT\Framework\Board">
+      <UniqueIdentifier>{0ff07c70-3bad-488e-95d3-73dd33637a65}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\OpenIoT\Framework\Devices">
+      <UniqueIdentifier>{80e51f93-ad94-4ba4-95ff-6d361da561cd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\OpenIoT\Framework\Utils">
+      <UniqueIdentifier>{55675771-5906-470e-a3aa-6c3dcd8bd267}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\OpenIoT\Framework\Streams">
+      <UniqueIdentifier>{386680a4-a108-4ab4-a49c-d8141f0a568c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\OpenIoT\Framework\Script">
+      <UniqueIdentifier>{5e6eda6d-1120-4537-b566-4c3ab734e6a9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\OpenIoT\Framework\PropertyModel">
+      <UniqueIdentifier>{9ca713c4-f574-4796-b3c5-23f779740947}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\OpenIoT\Framework\ClusterModel">
+      <UniqueIdentifier>{39b2d770-a977-4885-98ee-741f038efeb3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\OpenIoT\Framework\ClusterModel\Peripherals">
+      <UniqueIdentifier>{353f8bd3-2a45-4afd-8965-cf71fbd5d8c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\OpenIoT\Framework\Interface">
+      <UniqueIdentifier>{e8541153-05ef-41f0-8e08-d79b2a48d2e9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\OpenIoT\Framework\TransmissionProtocols">
+      <UniqueIdentifier>{6bc3fc6a-5f86-4073-8e1d-a70239339f3d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\OpenIoT\Device">
+      <UniqueIdentifier>{074b2d99-171b-4f2a-b9e7-eaae3ca066cd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\OpenIoT\Framework\ClusterModel\Peripherals\PeripheralUtils">
+      <UniqueIdentifier>{7211aa4c-b1cf-4a91-bbe4-9b27fd03da22}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\OpenIoT\Framework\Board\Boards">
+      <UniqueIdentifier>{94c1be73-04f4-4bb5-827f-d2308e6ed13e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\OpenIoT\Framework\Board\Boards\ESP8266">
+      <UniqueIdentifier>{790e0e04-4c78-4233-a813-66f34177b6f7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\OpenIoT\Tests">
+      <UniqueIdentifier>{44d37f8f-0c9f-43fa-ab04-528a156b76c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\OpenIoT\Framework\Board\Boards\ESP32">
+      <UniqueIdentifier>{94f38016-5fd6-437a-bf29-9be241443aa3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\OpenIoT\Framework\Board\Boards\STM32F103C">
+      <UniqueIdentifier>{3264c482-a482-440b-bb52-daea75604899}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\OpenIoT\Framework\Board\Boards\PC">
+      <UniqueIdentifier>{a68c91e3-e1d2-4ae9-aad7-1d29d3ca4b9b}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Source\OpenIoT\StreamManipulator.h">
+      <Filter>Source\OpenIoT\Framework\Streams</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OpenIoT\EEPROMStream.h">
+      <Filter>Source\OpenIoT\Framework\Streams</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OpenIoT\SerialTransmissionChannel.h">
+      <Filter>Source\OpenIoT\Framework\Streams</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OpenIoT\BitUtils.h">
+      <Filter>Source\OpenIoT\Framework\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OpenIoT\Timer.h">
+      <Filter>Source\OpenIoT\Framework\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OpenIoT\Strings.h">
+      <Filter>Source\OpenIoT\Framework\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OpenIoT\Vectors.h">
+      <Filter>Source\OpenIoT\Framework\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OpenIoT\Math.h">
+      <Filter>Source\OpenIoT\Framework\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OpenIoT\Mem.h">
+      <Filter>Source\OpenIoT\Framework\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OpenIoT\Log.h">
+      <Filter>Source\OpenIoT\Framework\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OpenIoT\PeripheralUltrasonicSensor.h">
+      <Filter>Source\OpenIoT\Framework\ClusterModel\Peripherals</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OpenIoT\PeripheralAnimation.h">
+      <Filter>Source\OpenIoT\Framework\ClusterModel\Peripherals</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OpenIoT\PeripheralBrushlessMotor.h">
+      <Filter>Source\OpenIoT\Framework\ClusterModel\Peripherals</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OpenIoT\PeripheralExponent.h">
+      <Filter>Source\OpenIoT\Framework\ClusterModel\Peripherals</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OpenIoT\PeripheralHlsToRgb.h">
+      <Filter>Source\OpenIoT\Framework\ClusterModel\Peripherals</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OpenIoT\PeripheralInterpolation.h">
+      <Filter>Source\OpenIoT\Framework\ClusterModel\Peripherals</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OpenIoT\PeripheralIRInput.h">
+      <Filter>Source\OpenIoT\Framework\ClusterModel\Peripherals</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OpenIoT\PeripheralIROutput.h">
+      <Filter>Source\OpenIoT\Framework\ClusterModel\Peripherals</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OpenIoT\PeripheralParameter.h">
+      <Filter>Source\OpenIoT\Framework\ClusterModel\Peripherals</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OpenIoT\PeripheralPID.h">
+      <Filter>Source\OpenIoT\Framework\ClusterModel\Peripherals</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OpenIoT\PeripheralPin.h">
+      <Filter>Source\OpenIoT\Framework\ClusterModel\Peripherals</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OpenIoT\PeripheralRFID.h">
+      <Filter>Source\OpenIoT\Framework\ClusterModel\Peripherals</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OpenIoT\PeripheralServo.h">
+      <Filter>Source\OpenIoT\Framework\ClusterModel\Peripherals</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OpenIoT\PeripheralSine.h">
+      <Filter>Source\OpenIoT\Framework\ClusterModel\Peripherals</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OpenIoT\PeripheralStepMotor.h">
+      <Filter>Source\OpenIoT\Framework\ClusterModel\Peripherals</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OpenIoT\PeripheralTransition.h">
+      <Filter>Source\OpenIoT\Framework\ClusterModel\Peripherals</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OpenIoT\PeripheralTrigger.h">
+      <Filter>Source\OpenIoT\Framework\ClusterModel\Peripherals</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OpenIoT\UltrasonicSensor.h">
+      <Filter>Source\OpenIoT\Framework\Devices</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OpenIoT\StepMotorDriver.h">
+      <Filter>Source\OpenIoT\Framework\Devices</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OpenIoT\ShiftRegister.h">
+      <Filter>Source\OpenIoT\Framework\Devices</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OpenIoT\ServoControl.h">
+      <Filter>Source\OpenIoT\Framework\Devices</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OpenIoT\Motor.h">
+      <Filter>Source\OpenIoT\Framework\Devices</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OpenIoT\BrushlessMotor.h">
+      <Filter>Source\OpenIoT\Framework\Devices</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OpenIoT\SoftwareSerialTransmissionChannel.h">
+      <Filter>Source\OpenIoT\Framework\Streams</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OpenIoT\RotationBuffer.h">
+      <Filter>Source\OpenIoT\Framework\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OpenIoT\List.h">
+      <Filter>Source\OpenIoT\Framework\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OpenIoT\CodeProcessor.h">
+      <Filter>Source\OpenIoT\Framework\Script</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OpenIoT\ITransmissionChannel.h">
+      <Filter>Source\OpenIoT\Framework\Streams</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OpenIoT\AccelerometerGyroscopeMPU6050.h">
+      <Filter>Source\OpenIoT\Framework\Devices</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OpenIoT\Matrix3.h">
+      <Filter>Source\OpenIoT\Framework\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OpenIoT\PeripheralAccelerometerGyroMPU6050.h">
+      <Filter>Source\OpenIoT\Framework\ClusterModel\Peripherals</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OpenIoT\Property.h">
+      <Filter>Source\OpenIoT\Framework\PropertyModel</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OpenIoT\BasePropertiesObject.h">
+      <Filter>Source\OpenIoT\Framework\PropertyModel</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OpenIoT\IPropertiesObject.h">
+      <Filter>Source\OpenIoT\Framework\PropertyModel</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OpenIoT\GenericIRProtocol.h">
+      <Filter>Source\OpenIoT\Framework\Devices</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OpenIoT\IRProtocol.h">
+      <Filter>Source\OpenIoT\Framework\Devices</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OpenIoT\GpsNmeaProtocol.h">
+      <Filter>Source\OpenIoT\Framework\Devices</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OpenIoT\PeripheralGpsNmea.h">
+      <Filter>Source\OpenIoT\Framework\ClusterModel\Peripherals</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OpenIoT\StringProcessor.h">
+      <Filter>Source\OpenIoT\Framework\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OpenIoT\PeripheralGeoDistance.h">
+      <Filter>Source\OpenIoT\Framework\ClusterModel\Peripherals</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OpenIoT\RS232Protocol.h">
+      <Filter>Source\OpenIoT\Framework\Devices</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OpenIoT\PeripheralWifiESP8266.h">
+      <Filter>Source\OpenIoT\Framework\ClusterModel\Peripherals</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OpenIoT\PeripheralWebLink.h">
+      <Filter>Source\OpenIoT\Framework\ClusterModel\Peripherals</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OpenIoT\IWebClient.h">
+      <Filter>Source\OpenIoT\Framework\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OpenIoT\Cluster.h">
+      <Filter>Source\OpenIoT\Framework\ClusterModel</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OpenIoT\Peripheral.h">
+      <Filter>Source\OpenIoT\Framework\ClusterModel</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OpenIoT\ChunkTransmissionProtocol.h">
+      <Filter>Source\OpenIoT\Framework\TransmissionProtocols</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OpenIoT\PropertyTransmissionProtocol.h">
+      <Filter>Source\OpenIoT\Framework\TransmissionProtocols</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OpenIoT\InterruptVector.h">
+      <Filter>Source\OpenIoT\Framework\Board</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OpenIoT\BoardPinProperty.h">
+      <Filter>Source\OpenIoT\Framework\Board</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OpenIoT\OpenIoT.h">
+      <Filter>Source\OpenIoT\Device</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OpenIoT\IClusterDevice.h">
+      <Filter>Source\OpenIoT\Framework\ClusterModel</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OpenIoT\PeripheralDeviceDetails.h">
+      <Filter>Source\OpenIoT\Framework\ClusterModel\Peripherals</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OpenIoT\HttpUtils.h">
+      <Filter>Source\OpenIoT\Framework\ClusterModel\Peripherals\PeripheralUtils</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OpenIoT\PeripheralWebAlert.h">
+      <Filter>Source\OpenIoT\Framework\ClusterModel\Peripherals</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OpenIoT\PeripheralGPRS.h">
+      <Filter>Source\OpenIoT\Framework\ClusterModel\Peripherals</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OpenIoT\ISMSClient.h">
+      <Filter>Source\OpenIoT\Framework\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OpenIoT\PeripheralSMSMessage.h">
+      <Filter>Source\OpenIoT\Framework\ClusterModel\Peripherals</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OpenIoT\ATCommandUtils.h">
+      <Filter>Source\OpenIoT\Framework\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OpenIoT\PeripheralUSB.h">
+      <Filter>Source\OpenIoT\Framework\ClusterModel\Peripherals</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OpenIoT\PeripheralBluetooth.h">
+      <Filter>Source\OpenIoT\Framework\ClusterModel\Peripherals</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OpenIoT\Board.h">
+      <Filter>Source\OpenIoT\Framework\Board\Boards</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OpenIoT\BoardESP8266Features.h">
+      <Filter>Source\OpenIoT\Framework\Board\Boards\ESP8266</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OpenIoT\ITransmissionProtocol.h">
+      <Filter>Source\OpenIoT\Framework\TransmissionProtocols</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OpenIoT\WebServices.h">
+      <Filter>Source\OpenIoT\Framework\ClusterModel\Peripherals\PeripheralUtils</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OpenIoT\StreamingInputDetector.h">
+      <Filter>Source\OpenIoT\Framework\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OpenIoT\IStream.h">
+      <Filter>Source\OpenIoT\Framework\Streams</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OpenIoT\CommandTransmissionProtocol.h">
+      <Filter>Source\OpenIoT\Framework\TransmissionProtocols</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OpenIoT\MemoryStream.h">
+      <Filter>Source\OpenIoT\Framework\Streams</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OpenIoT\StringStream.h">
+      <Filter>Source\OpenIoT\Framework\Streams</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OpenIoT\EepromBoardTest.h">
+      <Filter>Source\OpenIoT\Tests</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OpenIoT\IBoardTest.h">
+      <Filter>Source\OpenIoT\Tests</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OpenIoT\EndianTest.h">
+      <Filter>Source\OpenIoT\Tests</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OpenIoT\AllTests.h">
+      <Filter>Source\OpenIoT\Tests</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OpenIoT\BoardESP32Features.h">
+      <Filter>Source\OpenIoT\Framework\Board\Boards\ESP32</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OpenIoT\BoardESP32BluetoothTransmissionChannel.h">
+      <Filter>Source\OpenIoT\Framework\Board\Boards\ESP32</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OpenIoT\BoardESP32WebClient.h">
+      <Filter>Source\OpenIoT\Framework\Board\Boards\ESP32</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OpenIoT\BoardESP8266WebClient.h">
+      <Filter>Source\OpenIoT\Framework\Board\Boards\ESP8266</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OpenIoT\OpenIoTCodeProcessor.h">
+      <Filter>Source\OpenIoT\Device</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OpenIoT\OpenIoTPersistence.h">
+      <Filter>Source\OpenIoT\Device</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OpenIoT\Uid128.h">
+      <Filter>Source\OpenIoT\Framework\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OpenIoT\IPersistence.h">
+      <Filter>Source\OpenIoT\Framework\ClusterModel</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OpenIoT\OpenIoTTransmissionProtocol.h">
+      <Filter>Source\OpenIoT\Device</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OpenIoT\PeripheralSoftware.h">
+      <Filter>Source\OpenIoT\Framework\ClusterModel\Peripherals</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OpenIoT\DebugUtils.h">
+      <Filter>Source\OpenIoT\Framework\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OpenIoT\PeripheralGenericWiFi.h">
+      <Filter>Source\OpenIoT\Framework\ClusterModel\Peripherals</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OpenIoT\BoardFeatures.h">
+      <Filter>Source\OpenIoT\Framework\Board</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Source\main.cpp" />
+    <ClCompile Include="Source\OpenIoT\StreamManipulator.cpp">
+      <Filter>Source\OpenIoT\Framework\Streams</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\OpenIoT\EEPROMStream.cpp">
+      <Filter>Source\OpenIoT\Framework\Streams</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\OpenIoT\SerialTransmissionChannel.cpp">
+      <Filter>Source\OpenIoT\Framework\Streams</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\OpenIoT\BitUtils.cpp">
+      <Filter>Source\OpenIoT\Framework\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\OpenIoT\Timer.cpp">
+      <Filter>Source\OpenIoT\Framework\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\OpenIoT\Strings.cpp">
+      <Filter>Source\OpenIoT\Framework\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\OpenIoT\Mem.cpp">
+      <Filter>Source\OpenIoT\Framework\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\OpenIoT\Math.cpp">
+      <Filter>Source\OpenIoT\Framework\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\OpenIoT\Log.cpp">
+      <Filter>Source\OpenIoT\Framework\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\OpenIoT\PeripheralAnimation.cpp">
+      <Filter>Source\OpenIoT\Framework\ClusterModel\Peripherals</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\OpenIoT\PeripheralBrushlessMotor.cpp">
+      <Filter>Source\OpenIoT\Framework\ClusterModel\Peripherals</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\OpenIoT\PeripheralExponent.cpp">
+      <Filter>Source\OpenIoT\Framework\ClusterModel\Peripherals</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\OpenIoT\PeripheralHlsToRgb.cpp">
+      <Filter>Source\OpenIoT\Framework\ClusterModel\Peripherals</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\OpenIoT\PeripheralInterpolation.cpp">
+      <Filter>Source\OpenIoT\Framework\ClusterModel\Peripherals</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\OpenIoT\PeripheralIRInput.cpp">
+      <Filter>Source\OpenIoT\Framework\ClusterModel\Peripherals</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\OpenIoT\PeripheralIROutput.cpp">
+      <Filter>Source\OpenIoT\Framework\ClusterModel\Peripherals</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\OpenIoT\PeripheralParameter.cpp">
+      <Filter>Source\OpenIoT\Framework\ClusterModel\Peripherals</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\OpenIoT\PeripheralPID.cpp">
+      <Filter>Source\OpenIoT\Framework\ClusterModel\Peripherals</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\OpenIoT\PeripheralPin.cpp">
+      <Filter>Source\OpenIoT\Framework\ClusterModel\Peripherals</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\OpenIoT\PeripheralRFID.cpp">
+      <Filter>Source\OpenIoT\Framework\ClusterModel\Peripherals</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\OpenIoT\PeripheralServo.cpp">
+      <Filter>Source\OpenIoT\Framework\ClusterModel\Peripherals</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\OpenIoT\PeripheralSine.cpp">
+      <Filter>Source\OpenIoT\Framework\ClusterModel\Peripherals</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\OpenIoT\PeripheralStepMotor.cpp">
+      <Filter>Source\OpenIoT\Framework\ClusterModel\Peripherals</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\OpenIoT\PeripheralTransition.cpp">
+      <Filter>Source\OpenIoT\Framework\ClusterModel\Peripherals</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\OpenIoT\PeripheralTrigger.cpp">
+      <Filter>Source\OpenIoT\Framework\ClusterModel\Peripherals</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\OpenIoT\PeripheralUltrasonicSensor.cpp">
+      <Filter>Source\OpenIoT\Framework\ClusterModel\Peripherals</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\OpenIoT\UltrasonicSensor.cpp">
+      <Filter>Source\OpenIoT\Framework\Devices</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\OpenIoT\StepMotorDriver.cpp">
+      <Filter>Source\OpenIoT\Framework\Devices</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\OpenIoT\ShiftRegister.cpp">
+      <Filter>Source\OpenIoT\Framework\Devices</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\OpenIoT\ServoControl.cpp">
+      <Filter>Source\OpenIoT\Framework\Devices</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\OpenIoT\Motor.cpp">
+      <Filter>Source\OpenIoT\Framework\Devices</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\OpenIoT\BrushlessMotor.cpp">
+      <Filter>Source\OpenIoT\Framework\Devices</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\OpenIoT\SoftwareSerialTransmissionChannel.cpp">
+      <Filter>Source\OpenIoT\Framework\Streams</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\OpenIoT\CodeProcessor.cpp">
+      <Filter>Source\OpenIoT\Framework\Script</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\OpenIoT\ITransmissionChannel.cpp">
+      <Filter>Source\OpenIoT\Framework\Streams</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\OpenIoT\AccelerometerGyroscopeMPU6050.cpp">
+      <Filter>Source\OpenIoT\Framework\Devices</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\OpenIoT\Matrix3.cpp">
+      <Filter>Source\OpenIoT\Framework\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\OpenIoT\PeripheralAccelerometerGyroMPU6050.cpp">
+      <Filter>Source\OpenIoT\Framework\ClusterModel\Peripherals</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\OpenIoT\Property.cpp">
+      <Filter>Source\OpenIoT\Framework\PropertyModel</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\OpenIoT\BasePropertiesObject.cpp">
+      <Filter>Source\OpenIoT\Framework\PropertyModel</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\OpenIoT\GenericIRProtocol.cpp">
+      <Filter>Source\OpenIoT\Framework\Devices</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\OpenIoT\IRProtocol.cpp">
+      <Filter>Source\OpenIoT\Framework\Devices</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\OpenIoT\GpsNmeaProtocol.cpp">
+      <Filter>Source\OpenIoT\Framework\Devices</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\OpenIoT\PeripheralGpsNmea.cpp">
+      <Filter>Source\OpenIoT\Framework\ClusterModel\Peripherals</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\OpenIoT\StringProcessor.cpp">
+      <Filter>Source\OpenIoT\Framework\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\OpenIoT\PeripheralGeoDistance.cpp">
+      <Filter>Source\OpenIoT\Framework\ClusterModel\Peripherals</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\OpenIoT\RS232Protocol.cpp">
+      <Filter>Source\OpenIoT\Framework\Devices</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\OpenIoT\PeripheralWebLink.cpp">
+      <Filter>Source\OpenIoT\Framework\ClusterModel\Peripherals</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\OpenIoT\PeripheralWifiESP8266.cpp">
+      <Filter>Source\OpenIoT\Framework\ClusterModel\Peripherals</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\OpenIoT\Cluster.cpp">
+      <Filter>Source\OpenIoT\Framework\ClusterModel</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\OpenIoT\Peripheral.cpp">
+      <Filter>Source\OpenIoT\Framework\ClusterModel</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\OpenIoT\ChunkTransmissionProtocol.cpp">
+      <Filter>Source\OpenIoT\Framework\TransmissionProtocols</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\OpenIoT\PropertyTransmissionProtocol.cpp">
+      <Filter>Source\OpenIoT\Framework\TransmissionProtocols</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\OpenIoT\InterruptVector.cpp">
+      <Filter>Source\OpenIoT\Framework\Board</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\OpenIoT\BoardPinProperty.cpp">
+      <Filter>Source\OpenIoT\Framework\Board</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\OpenIoT\OpenIoT.cpp">
+      <Filter>Source\OpenIoT\Device</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\OpenIoT\PeripheralDeviceDetails.cpp">
+      <Filter>Source\OpenIoT\Framework\ClusterModel\Peripherals</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\OpenIoT\HttpUtils.cpp">
+      <Filter>Source\OpenIoT\Framework\ClusterModel\Peripherals\PeripheralUtils</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\OpenIoT\PeripheralWebAlert.cpp">
+      <Filter>Source\OpenIoT\Framework\ClusterModel\Peripherals</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\OpenIoT\PeripheralGPRS.cpp">
+      <Filter>Source\OpenIoT\Framework\ClusterModel\Peripherals</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\OpenIoT\PeripheralSMSMessage.cpp">
+      <Filter>Source\OpenIoT\Framework\ClusterModel\Peripherals</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\OpenIoT\ATCommandUtils.cpp">
+      <Filter>Source\OpenIoT\Framework\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\OpenIoT\PeripheralBluetooth.cpp">
+      <Filter>Source\OpenIoT\Framework\ClusterModel\Peripherals</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\OpenIoT\PeripheralUSB.cpp">
+      <Filter>Source\OpenIoT\Framework\ClusterModel\Peripherals</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\OpenIoT\BoardESP8266.cpp">
+      <Filter>Source\OpenIoT\Framework\Board\Boards\ESP8266</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\OpenIoT\BoardESP8266Features.cpp">
+      <Filter>Source\OpenIoT\Framework\Board\Boards\ESP8266</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\OpenIoT\WebServices.cpp">
+      <Filter>Source\OpenIoT\Framework\ClusterModel\Peripherals\PeripheralUtils</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\OpenIoT\StreamingInputDetector.cpp">
+      <Filter>Source\OpenIoT\Framework\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\OpenIoT\CommandTransmissionProtocol.cpp">
+      <Filter>Source\OpenIoT\Framework\TransmissionProtocols</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\OpenIoT\MemoryStream.cpp">
+      <Filter>Source\OpenIoT\Framework\Streams</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\OpenIoT\StringStream.cpp">
+      <Filter>Source\OpenIoT\Framework\Streams</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\OpenIoT\EepromBoardTest.cpp">
+      <Filter>Source\OpenIoT\Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\OpenIoT\EndianTest.cpp">
+      <Filter>Source\OpenIoT\Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\OpenIoT\AllTests.cpp">
+      <Filter>Source\OpenIoT\Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\OpenIoT\BoardESP32.cpp">
+      <Filter>Source\OpenIoT\Framework\Board\Boards\ESP32</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\OpenIoT\BoardESP32Features.cpp">
+      <Filter>Source\OpenIoT\Framework\Board\Boards\ESP32</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\OpenIoT\BoardSTM32F103C.cpp">
+      <Filter>Source\OpenIoT\Framework\Board\Boards\STM32F103C</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\OpenIoT\BoardPC.cpp">
+      <Filter>Source\OpenIoT\Framework\Board\Boards\PC</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\OpenIoT\BoardESP32BluetoothTransmissionChannel.cpp">
+      <Filter>Source\OpenIoT\Framework\Board\Boards\ESP32</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\OpenIoT\BoardESP32WebClient.cpp">
+      <Filter>Source\OpenIoT\Framework\Board\Boards\ESP32</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\OpenIoT\BoardESP8266WebClient.cpp">
+      <Filter>Source\OpenIoT\Framework\Board\Boards\ESP8266</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\OpenIoT\OpenIoTCodeProcessor.cpp">
+      <Filter>Source\OpenIoT\Device</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\OpenIoT\OpenIoTPersistence.cpp">
+      <Filter>Source\OpenIoT\Device</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\OpenIoT\Uid128.cpp">
+      <Filter>Source\OpenIoT\Framework\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\OpenIoT\OpenIoTTransmissionProtocol.cpp">
+      <Filter>Source\OpenIoT\Device</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\OpenIoT\PeripheralSoftware.cpp">
+      <Filter>Source\OpenIoT\Framework\ClusterModel\Peripherals</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\OpenIoT\DebugUtils.cpp">
+      <Filter>Source\OpenIoT\Framework\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\OpenIoT\PeripheralGenericWiFi.cpp">
+      <Filter>Source\OpenIoT\Framework\ClusterModel\Peripherals</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\OpenIoT\BoardFeatures.cpp">
+      <Filter>Source\OpenIoT\Framework\Board</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
