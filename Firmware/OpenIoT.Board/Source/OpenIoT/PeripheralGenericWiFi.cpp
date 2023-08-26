@@ -6,7 +6,7 @@
 PeripheralGenericWiFi::PeripheralGenericWiFi(IClusterDevice* device) :
 	Peripheral(device)
 {
-	this->SetPropertiesCapacity(3);
+	this->SetPropertiesCapacity(2);
 }
 
 PeripheralGenericWiFi::~PeripheralGenericWiFi()

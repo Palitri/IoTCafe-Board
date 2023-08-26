@@ -263,6 +263,8 @@ int Board::I2CRequestData(void* i2c, unsigned char address, int count)
 	TwoWire* wire = (TwoWire*)i2c;
 
 	wire->requestFrom((uint8_t)address, (uint8_t)count);
+
+	return 0;
 }
 
 void Board::I2CBeginWrite(void* i2c, unsigned char address)
@@ -284,6 +286,8 @@ void* Board::ServoBegin(int pin)
 	//Servo* servo = new Servo();
 	//servo->attach(pin);
 	//return servo;
+
+	return null;
 }
 
 void Board::ServoWrite(void* servo, int microseconds)

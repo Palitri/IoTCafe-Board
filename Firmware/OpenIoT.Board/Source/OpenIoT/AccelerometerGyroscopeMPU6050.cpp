@@ -3,8 +3,6 @@
 #include "Board.h"
 #include "Math.h"
 
-#include "Log.h"
-
 unsigned char AccelerometerGyroscopeMPU6050::DeviceID_MPU6050 = 0x68;
 
 unsigned char AccelerometerGyroscopeMPU6050::RegisterID_MPU6050_Power = 0x6B;
@@ -147,24 +145,18 @@ void AccelerometerGyroscopeMPU6050::ReadData()
 {
 	if (!this->awaitingData)
 	{
-		Log::println("I2CBeginWrite");
 		Board::I2CBeginWrite(this->i2c, AccelerometerGyroscopeMPU6050::DeviceID_MPU6050);
-		Log::println("I2CWrite");
 		Board::I2CWrite(this->i2c, &AccelerometerGyroscopeMPU6050::RegisterID_MPU6050_AccelerometerX, 1); // Set read address offset to X
-		Log::println("I2CEndWrite");
 		Board::I2CEndWrite(this->i2c);
 
-		Log::println("I2CRequestData");
 		Board::I2CRequestData(this->i2c, AccelerometerGyroscopeMPU6050::DeviceID_MPU6050, 14); // Request 14 bytes of data from the read offset onward (Ax, Ay, Az, T, Gx, Gy, Gz)
 		this->awaitingData = true;
-		Log::println("End");
 	}
 
 	if (this->awaitingData)
 	{
 		if (Board::I2CBytesAvailable(this->i2c) >= 14)
 		{
-			Log::println("Begin I2CBytesAvailable");
 			Board::I2CRead(this->i2c, &this->accelerometerRaw.x, 2);
 			Board::I2CRead(this->i2c, &this->accelerometerRaw.y, 2);
 			Board::I2CRead(this->i2c, &this->accelerometerRaw.z, 2);
@@ -172,7 +164,6 @@ void AccelerometerGyroscopeMPU6050::ReadData()
 			Board::I2CRead(this->i2c, &this->gyroscopeRaw.x, 2);
 			Board::I2CRead(this->i2c, &this->gyroscopeRaw.y, 2);
 			Board::I2CRead(this->i2c, &this->gyroscopeRaw.z, 2);
-			Log::println("End I2CBytesAvailable");
 
 			this->awaitingData = false;
 		}

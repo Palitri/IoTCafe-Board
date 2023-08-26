@@ -17,7 +17,7 @@
 
   <ItemGroup>
     <Reference Include="OpenIoT.Lib">
-      <HintPath>..\..\OpenIoT.App\OpenIoT.Lib\bin\Debug\net6.0\OpenIoT.Lib.dll</HintPath>
+      <HintPath>..\..\..\..\Sdk\Windows\OpenIoT.App\OpenIoT.Lib\bin\Debug\net6.0\OpenIoT.Lib.dll</HintPath>
     </Reference>
   </ItemGroup>
 

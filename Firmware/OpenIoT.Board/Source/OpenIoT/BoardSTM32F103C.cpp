@@ -303,6 +303,8 @@ int Board::I2CWrite(void* i2c, const void* source, int count)
 int Board::I2CRequestData(void* i2c, unsigned char address, int count)
 {
 	Wire.requestFrom(address, count);
+
+	return 0;
 }
 
 void Board::I2CBeginWrite(void* i2c, unsigned char address)

@@ -12,13 +12,8 @@
 BoardESP32BluetoothTransmissionChannel::BoardESP32BluetoothTransmissionChannel(char* bluetoothName)
 {
 	this->esp32Bluetooth = new BluetoothSerial();
-	
-	//Log::print("BT: ");
-	//Log::println(bluetoothName != null ? bluetoothName : "");
 
-	if (bluetoothName != null)
-		((BluetoothSerial*)this->esp32Bluetooth)->begin(bluetoothName);
-	//((BluetoothSerial*)this->esp32Bluetooth)->begin("OpenIoT ESP32");
+	((BluetoothSerial*)this->esp32Bluetooth)->begin(bluetoothName != null ? bluetoothName : "OpenIoT ESP32");
 }
 
 BoardESP32BluetoothTransmissionChannel::~BoardESP32BluetoothTransmissionChannel()
