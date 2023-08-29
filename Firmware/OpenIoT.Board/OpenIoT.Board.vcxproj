@@ -140,6 +140,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Source\OpenIoT\AirSensorBMX.h" />
     <ClInclude Include="Source\OpenIoT\BoardFeatures.h" />
     <ClInclude Include="Source\OpenIoT\DebugUtils.h" />
     <ClInclude Include="Source\OpenIoT\IPersistence.h" />
@@ -237,8 +238,10 @@
     <ClInclude Include="Source\OpenIoT\Uid128.h" />
     <ClInclude Include="Source\OpenIoT\PeripheralSoftware.h" />
     <ClInclude Include="Source\OpenIoT\PeripheralGenericWiFi.h" />
+    <ClInclude Include="Source\OpenIoT\PeripheralAirSensor.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\OpenIoT\AirSensorBMX.cpp" />
     <ClCompile Include="Source\OpenIoT\BoardFeatures.cpp" />
     <ClCompile Include="Source\OpenIoT\DebugUtils.cpp" />
     <ClCompile Include="Source\OpenIoT\OpenIoTPersistence.cpp" />
@@ -329,6 +332,7 @@
     <ClCompile Include="Source\OpenIoT\BoardESP8266WebClient.cpp" />
     <ClCompile Include="Source\OpenIoT\PeripheralSoftware.cpp" />
     <ClCompile Include="Source\OpenIoT\PeripheralGenericWiFi.cpp" />
+    <ClCompile Include="Source\OpenIoT\PeripheralAirSensor.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

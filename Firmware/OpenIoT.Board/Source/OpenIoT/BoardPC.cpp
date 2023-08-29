@@ -176,7 +176,12 @@ int Board::I2CBytesAvailable(void* i2c)
 	return 0;
 }
 
-int Board::I2CRead(void* i2c, const void* destination, int count)
+int Board::I2CReadMsbFirst(void* i2c, const void* destination, int count)
+{
+	return 0;
+}
+
+int Board::I2CReadLsbFirst(void* i2c, const void* destination, int count)
 {
 	return 0;
 }

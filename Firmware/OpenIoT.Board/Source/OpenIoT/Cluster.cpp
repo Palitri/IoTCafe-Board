@@ -32,6 +32,7 @@
 #include "PeripheralUSB.h"
 #include "PeripheralBluetooth.h"
 #include "PeripheralGenericWiFi.h"
+#include "PeripheralAirSensor.h"
 
 #include "Board.h"
 
@@ -136,6 +137,9 @@ Peripheral* Cluster::CreatePeripheral(int deviceId, IClusterDevice *device)
 
 		case PeripheralGenericWiFi::Code_DeviceId: // 43
 			return new PeripheralGenericWiFi(device);
+
+		case PeripheralAirSensor::Code_DeviceId: // 44
+			return new PeripheralAirSensor(device);
 	}
 
 	return null;

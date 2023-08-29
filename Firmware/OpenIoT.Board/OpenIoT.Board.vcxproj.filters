@@ -357,6 +357,12 @@
     <ClInclude Include="Source\OpenIoT\BoardFeatures.h">
       <Filter>Source\OpenIoT\Framework\Board</Filter>
     </ClInclude>
+    <ClInclude Include="Source\OpenIoT\AirSensorBMX.h">
+      <Filter>Source\OpenIoT\Framework\Devices</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OpenIoT\PeripheralAirSensor.h">
+      <Filter>Source\OpenIoT\Framework\ClusterModel\Peripherals</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\main.cpp" />
@@ -626,6 +632,12 @@
     </ClCompile>
     <ClCompile Include="Source\OpenIoT\BoardFeatures.cpp">
       <Filter>Source\OpenIoT\Framework\Board</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\OpenIoT\AirSensorBMX.cpp">
+      <Filter>Source\OpenIoT\Framework\Devices</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\OpenIoT\PeripheralAirSensor.cpp">
+      <Filter>Source\OpenIoT\Framework\ClusterModel\Peripherals</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -157,13 +157,13 @@ void AccelerometerGyroscopeMPU6050::ReadData()
 	{
 		if (Board::I2CBytesAvailable(this->i2c) >= 14)
 		{
-			Board::I2CRead(this->i2c, &this->accelerometerRaw.x, 2);
-			Board::I2CRead(this->i2c, &this->accelerometerRaw.y, 2);
-			Board::I2CRead(this->i2c, &this->accelerometerRaw.z, 2);
-			Board::I2CRead(this->i2c, &this->temperatureRaw, 2);
-			Board::I2CRead(this->i2c, &this->gyroscopeRaw.x, 2);
-			Board::I2CRead(this->i2c, &this->gyroscopeRaw.y, 2);
-			Board::I2CRead(this->i2c, &this->gyroscopeRaw.z, 2);
+			Board::I2CReadMsbFirst(this->i2c, &this->accelerometerRaw.x, 2);
+			Board::I2CReadMsbFirst(this->i2c, &this->accelerometerRaw.y, 2);
+			Board::I2CReadMsbFirst(this->i2c, &this->accelerometerRaw.z, 2);
+			Board::I2CReadMsbFirst(this->i2c, &this->temperatureRaw, 2);
+			Board::I2CReadMsbFirst(this->i2c, &this->gyroscopeRaw.x, 2);
+			Board::I2CReadMsbFirst(this->i2c, &this->gyroscopeRaw.y, 2);
+			Board::I2CReadMsbFirst(this->i2c, &this->gyroscopeRaw.z, 2);
 
 			this->awaitingData = false;
 		}

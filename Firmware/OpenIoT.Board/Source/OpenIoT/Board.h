@@ -13,6 +13,18 @@
 
 #define null 0
 
+// TODO: About time to intoduce fixed types, though here's definitely not the best place.
+// Solution proposal: Make .h files for each board and #include the corresponding .h in the universal Board.h?? Types would be defined in these board-specific .h files.
+typedef signed char        int8_t;
+typedef short              int16_t;
+typedef int                int32_t;
+typedef long long          int64_t;
+typedef unsigned char      uint8_t;
+typedef unsigned short     uint16_t;
+typedef unsigned int       uint32_t;
+typedef unsigned long long uint64_t;
+
+
 class IClusterDevice;
 
 enum BoardPinMode
@@ -34,6 +46,7 @@ enum BoardInterruptMode
 };
 
 typedef void (BoadInterruptHandler)();
+
 
 class Board
 {
@@ -78,7 +91,8 @@ public:
 	static void* I2CBegin(int i2cIndex, unsigned char address = 0xFF);
 	static void I2CEnd(void* i2c);
 	static int I2CBytesAvailable(void* i2c);
-	static int I2CRead(void* i2c, const void* destination, int count);
+	static int I2CReadMsbFirst(void* i2c, const void* destination, int count);
+	static int I2CReadLsbFirst(void* i2c, const void* destination, int count);
 	static int I2CWrite(void* i2c, const void* source, int count);
 	static int I2CRequestData(void* i2c, unsigned char address, int count);
 	static void I2CBeginWrite(void* i2c, unsigned char address);

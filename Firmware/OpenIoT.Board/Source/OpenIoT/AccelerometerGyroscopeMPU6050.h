@@ -5,7 +5,6 @@
 #include "RotationBuffer.h"
 //#include "Matrix3.h"
 
-// IMPORTANT!!! Does not call Wire.begin() on its own. Requires Wire.begin() to have been called
 class AccelerometerGyroscopeMPU6050
 {
 private:

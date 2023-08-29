@@ -30,6 +30,7 @@ const char* Board::name = "ESP8266";
 
 bool eepromInitialized = false;
 BoardFeatures* boardFeatures = null;
+TwoWire* wire = null;
 
 unsigned char Board::nativeTriggerModesMap[5] =
 {
@@ -206,8 +207,9 @@ void Board::SerialFlush(void* serial)
 
 void *Board::I2CBegin(int i2cIndex, unsigned char address)
 {
-	TwoWire* wire = null;
-	
+	if (wire != null)
+		return wire;
+
 	switch (i2cIndex)
 	{
 		case 0:
@@ -233,7 +235,7 @@ int Board::I2CBytesAvailable(void* i2c)
 	return Wire.available();
 }
 
-int Board::I2CRead(void* i2c, const void* destination, int count)
+int Board::I2CReadMsbFirst(void* i2c, const void* destination, int count)
 {
 	int result = 0;
 	destination = destination + count;
@@ -241,6 +243,21 @@ int Board::I2CRead(void* i2c, const void* destination, int count)
 	{
 		destination = destination - 1;
 		*((unsigned char*)destination) = Wire.read();
+		result++;
+	}
+
+	return result;
+}
+
+int Board::I2CReadLsbFirst(void* i2c, const void* destination, int count)
+{
+	TwoWire* wire = (TwoWire*)i2c;
+
+	int result = 0;
+	while ((wire->available() > 0) && (count > result))
+	{
+		*((unsigned char*)destination) = wire->read();
+		destination = destination + 1;
 		result++;
 	}
 
