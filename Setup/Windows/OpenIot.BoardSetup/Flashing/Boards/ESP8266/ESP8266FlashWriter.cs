@@ -14,7 +14,7 @@ namespace OpenIot.BoardSetup.Flashing.Boards.ESP8266
         public ESP8266FlashWriter(string comPort, IFlashLog log)
             : base(
                   log,
-                  "./../../../Boards/",
+                  "./Boards/",
                   "esptool",
                   "--chip esp8266 --port " + comPort + " --baud 115200 --before default_reset --after hard_reset write_flash 0x0 \"ESP8266\\OpenIoT.ino.generic.bin\"")
         {

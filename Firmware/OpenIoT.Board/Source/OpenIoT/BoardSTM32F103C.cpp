@@ -14,13 +14,13 @@
 const int Board::eepromSize = 508;
 const char* Board::name = "STM32F103C";
 
-TwoWire* wire = null;
-
 #include <Arduino.h>
 
 #include <EEPROM.h>
 #include <Wire.h>
 #include <Servo.h>
+
+TwoWire* wire = null;
 
 // Does not seem to work with STM32
 //#ifdef __arm__

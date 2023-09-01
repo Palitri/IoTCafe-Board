@@ -82,7 +82,7 @@ void Board::SetPinMode(int pin, BoardPinMode mode)
 		break;
 
 	case BoardPinMode_AnalogInput:
-		// No pinMode setting needed. Analog pins are only input
+		// no action needed
 		break;
 
 	case BoardPinMode_PWMOutput:

@@ -21,7 +21,7 @@ namespace OpenIot.BoardSetup.Flashing.Boards.ESP32
         public ESP32FlashEraser(string comPort, IFlashLog log)
             : base(
                   log,
-                  "./../../../Boards/",
+                  "./Boards/",
                   "esptool",
                   "--chip esp32 --port " + comPort + " erase_flash")
         {

@@ -19,7 +19,7 @@ namespace OpenIot.BoardSetup.Flashing.Boards.ESP8266
         public ESP8266FlashEraser(string comPort, IFlashLog log)
             : base(
                   log,
-                  "./../../../Boards/",
+                  "./Boards/",
                   "esptool",
                   "--chip esp8266 --port " + comPort + " erase_flash")
         {

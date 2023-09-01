@@ -6,3 +6,5 @@ bin
 /Firmware/OpenIoT.Board/Source/OpenIoT/OpenIoT.ino.generic.bin
 /Firmware/OpenIoT.Board/Source/OpenIoT/OpenIoT.ino.generic_stm32f103c.bin
 obj
+/Setup/Windows/OpenIoT.BoardSetup.Installer/Release/OpenIoT.BoardSetup.Installer.msi
+/Setup/Windows/OpenIoT.BoardSetup.Installer/Release/setup.exe

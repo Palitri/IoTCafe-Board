@@ -5,6 +5,8 @@ VisualStudioVersion = 17.3.32929.385
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenIot.BoardSetup", "OpenIot.BoardSetup\OpenIot.BoardSetup.csproj", "{A277AFD9-3F2D-439E-8654-61BA4504C021}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "OpenIoT.BoardSetup.Installer", "OpenIoT.BoardSetup.Installer\OpenIoT.BoardSetup.Installer.vdproj", "{2D81F5AB-6ECB-46AE-AC92-AE582FED4580}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,8 @@ Global
 		{A277AFD9-3F2D-439E-8654-61BA4504C021}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A277AFD9-3F2D-439E-8654-61BA4504C021}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A277AFD9-3F2D-439E-8654-61BA4504C021}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2D81F5AB-6ECB-46AE-AC92-AE582FED4580}.Debug|Any CPU.ActiveCfg = Debug
+		{2D81F5AB-6ECB-46AE-AC92-AE582FED4580}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

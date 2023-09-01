@@ -106,11 +106,11 @@ Peripheral* Cluster::CreatePeripheral(int deviceId, IClusterDevice *device)
 
 		case PeripheralGeoDistance::Code_DeviceId: // 33
 			return new PeripheralGeoDistance(device);
-#endif
 
 		case PeripheralWebLink::Code_DeviceId: // 34
 			return new PeripheralWebLink(device);
 
+#endif
 		case PeripheralWebAlert::Code_DeviceId: // 35
 			return new PeripheralWebAlert(device);
 
