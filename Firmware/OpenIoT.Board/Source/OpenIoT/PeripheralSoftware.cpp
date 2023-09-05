@@ -27,7 +27,10 @@ int PeripheralSoftware::Load(const void* code)
 	this->SetPropertiesCapacity(propertiesCount);
 
 	for (int i = 0; i < propertiesCount; i++)
-		this->AddProperty(new Property((void**)&charCode, PropertyType_Float));
+	{
+		PropertyType type = (PropertyType)*charCode++;
+		this->AddProperty(new Property((void**)&charCode, type));
+	}
 
 	return (unsigned int)charCode - (unsigned int)code;
 }
