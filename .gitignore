@@ -8,3 +8,6 @@ bin
 obj
 /Setup/Windows/OpenIoT.BoardSetup.Installer/Release/OpenIoT.BoardSetup.Installer.msi
 /Setup/Windows/OpenIoT.BoardSetup.Installer/Release/setup.exe
+/Setup/Windows/OpenIot.BoardSetup/Boards/ESP32/OpenIoT.ino.esp32da.bin
+/Setup/Windows/OpenIot.BoardSetup/Boards/ESP8266/OpenIoT.ino.generic.bin
+/Setup/Windows/OpenIot.BoardSetup/Boards/STM32F103C/OpenIoT.ino.generic_stm32f103c.bin

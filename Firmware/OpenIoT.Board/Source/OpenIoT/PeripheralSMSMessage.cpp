@@ -1,13 +1,14 @@
 #include "PeripheralSMSMessage.h"
 
 #include "Math.h"
+#include "Log.h"
 
 #include "ISMSClient.h"
 
 PeripheralSMSMessage::PeripheralSMSMessage(IClusterDevice* device) :
 	Peripheral(device)
 {
-	this->SetPropertiesCapacity(1);
+	this->SetPropertiesCapacity(2);
 }
 
 PeripheralSMSMessage::~PeripheralSMSMessage()
@@ -21,7 +22,10 @@ int PeripheralSMSMessage::Load(const void* code)
 	unsigned char* charCode = (unsigned char*)code;
 
 	this->send = this->AddProperty(new Property((void**)&charCode, PropertyType_Bool));
-	this->code = this->AddProperty(new Property((void**)&charCode, PropertyType_Data));
+	this->recepient = this->AddProperty(new Property((void**)&charCode, PropertyType_Data));
+
+	Log::print("SMS Recepient: ");
+	Log::println(this->recepient->GetStringData());
 
 	this->old_send = this->send->bValue;
 
@@ -37,7 +41,7 @@ void PeripheralSMSMessage::Update()
 			ISMSClient *smsClient = this->device->GetSMSClient();
 			if (smsClient != null)
 			{
-				smsClient->SendSMS("Test sms message", "+359886351254");
+				smsClient->SendSMS(this->device->GetDeviceName(), this->recepient->GetStringData());
 			}
 		}
 

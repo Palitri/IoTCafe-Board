@@ -261,7 +261,7 @@
     <ClInclude Include="Source\OpenIoT\PeripheralWebAlert.h">
       <Filter>Source\OpenIoT\Framework\ClusterModel\Peripherals</Filter>
     </ClInclude>
-    <ClInclude Include="Source\OpenIoT\PeripheralGPRS.h">
+    <ClInclude Include="Source\OpenIoT\PeripheralGSM.h">
       <Filter>Source\OpenIoT\Framework\ClusterModel\Peripherals</Filter>
     </ClInclude>
     <ClInclude Include="Source\OpenIoT\ISMSClient.h">
@@ -362,6 +362,9 @@
     </ClInclude>
     <ClInclude Include="Source\OpenIoT\PeripheralAirSensor.h">
       <Filter>Source\OpenIoT\Framework\ClusterModel\Peripherals</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OpenIoT\GsmSim800L.h">
+      <Filter>Source\OpenIoT\Framework\Devices</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -543,7 +546,7 @@
     <ClCompile Include="Source\OpenIoT\PeripheralWebAlert.cpp">
       <Filter>Source\OpenIoT\Framework\ClusterModel\Peripherals</Filter>
     </ClCompile>
-    <ClCompile Include="Source\OpenIoT\PeripheralGPRS.cpp">
+    <ClCompile Include="Source\OpenIoT\PeripheralGSM.cpp">
       <Filter>Source\OpenIoT\Framework\ClusterModel\Peripherals</Filter>
     </ClCompile>
     <ClCompile Include="Source\OpenIoT\PeripheralSMSMessage.cpp">
@@ -638,6 +641,9 @@
     </ClCompile>
     <ClCompile Include="Source\OpenIoT\PeripheralAirSensor.cpp">
       <Filter>Source\OpenIoT\Framework\ClusterModel\Peripherals</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\OpenIoT\GsmSim800L.cpp">
+      <Filter>Source\OpenIoT\Framework\Devices</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

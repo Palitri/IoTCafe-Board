@@ -12,7 +12,7 @@ private:
 public:
 	static const int Code_DeviceId = 40;
 
-	Property* send, *code;
+	Property* send, *recepient;
 
 	PeripheralSMSMessage(IClusterDevice* device = null);
 	virtual ~PeripheralSMSMessage();

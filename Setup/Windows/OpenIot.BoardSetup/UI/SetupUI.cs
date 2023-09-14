@@ -78,7 +78,8 @@ namespace OpenIot.BoardSetup.UI
             OuiFont grayFont = (OuiFont)this.AddResource(new OuiFont(this, "Arial", this.GetUnitHeight(77.0f), Color.FromArgb(179, 207, 230)));
             OuiFont infoHeaderFont = (OuiFont)this.AddResource(new OuiFont(this, "Arial", this.GetUnitHeight(50.0f), Color.White, true));
             OuiFont infoHintFont = (OuiFont)this.AddResource(new OuiFont(this, "Arial", this.GetUnitHeight(33.0f), Color.White));
-            OuiFont linkFont = (OuiFont)this.AddResource(new OuiFont(this, "Arial", this.GetUnitHeight(33.0f), Color.FromArgb(161, 249, 255)));
+            OuiFont linkFont = (OuiFont)this.AddResource(new OuiFont(this, "Arial", this.GetUnitHeight(33.0f), Color.FromArgb(194, 255, 139)));
+            OuiFont warningFont = (OuiFont)this.AddResource(new OuiFont(this, "Arial", this.GetUnitHeight(33.0f), Color.FromArgb(255, 134, 100)));
 
             OuiBitmap closeImage = (OuiBitmap)this.AddResource(new OuiBitmap(this, Properties.Resources.Close));
             OuiBitmap closeSelectedImage = (OuiBitmap)this.AddResource(new OuiBitmap(this, Properties.Resources.Close_selected));
@@ -498,7 +499,7 @@ namespace OpenIot.BoardSetup.UI
             pageElement.AddElement(new OuiText(infoHeaderFont, this.GetUnitCoords(82, 326), "Finished"));
             pageElement.AddElement(new OuiText(infoHintFont, this.GetUnitCoords(56, 480), "Setup has finished!\r\n\r\nTo create projects for your device, visit"));
 
-            OuiText txtLink = new OuiText(linkFont, this.GetUnitCoords(56, 600), "http://iot.cafe");
+            OuiText txtLink = new OuiText(linkFont, this.GetUnitCoords(56, 600), "https://iot.cafe");
             OuiStatesElement btnLink = (OuiStatesElement)pageElement.AddElement(new OuiStatesElement(this, new Dictionary<OuiElementState, OuiElementCollection>()
             {
                 { OuiElementState.Default, new OuiElementCollection(new List<IOuiElement>() { txtLink }) },

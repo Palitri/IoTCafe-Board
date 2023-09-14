@@ -16,11 +16,14 @@ namespace OpenIot.BoardSetup.Flashing
 
         public async Task<bool> FlashBoardAsync()
         {
+            bool result = true;
+
             foreach (IFlashProgrammer programmer in this)
             {
                 programmer.BeganFlashing += this.OnBeganItemFlashing;
 
                 bool success = await programmer.FlashBoardAsync();
+                result &= success;
 
                 programmer.BeganFlashing -= this.OnBeganItemFlashing;
 
@@ -28,7 +31,7 @@ namespace OpenIot.BoardSetup.Flashing
                     return false;
             }
 
-            return true;
+            return result;
         }
 
         public void MessageReceived(string message, FlashMessageType messageType)

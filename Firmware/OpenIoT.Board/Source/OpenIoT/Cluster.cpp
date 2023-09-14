@@ -27,7 +27,7 @@
 //#include "PeripheralSMSNotification.h"
 #include "PeripheralWebLink.h"
 #include "PeripheralDeviceDetails.h"
-#include "PeripheralGPRS.h"
+#include "PeripheralGSM.h"
 #include "PeripheralSMSMessage.h"
 #include "PeripheralUSB.h"
 #include "PeripheralBluetooth.h"
@@ -123,8 +123,8 @@ Peripheral* Cluster::CreatePeripheral(int deviceId, IClusterDevice *device)
 		case PeripheralDeviceDetails::Code_DeviceId: // 38
 			return new PeripheralDeviceDetails(device);
 
-		case PeripheralGPRS::Code_DeviceId: // 39
-			return new PeripheralGPRS(device);
+		case PeripheralGSM::Code_DeviceId: // 39
+			return new PeripheralGSM(device);
 
 		case PeripheralSMSMessage::Code_DeviceId: // 40
 			return new PeripheralSMSMessage(device);

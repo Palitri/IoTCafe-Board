@@ -140,6 +140,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Source\OpenIoT\GsmSim800L.h" />
     <ClInclude Include="Source\OpenIoT\AirSensorBMX.h" />
     <ClInclude Include="Source\OpenIoT\BoardFeatures.h" />
     <ClInclude Include="Source\OpenIoT\DebugUtils.h" />
@@ -225,7 +226,7 @@
     <ClInclude Include="Source\OpenIoT\UltrasonicSensor.h" />
     <ClInclude Include="Source\OpenIoT\Vectors.h" />
     <ClInclude Include="Source\OpenIoT\StringProcessor.h" />
-    <ClInclude Include="Source\OpenIoT\PeripheralGPRS.h" />
+    <ClInclude Include="Source\OpenIoT\PeripheralGSM.h" />
     <ClInclude Include="Source\OpenIoT\PeripheralSMSMessage.h" />
     <ClInclude Include="Source\OpenIoT\PeripheralUSB.h" />
     <ClInclude Include="Source\OpenIoT\PeripheralBluetooth.h" />
@@ -241,6 +242,7 @@
     <ClInclude Include="Source\OpenIoT\PeripheralAirSensor.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\OpenIoT\GsmSim800L.cpp" />
     <ClCompile Include="Source\OpenIoT\AirSensorBMX.cpp" />
     <ClCompile Include="Source\OpenIoT\BoardFeatures.cpp" />
     <ClCompile Include="Source\OpenIoT\DebugUtils.cpp" />
@@ -320,7 +322,7 @@
     <ClCompile Include="Source\OpenIoT\UltrasonicSensor.cpp" />
     <ClCompile Include="Source\OpenIoT\ITransmissionChannel.cpp" />
     <ClCompile Include="Source\OpenIoT\StringProcessor.cpp" />
-    <ClCompile Include="Source\OpenIoT\PeripheralGPRS.cpp" />
+    <ClCompile Include="Source\OpenIoT\PeripheralGSM.cpp" />
     <ClCompile Include="Source\OpenIoT\PeripheralSMSMessage.cpp" />
     <ClCompile Include="Source\OpenIoT\PeripheralUSB.cpp" />
     <ClCompile Include="Source\OpenIoT\PeripheralBluetooth.cpp" />

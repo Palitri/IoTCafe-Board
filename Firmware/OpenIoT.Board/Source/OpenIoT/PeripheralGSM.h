@@ -8,7 +8,9 @@
 #include "IWebClient.h"
 #include "ISMSClient.h"
 
-class PeripheralGPRS :
+#include "GsmSim800L.h"
+
+class PeripheralGSM :
 	public Peripheral,
 	public IWebClient,
 	public ISMSClient
@@ -19,13 +21,15 @@ private:
 
 	bool old_on;
 
+	GsmSim800L* gsmDevice;
+
 public:
 	static const int Code_DeviceId = 39;
 
-	Property* on;
+	Property *on, *gprs, *pin, *apn, *apnUser, *apnPassword;
 
-	PeripheralGPRS(IClusterDevice* device = null);
-	virtual ~PeripheralGPRS();
+	PeripheralGSM(IClusterDevice* device = null);
+	virtual ~PeripheralGSM();
 
 	virtual int Load(const void* code);
 	virtual void Update();
