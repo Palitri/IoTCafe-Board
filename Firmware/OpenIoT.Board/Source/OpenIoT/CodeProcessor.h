@@ -9,6 +9,7 @@ typedef void (*CodeProcessorOperation) (CodeProcessor* context);
 class CodeProcessor
 {
 private:
+	static void Operation_NOP(CodeProcessor* context);
 	static void Operation_JMP(CodeProcessor* context);
 	static void Operation_JZ(CodeProcessor* context);
 	static void Operation_JNZ(CodeProcessor* context);
@@ -115,6 +116,7 @@ protected:
 
 public:
 	int
+		operationId_NOP,
 		operationId_JMP,
 		operationId_JZ,
 		operationId_JNZ,
