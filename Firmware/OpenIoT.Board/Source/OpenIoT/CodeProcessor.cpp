@@ -442,9 +442,10 @@ void CodeProcessor::Operation_FDivEquals(CodeProcessor* context)
 
 CodeProcessor::CodeProcessor(void)
 {
-	this->AddOperation(CodeProcessor::Operation_JMP);
+	this->AddOperation(CodeProcessor::Operation_NOP);
 	
 	this->operationId_NOP = this->AddOperation(CodeProcessor::Operation_NOP);
+	this->operationId_JMP = this->AddOperation(CodeProcessor::Operation_JMP);
 	this->operationId_JZ = this->AddOperation(CodeProcessor::Operation_JZ);
 	this->operationId_JNZ = this->AddOperation(CodeProcessor::Operation_JNZ);
 	this->operationId_Call = this->AddOperation(CodeProcessor::Operation_Call);
