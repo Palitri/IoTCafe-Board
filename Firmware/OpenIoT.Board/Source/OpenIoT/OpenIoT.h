@@ -32,6 +32,7 @@ private:
 	ISMSClient* smsClient = null;
 
 	char* wifiNetworkName, * wifiNetworkPassword;
+	bool isBluetoothEnabled;
 
 
 	float updateInterval = 1.0f;
@@ -70,8 +71,11 @@ public:
 
 	virtual char* GetDeviceName();
 
-	virtual void GetWifiCredentials(char** networkName, char** networkPassword);
 	virtual void SetWifiCredentials(char* networkName, char* networkPassword);
+	virtual bool GetWifiCredentials(char** networkName, char** networkPassword);
+
+	virtual void SetBluetoothEnabled(bool enabled);
+	virtual bool IsBluetoothEnabled();
 };
 
 #endif

@@ -18,8 +18,8 @@ class BoardESP32Features :
 	public BoardFeatures
 {
 private:
-	BoardESP32WebClient* webClient;
-	BoardESP32BluetoothTransmissionChannel *bluetoothChannel;
+	static BoardESP32BluetoothTransmissionChannel* bluetoothChannel;
+	static BoardESP32WebClient* webClient;
 
 public:
 	BoardESP32Features(IClusterDevice* device = null);

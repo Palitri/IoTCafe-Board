@@ -12,7 +12,7 @@ private:
 	AirSensorBMX* device;
 
 public:
-	static const int Code_DeviceId = 44;
+	static const int Code_DeviceId = 45;
 
 	Property *temperature, *pressure, *humidity;
 

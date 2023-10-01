@@ -6,41 +6,33 @@
 //	For help and documentation, visit https://iot.cafe
 //---------------------------------------------------------------------------------------------
 
-#include "PeripheralServo.h"
+#include "PeripheralGenericBluetooth.h"
 
 #include "Board.h"
+#include "Math.h"
 
-PeripheralServo::PeripheralServo(IClusterDevice* device) :
+PeripheralGenericBluetooth::PeripheralGenericBluetooth(IClusterDevice* device) :
 	Peripheral(device)
 {
 	this->SetPropertiesCapacity(1);
-
-	this->servo = null;
 }
 
-PeripheralServo::~PeripheralServo()
+PeripheralGenericBluetooth::~PeripheralGenericBluetooth()
 {
-	if (this->servo != null)
-		delete this->servo;
+
 }
 
 
-int PeripheralServo::Load(const void* code)
+int PeripheralGenericBluetooth::Load(const void* code)
 {
 	unsigned char* charCode = (unsigned char*)code;
 
-	this->pValue = this->AddProperty(new Property((void**)&charCode, PropertyType_Float));
-
-	// TODO: Put creation in constructor
-	this->servo = new ServoControl(this->pin);
+	this->device->SetBluetoothEnabled(true);
 
 	return (unsigned int)charCode - (unsigned int)code;
 }
 
-void PeripheralServo::Update()
+void PeripheralGenericBluetooth::Update()
 {
-	this->UpdateProperties();
 
-	if (this->pValue->IsChanged())
-		this->servo->WriteDegreece(this->pValue->fValue * 180.0f);
 }

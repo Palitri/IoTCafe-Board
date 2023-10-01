@@ -1,3 +1,11 @@
+//---------------------------------------------------------------------------------------------
+//	IoT.Cafe Firmware Copyright (C) 2023 Ivan Donev
+//
+//	This software is released under the MIT License https://iot.cafe/license/firmware
+//
+//	For help and documentation, visit https://iot.cafe
+//---------------------------------------------------------------------------------------------
+
 #include "AirSensorBMX.h"
 
 const unsigned char AirSensorBMX::DeviceAddress_BMX = 0x76; // 0x76: SDO pin connected to GND, 0x77: SDO pin connected to Vccio

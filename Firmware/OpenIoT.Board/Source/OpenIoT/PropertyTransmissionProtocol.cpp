@@ -1,3 +1,11 @@
+//---------------------------------------------------------------------------------------------
+//	IoT.Cafe Firmware Copyright (C) 2023 Ivan Donev
+//
+//	This software is released under the MIT License https://iot.cafe/license/firmware
+//
+//	For help and documentation, visit https://iot.cafe
+//---------------------------------------------------------------------------------------------
+
 #include "PropertyTransmissionProtocol.h"
 
 #include "Math.h"
@@ -66,6 +74,7 @@ bool PropertyTransmissionProtocol::OnReceiveCommand(unsigned char command, void*
 
 		case CommandCode_Info:
 		{
+			Log::println("Sending info");
 			this->SendCommand(ResponseCode_Info, Board::name, Strings::Length(Board::name));
 
 			break;

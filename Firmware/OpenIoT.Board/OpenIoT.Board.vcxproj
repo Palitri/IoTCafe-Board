@@ -164,6 +164,7 @@
     <ClInclude Include="Source\OpenIoT\PeripheralDeviceDetails.h" />
     <ClInclude Include="Source\OpenIoT\IClusterDevice.h" />
     <ClInclude Include="Source\OpenIoT\IWebClient.h" />
+    <ClInclude Include="Source\OpenIoT\PeripheralGenericBluetooth.h" />
     <ClInclude Include="Source\OpenIoT\PeripheralWebAlert.h" />
     <ClInclude Include="Source\OpenIoT\PeripheralWebLink.h" />
     <ClInclude Include="Source\OpenIoT\PeripheralWifiESP8266.h" />
@@ -262,6 +263,7 @@
     <ClCompile Include="Source\OpenIoT\ATCommandUtils.cpp" />
     <ClCompile Include="Source\OpenIoT\HttpUtils.cpp" />
     <ClCompile Include="Source\OpenIoT\PeripheralDeviceDetails.cpp" />
+    <ClCompile Include="Source\OpenIoT\PeripheralGenericBluetooth.cpp" />
     <ClCompile Include="Source\OpenIoT\PeripheralWebAlert.cpp" />
     <ClCompile Include="Source\OpenIoT\PeripheralWebLink.cpp" />
     <ClCompile Include="Source\OpenIoT\PeripheralWifiESP8266.cpp" />

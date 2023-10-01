@@ -366,6 +366,9 @@
     <ClInclude Include="Source\OpenIoT\GsmSim800L.h">
       <Filter>Source\OpenIoT\Framework\Devices</Filter>
     </ClInclude>
+    <ClInclude Include="Source\OpenIoT\PeripheralGenericBluetooth.h">
+      <Filter>Source\OpenIoT\Framework\ClusterModel\Peripherals</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\main.cpp" />
@@ -644,6 +647,9 @@
     </ClCompile>
     <ClCompile Include="Source\OpenIoT\GsmSim800L.cpp">
       <Filter>Source\OpenIoT\Framework\Devices</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\OpenIoT\PeripheralGenericBluetooth.cpp">
+      <Filter>Source\OpenIoT\Framework\ClusterModel\Peripherals</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

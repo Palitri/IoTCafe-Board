@@ -1,3 +1,11 @@
+//---------------------------------------------------------------------------------------------
+//	IoT.Cafe Firmware Copyright (C) 2023 Ivan Donev
+//
+//	This software is released under the MIT License https://iot.cafe/license/firmware
+//
+//	For help and documentation, visit https://iot.cafe
+//---------------------------------------------------------------------------------------------
+
 #include "Cluster.h"
 
 #include "PeripheralSoftware.h"
@@ -32,6 +40,7 @@
 #include "PeripheralUSB.h"
 #include "PeripheralBluetooth.h"
 #include "PeripheralGenericWiFi.h"
+#include "PeripheralGenericBluetooth.h"
 #include "PeripheralAirSensor.h"
 
 #include "Board.h"
@@ -110,9 +119,9 @@ Peripheral* Cluster::CreatePeripheral(int deviceId, IClusterDevice *device)
 		case PeripheralWebLink::Code_DeviceId: // 34
 			return new PeripheralWebLink(device);
 
-#endif
 		case PeripheralWebAlert::Code_DeviceId: // 35
 			return new PeripheralWebAlert(device);
+#endif
 
 		//case PeripheralEmailNotification::Code_DeviceId: // 36
 		//	return new PeripheralEmailNotification(device);
@@ -138,7 +147,10 @@ Peripheral* Cluster::CreatePeripheral(int deviceId, IClusterDevice *device)
 		case PeripheralGenericWiFi::Code_DeviceId: // 43
 			return new PeripheralGenericWiFi(device);
 
-		case PeripheralAirSensor::Code_DeviceId: // 44
+		case PeripheralGenericBluetooth::Code_DeviceId: // 44
+			return new PeripheralGenericBluetooth(device);
+
+		case PeripheralAirSensor::Code_DeviceId: // 45
 			return new PeripheralAirSensor(device);
 	}
 

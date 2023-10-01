@@ -1,3 +1,11 @@
+//---------------------------------------------------------------------------------------------
+//	IoT.Cafe Firmware Copyright (C) 2023 Ivan Donev
+//
+//	This software is released under the MIT License https://iot.cafe/license/firmware
+//
+//	For help and documentation, visit https://iot.cafe
+//---------------------------------------------------------------------------------------------
+
 #include "OpenIoT.h"
 
 #include "SerialTransmissionChannel.h"
@@ -11,10 +19,11 @@ void OpenIoTInitialize()
 	if (initialized)
 		return;
 
-	Log::SetTransmissionChannel(new SerialTransmissionChannel(0, 9600));
+	//Log::SetTransmissionChannel(new SerialTransmissionChannel(0, 9600));
 
 	openIoT = new OpenIoT(new SerialTransmissionChannel(0, 9600));
 	//openIoT = new OpenIoT(new SerialTransmissionChannel(1, 9600));
+
 
 	initialized = true;
 }
@@ -37,6 +46,7 @@ OpenIoT::OpenIoT(ITransmissionChannel* transmissionChannel) :
 
 	this->wifiNetworkName = null;
 	this->wifiNetworkPassword = null;
+	this->isBluetoothEnabled = false;
 
 	this->persistence = new OpenIoTPersistence();
 
@@ -168,9 +178,20 @@ void OpenIoT::SetWifiCredentials(char* networkName, char* networkPassword)
 	this->wifiNetworkPassword = networkPassword;
 }
 
-void OpenIoT::GetWifiCredentials(char** networkName, char** networkPassword)
+bool OpenIoT::GetWifiCredentials(char** networkName, char** networkPassword)
 {
 	*networkName = this->wifiNetworkName;
 	*networkPassword = this->wifiNetworkPassword;
+
+	return this->wifiNetworkName != null;
 }
 
+void OpenIoT::SetBluetoothEnabled(bool enabled)
+{
+	this->isBluetoothEnabled = enabled;
+}
+
+bool OpenIoT::IsBluetoothEnabled()
+{
+	return this->isBluetoothEnabled;
+}
