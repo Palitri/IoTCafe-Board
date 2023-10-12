@@ -221,20 +221,20 @@ void AirSensorBMX::ReadData()
         if (Board::I2CBytesAvailable(this->i2c) >= this->readingBlockSize)
         {
             int32_t pressureRaw = 0;
-            int32_t temperatureRaw = 0;
-            int32_t humidityRaw = 0;
             Board::I2CReadMsbFirst(this->i2c, &pressureRaw, 3);
+            pressureRaw >>= 4;
+
+            int32_t temperatureRaw = 0;
             Board::I2CReadMsbFirst(this->i2c, &temperatureRaw, 3);
+            temperatureRaw >>= 4;
+
+            int32_t humidityRaw = 0;
             if (this->sensesHumidity)
                 Board::I2CReadMsbFirst(this->i2c, &humidityRaw, 2);
 
-            // Convert from 24 to 20 bits? Bosch sample calculation (from BMP280 doc) seems to assume to convert. But result seems coherent when converting only temperature and not pressure...
-            temperatureRaw >>= 4;
-            // pressureRaw >>= 4; // Shifting pressure produces totally unreasonable result, while not shifting it produces much less unreasonable result
-
-            // Bosch sample data (from BMP280 datasheet)
-            // pressureRaw = 415148;        // 100653
-            // temperatureRaw = 519888;     // 25.08
+            // Bosch sample data (from BMP280 datasheet). Use with corresponding sample compensation parameters.
+            //pressureRaw = 415148;        // 100653
+            //temperatureRaw = 519888;     // 25.08
 
             int32_t t_fine = this->GetFineTemperatureFactor(temperatureRaw);
             this->temperature = this->GetTemperatureCompensated(t_fine);
@@ -271,18 +271,18 @@ void AirSensorBMX::ReadCompensationParameters()
     this->GetRegister(AirSensorBMX::DeviceAddress_BMX, AirSensorBMX::RegisterAddress_BMX_Compensation_H6, &this->dig_H6, 1);
 
     // Bosch sample parameters (from BMP280 datasheet)
-    // this->dig_T1 = 27504;
-    // this->dig_T2 = 26435;
-    // this->dig_T3 = -1000;
-    // this->dig_P1 = 36477;
-    // this->dig_P2 = -10685;
-    // this->dig_P3 = 3024;
-    // this->dig_P4 = 2855;
-    // this->dig_P5 = 140;
-    // this->dig_P6 = -7;
-    // this->dig_P7 = 15500;
-    // this->dig_P8 = -14600;
-    // this->dig_P9 = 6000;
+    //this->dig_T1 = 27504;
+    //this->dig_T2 = 26435;
+    //this->dig_T3 = -1000;
+    //this->dig_P1 = 36477;
+    //this->dig_P2 = -10685;
+    //this->dig_P3 = 3024;
+    //this->dig_P4 = 2855;
+    //this->dig_P5 = 140;
+    //this->dig_P6 = -7;
+    //this->dig_P7 = 15500;
+    //this->dig_P8 = -14600;
+    //this->dig_P9 = 6000;
 }
 
 void AirSensorBMX::ReadFeatures()

@@ -17,4 +17,7 @@ The Firmware is an IoT.Cafe implementation of the [OpenIoT specification](https:
 
 ## References
 [IoT.Cafe website](https://iot.cafe)
+
 [OpenIoT website](https://openiot.info)
+
+[Contact](https://iot.cafe/contact)
