@@ -1,3 +1,9 @@
+<picture>
+    <source media="(prefers-color-scheme: dark)" srcset="/banner.png">
+    <source media="(prefers-color-scheme: light)" srcset="/banner.png">
+    <img alt="OpenIoT Banner" src="/banner.png">
+</picture>
+
 # IoT.Cafe Firmware
 
 Allows loading [IoT.Cafe](https://iot.cafe) projects on common microcontrollers such as ESP32, ESP8266 and STM32 and connecting to them with the [IoT.Cafe App](https://iot.cafe/get/app) or via the internet.
