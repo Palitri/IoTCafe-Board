@@ -8,8 +8,8 @@ class BoardPinProperty :
 	public Property
 {
 private:
-	static unsigned char pinModeToPropertyTypeMap[5];
-	static unsigned char pinModeToPropertyFlagsMap[5];
+	static unsigned char pinModeToPropertyTypeMap[6];
+	static unsigned char pinModeToPropertyFlagsMap[6];
 
 public:
 	int pin;

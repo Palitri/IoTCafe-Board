@@ -113,6 +113,10 @@ void Board::SetPinMode(int pin, BoardPinMode mode)
 	case BoardPinMode_PWMOutput:
 		pinMode(pin, PWM);
 		break;
+
+	case BoardPinMode_DigitalInput_Pullup:
+		pinMode(pin, INPUT_PULLUP);
+		break;
 	}
 }
 

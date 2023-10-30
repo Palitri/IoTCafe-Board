@@ -31,8 +31,7 @@
 #include "PeripheralGpsNmea.h"
 #include "PeripheralGeoDistance.h"
 #include "PeripheralWebAlert.h"
-//#include "PeripheralEmailNotification.h"
-//#include "PeripheralSMSNotification.h"
+#include "PeripheralDHT.h"
 #include "PeripheralWebLink.h"
 #include "PeripheralDeviceDetails.h"
 #include "PeripheralGSM.h"
@@ -123,11 +122,11 @@ Peripheral* Cluster::CreatePeripheral(int deviceId, IClusterDevice *device)
 			return new PeripheralWebAlert(device);
 #endif
 
-		//case PeripheralEmailNotification::Code_DeviceId: // 36
-		//	return new PeripheralEmailNotification(device);
+		case PeripheralDHT::Code_DeviceId_DHT11: // 36
+			return new PeripheralDHT(device, PeripheralDHT::Code_DeviceId_DHT11);
 
-		//case PeripheralSMSNotification::Code_DeviceId: // 37
-		//	return new PeripheralSMSNotification(device);
+		case PeripheralDHT::Code_DeviceId_DHT22: // 37
+			return new PeripheralDHT(device, PeripheralDHT::Code_DeviceId_DHT22);
 
 		case PeripheralDeviceDetails::Code_DeviceId: // 38
 			return new PeripheralDeviceDetails(device);

@@ -209,15 +209,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:OpenIoT.BoardSetup"
-        "ProductCode" = "8:{4A5F651F-DBC2-4F1E-8B33-FD4B88E5DFDF}"
-        "PackageCode" = "8:{B0D533E4-B63A-4F84-869F-79AFBCA121BC}"
+        "ProductCode" = "8:{3E831825-2CAD-42BF-9C82-9C59452F8EC1}"
+        "PackageCode" = "8:{40B4737A-D65B-4EE3-A594-E8B9F56CA07E}"
         "UpgradeCode" = "8:{B35F9713-2B10-4E78-AC24-3BF87C05F3C0}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:0.9.0001"
+        "ProductVersion" = "8:0.9.0002"
         "Manufacturer" = "8:Palitri"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
@@ -759,7 +759,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_713D588A1A4046FFA4678BF45177F3F1"
             {
-            "SourcePath" = "8:..\\OpenIot.BoardSetup\\obj\\Release\\net6.0-windows\\apphost.exe"
+            "SourcePath" = "8:..\\OpenIot.BoardSetup\\obj\\Debug\\net6.0-windows\\apphost.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_1F15E08EC159408FB24F475067546C6C"

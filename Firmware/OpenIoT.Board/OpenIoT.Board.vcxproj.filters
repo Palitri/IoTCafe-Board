@@ -369,6 +369,12 @@
     <ClInclude Include="Source\OpenIoT\PeripheralGenericBluetooth.h">
       <Filter>Source\OpenIoT\Framework\ClusterModel\Peripherals</Filter>
     </ClInclude>
+    <ClInclude Include="Source\OpenIoT\PeripheralDHT.h">
+      <Filter>Source\OpenIoT\Framework\ClusterModel\Peripherals</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OpenIoT\DHTSensor.h">
+      <Filter>Source\OpenIoT\Framework\Devices</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\main.cpp" />
@@ -650,6 +656,12 @@
     </ClCompile>
     <ClCompile Include="Source\OpenIoT\PeripheralGenericBluetooth.cpp">
       <Filter>Source\OpenIoT\Framework\ClusterModel\Peripherals</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\OpenIoT\PeripheralDHT.cpp">
+      <Filter>Source\OpenIoT\Framework\ClusterModel\Peripherals</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\OpenIoT\DHTSensor.cpp">
+      <Filter>Source\OpenIoT\Framework\Devices</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

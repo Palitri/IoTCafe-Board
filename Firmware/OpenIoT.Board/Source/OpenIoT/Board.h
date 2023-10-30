@@ -44,6 +44,7 @@ enum BoardPinMode
 	BoardPinMode_DigitalOutput = 2,
 	BoardPinMode_PWMOutput = 3,
 	BoardPinMode_AnalogInput = 4,
+	BoardPinMode_DigitalInput_Pullup = 5,
 };
 
 

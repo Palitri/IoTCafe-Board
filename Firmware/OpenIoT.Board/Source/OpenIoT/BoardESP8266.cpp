@@ -94,6 +94,10 @@ void Board::SetPinMode(int pin, BoardPinMode mode)
 	case BoardPinMode_PWMOutput:
 		pinMode(pin, OUTPUT);
 		break;
+
+	case BoardPinMode_DigitalInput_Pullup:
+		pinMode(pin, INPUT_PULLUP);
+		break;
 	}
 }
 
@@ -109,8 +113,7 @@ unsigned long Board::TimeMillis()
 
 void Board::DelayMicros(unsigned long micros)
 {
-	// On STM32 delayMicroseconds actually delays half the time passed !? (better resolution)
-	delayMicroseconds(micros << 1);
+	delayMicroseconds(micros);
 }
 
 void Board::DelayMillis(unsigned long millis)

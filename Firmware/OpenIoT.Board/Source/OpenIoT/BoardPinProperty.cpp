@@ -8,22 +8,24 @@
 
 #include "BoardPinProperty.h"
 
-unsigned char BoardPinProperty::pinModeToPropertyTypeMap[5] =
+unsigned char BoardPinProperty::pinModeToPropertyTypeMap[6] =
 {
   (unsigned char)0,                    // None
   (unsigned char)PropertyType_Bool,    // BoardPinMode_DigitalInput
   (unsigned char)PropertyType_Bool,    // BoardPinMode_DigitalOutput
   (unsigned char)PropertyType_Float,   // BoardPinMode_PWMOutput
-  (unsigned char)PropertyType_Float    // BoardPinMode_AnalogInput
+  (unsigned char)PropertyType_Float,   // BoardPinMode_AnalogInput
+  (unsigned char)PropertyType_Bool     // BoardPinMode_DigitalInput_Pullup
 };
 
-unsigned char BoardPinProperty::pinModeToPropertyFlagsMap[5] =
+unsigned char BoardPinProperty::pinModeToPropertyFlagsMap[6] =
 {
   (unsigned char)0,                                         // None
   (unsigned char)PropertyFlag_Read,                         // BoardPinMode_DigitalInput
   (unsigned char)PropertyFlag_Read | PropertyFlag_Write,    // BoardPinMode_DigitalOutput
   (unsigned char)PropertyFlag_Read | PropertyFlag_Write,    // BoardPinMode_PWMOutput
-  (unsigned char)PropertyFlag_Read                          // BoardPinMode_AnalogInput
+  (unsigned char)PropertyFlag_Read,                         // BoardPinMode_AnalogInput
+  (unsigned char)PropertyFlag_Read                          // BoardPinMode_DigitalInput_Pullup
 };
 
 BoardPinProperty::BoardPinProperty(void** data)
