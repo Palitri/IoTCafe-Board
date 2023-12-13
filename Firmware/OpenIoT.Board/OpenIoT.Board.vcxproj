@@ -140,6 +140,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Source\OpenIoT\AggregatedTransmissionChannel.h" />
     <ClInclude Include="Source\OpenIoT\DHTSensor.h" />
     <ClInclude Include="Source\OpenIoT\GsmSim800L.h" />
     <ClInclude Include="Source\OpenIoT\AirSensorBMX.h" />
@@ -243,8 +244,10 @@
     <ClInclude Include="Source\OpenIoT\PeripheralGenericWiFi.h" />
     <ClInclude Include="Source\OpenIoT\PeripheralAirSensor.h" />
     <ClInclude Include="Source\OpenIoT\PeripheralDHT.h" />
+    <ClInclude Include="Source\OpenIoT\PeripheralRotaryEncoder.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\OpenIoT\AggregatedTransmissionChannel.cpp" />
     <ClCompile Include="Source\OpenIoT\DHTSensor.cpp" />
     <ClCompile Include="Source\OpenIoT\GsmSim800L.cpp" />
     <ClCompile Include="Source\OpenIoT\AirSensorBMX.cpp" />
@@ -341,6 +344,7 @@
     <ClCompile Include="Source\OpenIoT\PeripheralGenericWiFi.cpp" />
     <ClCompile Include="Source\OpenIoT\PeripheralAirSensor.cpp" />
     <ClCompile Include="Source\OpenIoT\PeripheralDHT.cpp" />
+    <ClCompile Include="Source\OpenIoT\PeripheralRotaryEncoder.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

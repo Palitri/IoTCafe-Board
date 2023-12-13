@@ -53,13 +53,13 @@ DHTSensor::DHTSensor(int pin, char model)
 	this->temperature = 0.0f;
 	this->humidity = 0.0f;
 
-	// Specs define the minumum interval and ask for "at least" that, so add extra 1/8th time, just in case
+	// Specs define the minumum interval and ask for "at least" that, so add extra 12.5% time, just in case
 	this->wakeupSignalInterval += this->wakeupSignalInterval >> 3;
 
 	this->changing = false;
-	this->time = Board::TimeMicros();
 
 	this->bitIndex = 0;
+	this->time = Board::TimeMicros();
 	this->state = DHTSensor::State_Initializing;
 }
 
@@ -67,7 +67,7 @@ DHTSensor::~DHTSensor()
 {
 }
 
-//	0. Initialization state: 1000us after power supplied. Do nothing while in this state
+//	0. Initialization state: 1s after power supplied. Do nothing while in this state
 //	1. Default state: Line is HIGH
 //	2. Start
 //		2.1. Set line LOW for at least 18000us for DHT11, 1000 for DHT22
@@ -139,13 +139,14 @@ bool DHTSensor::OnChange()
 			break;
 		}
 
+		// Consider only writing timings in uchar[40] array and processing it out of the interrupt for performance.
 		case DHTSensor::State_Reading:
 		{
 			if (isLow) // From 4.2 back to 4.1 or to 5.1
 			{
 				if (this->bitIndex < 40)
 				{
-					char bitValue = deltaTime > 44 ? 1 : 0; // Low: 26-28us, High: 70us. (28+70)/2=44
+					char bitValue = deltaTime > 49 ? 1 : 0; // Low: 26-28us, High: 70us. (28+70)/2=49
 					char dataIndex = this->bitIndex >> 3;
 					volatile char* dataByte = this->data + dataIndex;
 					*dataByte = ((*dataByte) << 1) | bitValue;

@@ -8,6 +8,10 @@
 
 #include "AirSensorBMX.h"
 
+// Reference BMP280: Data sheet, Document revision 1.14, Document release date May 5th, 2015, Document number BST - BMP280 - DS001 - 1
+// Reference BME280: Data sheet, Document revision 1.23, Document release date January 2022, Document number BST - BME280 - DS001 - 23
+// Reference BME680: Data sheet, Document revision 1.8, Document release date August 2022, Document number BST - BME680 - DS001 - 08
+
 const unsigned char AirSensorBMX::DeviceAddress_BMX = 0x76; // 0x76: SDO pin connected to GND, 0x77: SDO pin connected to Vccio
 
 const unsigned char AirSensorBMX::RegisterAddress_BMX_ChipId = 0xD0;            // 1 byte
@@ -270,6 +274,13 @@ void AirSensorBMX::ReadCompensationParameters()
     this->GetRegister(AirSensorBMX::DeviceAddress_BMX, AirSensorBMX::RegisterAddress_BMX_Compensation_H5, &this->dig_H5, 2);
     this->GetRegister(AirSensorBMX::DeviceAddress_BMX, AirSensorBMX::RegisterAddress_BMX_Compensation_H6, &this->dig_H6, 1);
 
+
+    this->dig_H4 = ((this->dig_H4 & 0x00FF) << 4) | ((this->dig_H4 & 0x0F00) >> 8);    // Bits [7:0] / [15:8]  ->  [11:4] / [3:0]
+    this->dig_H5 = ((this->dig_H5 & 0xFF00) >> 4) | ((this->dig_H5 & 0x00F0) >> 4);    // Bits [7:0] / [15:8]  ->  [3:0] / [11:4] 
+    //this->dig_H4 = ((this->dig_H4 & 0x000F) << 12) | ((this->dig_H4 & 0xF000) >> 4) | ((this->dig_H4 & 0x0F00) >> 8);   // Bits [7:0] / [15:8]  ->  [11:4] / [3:0]
+    //this->dig_H5 = (this->dig_H5 & 0x0F00) | ((this->dig_H5 & 0x000F) << 4) | ((this->dig_H5 & 0xF000) >> 12);          // Bits [7:0] / [15:8]  ->  [3:0] / [11:4] 
+
+
     // Bosch sample parameters (from BMP280 datasheet)
     //this->dig_T1 = 27504;
     //this->dig_T2 = 26435;
@@ -416,3 +427,22 @@ float AirSensorBMX::GetHumidityCompensated(int32_t adc_H, int32_t t_fine)
 
     return (float)h / 1024.0f;
 }
+
+
+//// Compensation formula from Bosch BME280 specs
+//// Returns humidity in %rH as as double. Output value of “46.332” represents 46.332 % rH
+//float AirSensorBMX::GetHumidityCompensated(int32_t adc_H, int32_t t_fine)
+//{
+//    double var_H;
+//    var_H = (((double)t_fine) - 76800.0);
+//    var_H = (adc_H - (((double)this->dig_H4) * 64.0 + ((double)this->dig_H5) / 16384.0 *
+//        var_H)) * (((double)this->dig_H2) / 65536.0 * (1.0 + ((double)this->dig_H6) /
+//            67108864.0 * var_H *
+//            (1.0 + ((double)this->dig_H3) / 67108864.0 * var_H)));
+//    var_H = var_H * (1.0 - ((double)this->dig_H1) * var_H / 524288.0);
+//    if (var_H > 100.0)
+//        var_H = 100.0;
+//    else if (var_H < 0.0)
+//        var_H = 0.0;
+//    return var_H;
+//}

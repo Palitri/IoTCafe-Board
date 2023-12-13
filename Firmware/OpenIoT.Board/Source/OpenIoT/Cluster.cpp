@@ -41,6 +41,7 @@
 #include "PeripheralGenericWiFi.h"
 #include "PeripheralGenericBluetooth.h"
 #include "PeripheralAirSensor.h"
+#include "PeripheralRotaryEncoder.h"
 
 #include "Board.h"
 
@@ -143,14 +144,19 @@ Peripheral* Cluster::CreatePeripheral(int deviceId, IClusterDevice *device)
 		case PeripheralBluetooth::Code_DeviceId: // 42
 			return new PeripheralBluetooth(device);
 
+#ifndef BOARD_STM32F103C
 		case PeripheralGenericWiFi::Code_DeviceId: // 43
 			return new PeripheralGenericWiFi(device);
 
 		case PeripheralGenericBluetooth::Code_DeviceId: // 44
 			return new PeripheralGenericBluetooth(device);
+#endif
 
 		case PeripheralAirSensor::Code_DeviceId: // 45
 			return new PeripheralAirSensor(device);
+
+		case PeripheralRotaryEncoder::Code_DeviceId: // 46
+			return new PeripheralRotaryEncoder(device);
 	}
 
 	return null;

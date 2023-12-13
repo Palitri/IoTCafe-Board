@@ -375,6 +375,12 @@
     <ClInclude Include="Source\OpenIoT\DHTSensor.h">
       <Filter>Source\OpenIoT\Framework\Devices</Filter>
     </ClInclude>
+    <ClInclude Include="Source\OpenIoT\AggregatedTransmissionChannel.h">
+      <Filter>Source\OpenIoT\Framework\Streams</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OpenIoT\PeripheralRotaryEncoder.h">
+      <Filter>Source\OpenIoT\Framework\ClusterModel\Peripherals</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\main.cpp" />
@@ -662,6 +668,12 @@
     </ClCompile>
     <ClCompile Include="Source\OpenIoT\DHTSensor.cpp">
       <Filter>Source\OpenIoT\Framework\Devices</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\OpenIoT\AggregatedTransmissionChannel.cpp">
+      <Filter>Source\OpenIoT\Framework\Streams</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\OpenIoT\PeripheralRotaryEncoder.cpp">
+      <Filter>Source\OpenIoT\Framework\ClusterModel\Peripherals</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
