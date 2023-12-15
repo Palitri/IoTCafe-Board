@@ -21,6 +21,16 @@
 
 #include "BoardESP32Features.h"
 
+//const int Board::pwmBitResolution = 14;
+//const int Board::pwmMaxValue = (1 << Board::pwmBitResolution) - 1;
+
+const int Board::pwmBitResolution = 16; // 1 - 20 bits for ESP32, 1 - 14 bits for other ESPs
+const int Board::pwmMaxValue = (1 << Board::pwmBitResolution) - 1;
+
+const int Board::analogReadBitResolution = 12;
+const int Board::analogReadMaxValue = (1 << Board::analogReadBitResolution) - 1;
+const int Board::analogReadHalfValue = analogReadMaxValue / 2;
+
 const int Board::eepromSize = 1024; // On ESP32, EEPROM.commit() works for up to 4096
 const char* Board::name = "ESP32";
 
@@ -32,6 +42,13 @@ const char* Board::name = "ESP32";
 bool eepromInitialized = false;
 BoardFeatures* boardFeatures = null;
 TwoWire* wire = null;
+
+const int pwmChannelsCount = 13;
+const int pinMin = 0;
+const int pinMax = 42;
+
+int pwmPinChannels[pinMax - pinMin + 1];
+int pwmChannelsUsed = 0;
 
 unsigned char Board::nativeTriggerModesMap[5] =
 {
@@ -48,6 +65,8 @@ void Board::Initialize(IClusterDevice* clusterDevice)
 		delete boardFeatures;
 
 	boardFeatures = new BoardESP32Features(clusterDevice);
+
+	pwmChannelsUsed = 0;
 }
 
 void* Board::DispatchFeaturesObject()
@@ -73,12 +92,22 @@ float Board::AnalogRead(int pin)
 
 void Board::SetPwm(int pin, float duty)
 {
-	//pwmWrite(pin, (int)Math::Round(Math::Trim(duty, 0.0f, 1.0f) * (float)Board::pwmMaxValue));
-	analogWrite(pin, Math::Trim((int)(duty * Board::pwmMaxValue), 0, Board::pwmMaxValue));
+	int value = Math::Trim((int)(duty * Board::pwmMaxValue), 0, Board::pwmMaxValue);
+	int pwmChannel = pwmPinChannels[pin];
+	ledcWrite(pwmChannel, value);
+
+	//analogWrite(pin, value);
 }
 
 void Board::SetPinMode(int pin, BoardPinMode mode)
 {
+	const int pwmFrequency = 1200;
+
+	int pwmChannel;
+	ledcDetachPin(pin);
+	pwmPinChannels[pin] = -1;
+
+
 	switch (mode)
 	{
 	case BoardPinMode_DigitalInput:
@@ -94,7 +123,14 @@ void Board::SetPinMode(int pin, BoardPinMode mode)
 		break;
 
 	case BoardPinMode_PWMOutput:
-		pinMode(pin, OUTPUT);
+		//pinMode(pin, OUTPUT);
+		
+		pwmChannel = pwmChannelsUsed;
+		pwmChannelsUsed = (pwmChannelsUsed + 1) % pwmChannelsCount;
+		pwmPinChannels[pin] = pwmChannel;
+
+		ledcAttachPin(pin, pwmChannel);
+		ledcSetup(pwmChannel, pwmFrequency, Board::pwmBitResolution);
 		break;
 
 	case BoardPinMode_DigitalInput_Pullup:

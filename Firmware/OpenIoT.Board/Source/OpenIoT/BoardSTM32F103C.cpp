@@ -18,6 +18,14 @@
 #include "IClusterDevice.h"
 
 
+const int Board::pwmBitResolution = 16;
+const int Board::pwmMaxValue = (1 << Board::pwmBitResolution) - 1;
+
+const int Board::analogReadBitResolution = 12;
+const int Board::analogReadMaxValue = (1 << Board::analogReadBitResolution) - 1;
+const int Board::analogReadHalfValue = analogReadMaxValue / 2;
+
+
 // Note that if board eeprom is attempted to be used outside its available address space, consequent uses might fail, even for proper addresses
 const int Board::eepromSize = 508;
 const char* Board::name = "STM32F103C";

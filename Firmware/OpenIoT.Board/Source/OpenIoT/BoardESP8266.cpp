@@ -14,6 +14,13 @@
 
 #include "BoardESP8266Features.h"
 
+const int Board::pwmBitResolution = 12;
+const int Board::pwmMaxValue = (1 << Board::pwmBitResolution) - 1;
+
+const int Board::analogReadBitResolution = 12;
+const int Board::analogReadMaxValue = (1 << Board::analogReadBitResolution) - 1;
+const int Board::analogReadHalfValue = analogReadMaxValue / 2;
+
 const int Board::eepromSize = 4096;
 const char* Board::name = "ESP8266";
 
