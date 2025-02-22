@@ -4,34 +4,32 @@
 class StepMotorDriver
 {
 private:
-	int pinStep, pinDir;
-
-	float stepsPerUnit;
-	float distanceUnitsPerTurn;
-	int fullStepsPerTurn;
-	int stepMultiplier;
-
-	bool stepState;
-	bool forward;
-
-	float vectorStepsTotal;
-	int currentStep;
+	int asyncPulsesRemaining;
+	int asyncIntervalMicros;
+	unsigned long asyncTime;
+	bool asyncStepState;
 
 public:
-	StepMotorDriver(int pinStep, int pinDir, float distanceUnitsPerTurn, int fullStepsPerTurn);
+	static const unsigned char DirectionForward = 0;
+	static const unsigned char DirectionBackward = 1;
+
+	int pinStep, pinDir;
+
+	unsigned char direction;
+
+	StepMotorDriver(int pinStep, int pinDir);
 	~StepMotorDriver(void);
 
-	float CalculateStepsPerUnit();
-	float CalculateStepIntervalForSpeed(float speedUnitsPerSecond);
+	void SetDirection(unsigned char direction);
+	void Step();
+	void Step(unsigned char direction);
 
-	void SetStepMultiplier(int stepMultiplier);
-	void SetDirection(bool forward);
-	void Pulse(bool forward, bool pulseState);
-	void Pulse(bool forward);
-	void Pulse();
+	void RotateBySpeed(int steps, float stepsPerSecond);
+	void RotateByTime(int steps, float seconds);
 
-	void Begin(float origin, float vector);
-	void Drive(float phase);
+	void BeginAsyncRotateBySpeed(int steps, float stepsPerSecond, float minStepInterval = 0.0f);
+	void RotateAsync();
+	int GetRemainingAsyncSteps();
 };
 
 #endif

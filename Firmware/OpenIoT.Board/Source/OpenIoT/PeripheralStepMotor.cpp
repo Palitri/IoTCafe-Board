@@ -16,6 +16,7 @@ PeripheralStepMotor::PeripheralStepMotor(IClusterDevice* device) :
 	this->SetPropertiesCapacity(2);
 
 	this->motor = null;
+	this->asyncStepsRemaining = 0;
 }
 
 PeripheralStepMotor::~PeripheralStepMotor()
@@ -35,32 +36,33 @@ int PeripheralStepMotor::Load(const void* code)
 
 	unsigned char pinStep = *charCode++;
 	unsigned char pinDir = *charCode++;
-	short fullStepsPerTurn = *(short*)charCode;
-	charCode += 2;
+	this->stepsPerFullTurn = *(float*)charCode;
+	charCode += 4;
 
-	this->motor = new StepMotorDriver(pinStep, pinDir, 1.0, fullStepsPerTurn);
+	this->motor = new StepMotorDriver(pinStep, pinDir);
 
 	return (unsigned int)charCode - (unsigned int)code;
 }
 
 void PeripheralStepMotor::Update()
 {
-	float pTurns = this->pTurns->fValue;
-	float pTurnsPerSec = this->pTurnsPerSec->fValue;
-
-	if (pTurns * pTurnsPerSec != 0.0f)
+	if (this->asyncStepsRemaining != 0)
 	{
-		this->motor->Begin(0.0f, pTurns);
+		this->motor->RotateAsync();
 
-		unsigned long time = Board::TimeMicros();
-		float u = 0.0f;
-		do {
-			this->motor->Drive(u);
-			u = (float)(Board::TimeMicros() - time) / (pTurnsPerSec * 1000000.0f);
-		} while (u < pTurnsPerSec);
+		this->asyncStepsRemaining = this->motor->GetRemainingAsyncSteps();
 
-		this->pTurns->SetFloat(0.0f);
+		this->pTurns->SetFloat((float)this->asyncStepsRemaining / (float)this->stepsPerFullTurn);
+
+		this->UpdateProperties();
 	}
+	else if (this->pTurns->fValue != 0.0)
+	{
+		int steps = (int)(this->pTurns->fValue * this->stepsPerFullTurn);
+		int stepsPerSec = (int)(this->pTurnsPerSec->fValue * this->stepsPerFullTurn);
 
-	this->UpdateProperties();
+		this->motor->BeginAsyncRotateBySpeed(steps, stepsPerSec);
+		
+		this->asyncStepsRemaining = this->motor->GetRemainingAsyncSteps();
+	}
 }

@@ -11,6 +11,10 @@ class PeripheralStepMotor :
 private:
 	Property* pTurns, * pTurnsPerSec;
 	StepMotorDriver* motor;
+	
+	float stepsPerFullTurn;
+
+	int asyncStepsRemaining;
 
 public:
 	static const int Code_DeviceId = 17;
