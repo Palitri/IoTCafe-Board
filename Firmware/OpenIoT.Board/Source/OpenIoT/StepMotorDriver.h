@@ -9,6 +9,8 @@ private:
 	unsigned long asyncTime;
 	bool asyncStepState;
 
+	bool SetDirectionAndNormalizeParameters(int& steps, float& rate);
+
 public:
 	static const unsigned char DirectionForward = 0;
 	static const unsigned char DirectionBackward = 1;
