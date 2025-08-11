@@ -9,6 +9,7 @@
 #include "Cluster.h"
 
 #include "PeripheralSoftware.h"
+#include "PeripheralRotaryEncoder.h"
 #include "PeripheralPin.h"
 #include "PeripheralServo.h"
 #include "PeripheralUltrasonicSensor.h"
@@ -41,7 +42,9 @@
 #include "PeripheralGenericWiFi.h"
 #include "PeripheralGenericBluetooth.h"
 #include "PeripheralAirSensor.h"
-#include "PeripheralRotaryEncoder.h"
+#include "PeripheralShiftRegisterOut.h"
+#include "PeripheralAsynchronousDriver.h"
+#include "PeripheralCNC.h"
 
 #include "Board.h"
 
@@ -51,6 +54,9 @@ Peripheral* Cluster::CreatePeripheral(int deviceId, IClusterDevice *device)
 	{
 		case PeripheralSoftware::Code_DeviceId: // 11
 			return new PeripheralSoftware(device);
+
+		case PeripheralRotaryEncoder::Code_DeviceId: // 12
+		 	return new PeripheralRotaryEncoder(device);
 
 		case PeripheralPin::Code_DeviceId: // 13
 			return new PeripheralPin(device);
@@ -155,8 +161,14 @@ Peripheral* Cluster::CreatePeripheral(int deviceId, IClusterDevice *device)
 		case PeripheralAirSensor::Code_DeviceId: // 45
 			return new PeripheralAirSensor(device);
 
-		case PeripheralRotaryEncoder::Code_DeviceId: // 46
-			return new PeripheralRotaryEncoder(device);
+		case PeripheralShiftRegisterOut::Code_DeviceId: // 46
+			return new PeripheralShiftRegisterOut(device);
+
+		case PeripheralAsynchronousDriver::Code_DeviceId: // 47
+			return new PeripheralAsynchronousDriver(device);
+
+		case PeripheralCNC::Code_DeviceId: // 48
+			return new PeripheralCNC(device);
 	}
 
 	return null;

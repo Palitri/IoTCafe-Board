@@ -16,13 +16,21 @@ private:
 	static const int CommandCode_UploadProgramLogic			= 0x44;
 	static const int CommandCode_ResetLogic					= 0x45;
 	static const int CommandCode_Reset						= 0x46;
+	static const int CommandCode_ListCommands				= 0x47;
+	static const int CommandCode_ExecuteCommand				= 0x48;
+	//Add: static const int CommandCode_WriteUserInfo			= 0x;
+	//Add: static const int CommandCode_ReadUserInfo			= 0x;
 
-	static const int ResponseCode_SetDeviceProperties		= 0x41 | Code_ResponseBit;
-	static const int ResponseCode_GetDeviceProperties		= 0x42 | Code_ResponseBit;
-	static const int ResponseCode_UploadSchemeLogic			= 0x43 | Code_ResponseBit;
-	static const int ResponseCode_UploadProgramLogic		= 0x44 | Code_ResponseBit;
-	static const int ResponseCode_ResetLogic				= 0x45 | Code_ResponseBit;
-	static const int ResponseCode_Reset						= 0x46 | Code_ResponseBit;
+	static const int ResponseCode_SetDeviceProperties		= Code_ResponseBit | CommandCode_SetDeviceProperties;
+	static const int ResponseCode_GetDeviceProperties		= Code_ResponseBit | CommandCode_GetDeviceProperties;
+	static const int ResponseCode_UploadSchemeLogic			= Code_ResponseBit | CommandCode_UploadSchemeLogic;
+	static const int ResponseCode_UploadProgramLogic		= Code_ResponseBit | CommandCode_UploadProgramLogic;
+	static const int ResponseCode_ResetLogic				= Code_ResponseBit | CommandCode_ResetLogic;
+	static const int ResponseCode_Reset						= Code_ResponseBit | CommandCode_Reset;
+	static const int ResponseCode_ListCommands				= Code_ResponseBit | CommandCode_ListCommands;
+	static const int ResponseCode_ExecuteCommand			= Code_ResponseBit | CommandCode_ExecuteCommand;
+	//Add: static const int ResponseCode_WriteUserInfo		= Code_ResponseBit | CommandCode_WriteUserInfo;
+	//Add: static const int ResponseCode_ReadUserInfo		= Code_ResponseBit | CommandCode_ReadUserInfo;
 
 	Cluster* parentClusterObject;
 	CodeProcessor* codeProcessor;

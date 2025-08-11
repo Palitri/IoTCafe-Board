@@ -37,30 +37,6 @@ bool OpenIoTTransmissionProtocol::OnReceiveCommand(unsigned char command, void* 
 {
 	switch (command)
 	{
-		//case CommandCode_Info:
-		//{
-		//	IPersistence *persistence = this->clusterDevice->GetPersistence();
-
-		//	char* info = Strings::GetBuffer(256);
-		//	int infoIndex = Strings::Copy(info, (char*)persistence->GetValue(DevicePropertyId_FirmwareName));
-		//	infoIndex += Strings::Copy(info + infoIndex, "\r\nBoard: ");
-		//	infoIndex += Strings::Copy(info + infoIndex, Board::name);
-		//	infoIndex += Strings::Copy(info + infoIndex, "\r\nFirmware: v");
-		//	infoIndex += Strings::Copy(info + infoIndex, Strings::ToHex(persistence->GetValue(DevicePropertyId_FirmwareVersion), 4));
-		//	infoIndex += Strings::Copy(info + infoIndex, "\r\nVendor: ");
-		//	infoIndex += Strings::Copy(info + infoIndex, (char*)persistence->GetValue(DevicePropertyId_FirmwareVendor));
-		//	infoIndex += Strings::Copy(info + infoIndex, "\r\nDevice: ");
-		//	infoIndex += Strings::Copy(info + infoIndex, (char*)persistence->GetValue(DevicePropertyId_DeviceName));
-		//	infoIndex += Strings::Copy(info + infoIndex, "\r\Project: ");
-		//	infoIndex += Strings::Copy(info + infoIndex, (char*)persistence->GetValue(DevicePropertyId_ProjectName));
-
-		//	this->SendCommand(ResponseCode_Info, info, Strings::Length(info));
-
-		//	Log::println("Sent info");
-
-		//	break;
-		//}
-
 		case CommandCode_SetDeviceProperties:
 		{
 			Log::println("SetDeviceProperties");
@@ -167,6 +143,26 @@ bool OpenIoTTransmissionProtocol::OnReceiveCommand(unsigned char command, void* 
 			this->Reset();
 
 			this->SendCommand(ResponseCode_Reset);
+
+			break;
+		}
+
+		case CommandCode_ExecuteCommand:
+		{
+			char* commandData = (char*)data;
+
+			while ((unsigned int)commandData - (unsigned int)data + 3 <= dataSize)
+			{
+				char peripheralId = *commandData++;
+				char commandId = *commandData++;
+				char commandSize = *commandData++;
+
+				this->clusterDevice->GetPeripheral(peripheralId)->ProcessCommand(commandId, commandData, commandSize);
+
+				commandData += commandSize;
+			}
+			
+			this->SendCommand(ResponseCode_ExecuteCommand);
 
 			break;
 		}

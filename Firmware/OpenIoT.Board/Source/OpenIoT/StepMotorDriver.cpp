@@ -24,6 +24,10 @@ StepMotorDriver::StepMotorDriver(int pinStep, int pinDir)
 
 	Board::DigitalWrite(this->pinDir, this->direction);
 	Board::DigitalWrite(this->pinStep, false);
+
+	this->drivePulsesTotal = 0;
+	this->drivePulsesMade = 0;
+	this->asyncStepState = false;
 }
 
 StepMotorDriver::~StepMotorDriver()
@@ -110,9 +114,57 @@ void StepMotorDriver::RotateAsync()
 	}
 }
 
+void StepMotorDriver::SetRotateAsyncSpeed(float stepsPerSecond)
+{
+	this->asyncIntervalMicros = (int)(500000.0f / stepsPerSecond);
+}
+
 int StepMotorDriver::GetRemainingAsyncSteps()
 {
 	return (this->direction == StepMotorDriver::DirectionForward ? this->asyncPulsesRemaining : -this->asyncPulsesRemaining) / 2;
+}
+
+void StepMotorDriver::Begin(float origin, float vector)
+{
+	float pulsesRemainder = this->drivePulsesTotal - this->drivePulsesMade;
+	this->drivePulsesTotal = 2.0f * vector + pulsesRemainder;
+	this->drivePulsesMade = 0;
+}
+
+void StepMotorDriver::Drive(float phase)
+{
+	float targetPulse = phase * this->drivePulsesTotal;
+	int targetPulseDiscreet = (int)Math::Round(targetPulse);
+	int pulsesToMake = targetPulseDiscreet - this->drivePulsesMade;
+	this->drivePulsesMade = targetPulseDiscreet;
+
+	if (pulsesToMake == 0)
+		return;
+
+	unsigned char direction;
+	if (pulsesToMake > 0)
+	{
+		direction = StepMotorDriver::DirectionForward;
+	}
+	else
+	{
+		direction = StepMotorDriver::DirectionBackward;
+		pulsesToMake = -pulsesToMake;
+	}
+
+	if (direction != this->direction)
+	{
+		this->direction = direction;
+		Board::DigitalWrite(this->pinDir, this->direction);
+	}
+
+	do
+	{
+		this->asyncStepState = !this->asyncStepState;
+		Board::DigitalWrite(this->pinStep, this->asyncStepState);
+
+		pulsesToMake--;
+	} while (pulsesToMake > 0);
 }
 
 bool StepMotorDriver::SetDirectionAndNormalizeParameters(int& steps, float& rate)
@@ -122,7 +174,7 @@ bool StepMotorDriver::SetDirectionAndNormalizeParameters(int& steps, float& rate
 	if (work == 0)
 		return false;
 
-	unsigned char direction = work > 0 ? StepMotorDriver::DirectionForward : StepMotorDriver::DirectionBackward;
+	unsigned char direction = work >= 0 ? StepMotorDriver::DirectionForward : StepMotorDriver::DirectionBackward;
 	steps = Math::Abs(steps);
 	rate = Math::Abs(rate);
 

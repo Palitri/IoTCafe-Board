@@ -9,12 +9,12 @@ class PeripheralAccelerometerGyroMPU6050 :
 	public Peripheral
 {
 private:
-	AccelerometerGyroscopeMPU6050* device;
+	AccelerometerGyroscopeMPU6050* mpuDevice;
 
 public:
 	static const int Code_DeviceId = 31;
 
-	Property *ax, *ay, *az, *rx, *ry, *rz, *temperature;
+	Property *ax, *ay, *az, *rx, *ry, *rz, * rdx, * rdy, * rdz, *temperature;
 
 	PeripheralAccelerometerGyroMPU6050(IClusterDevice* device = null);
 	virtual ~PeripheralAccelerometerGyroMPU6050();

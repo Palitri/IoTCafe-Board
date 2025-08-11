@@ -76,6 +76,8 @@ public:
 
 	virtual void SetBluetoothEnabled(bool enabled);
 	virtual bool IsBluetoothEnabled();
+
+	virtual Peripheral* GetPeripheral(int id);
 };
 
 #endif

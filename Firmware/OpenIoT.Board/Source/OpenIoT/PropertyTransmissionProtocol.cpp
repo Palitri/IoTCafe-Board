@@ -168,13 +168,22 @@ bool PropertyTransmissionProtocol::OnReceiveCommand(unsigned char command, void*
 
 				Property* property = this->propertiesObject->GetProperty(propertyIndex);
 
+				int dataSize;
+				if (property->type == PropertyType_Data)
+				{
+					dataSize = *(unsigned char*)data;
+					data = (unsigned char*)data + 1;
+				}
+				else
+					dataSize = property->Size();
+
 				if (property->IsWritable())
 					property->SetValue(data);
 
-				data = (unsigned char*)data + property->Size();
+				data = (unsigned char*)data + dataSize;
 			}
 
-			//this->SendCommand(ResponseCode_SetParamsValues);
+			this->SendCommand(ResponseCode_SetParamsValues);
 
 			break;
 		}

@@ -25,7 +25,7 @@ private:
 	char pinA, pinB;
 
 public:
-	static const int Code_DeviceId = 46;
+	static const int Code_DeviceId = 12;
 
 	PeripheralRotaryEncoder(IClusterDevice* device = null);
 	virtual ~PeripheralRotaryEncoder();

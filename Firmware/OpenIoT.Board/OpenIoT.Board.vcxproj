@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -140,13 +140,21 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Source\OpenIoT\IdentityUnitMapper.h" />
+    <ClInclude Include="Source\OpenIoT\CNCDevice.h" />
+    <ClInclude Include="Source\OpenIoT\BezierUnitMapper.h" />
+    <ClInclude Include="Source\OpenIoT\DeviceChannel.h" />
+    <ClInclude Include="Source\OpenIoT\AsynchronousDeviceEngine.h" />
+    <ClInclude Include="Source\OpenIoT\IDeviceDriver.h" />
     <ClInclude Include="Source\OpenIoT\AggregatedTransmissionChannel.h" />
     <ClInclude Include="Source\OpenIoT\DHTSensor.h" />
     <ClInclude Include="Source\OpenIoT\GsmSim800L.h" />
     <ClInclude Include="Source\OpenIoT\AirSensorBMX.h" />
     <ClInclude Include="Source\OpenIoT\BoardFeatures.h" />
     <ClInclude Include="Source\OpenIoT\DebugUtils.h" />
+    <ClInclude Include="Source\OpenIoT\IUnitMapper.h" />
     <ClInclude Include="Source\OpenIoT\IPersistence.h" />
+    <ClInclude Include="Source\OpenIoT\LinearUnitMapper.h" />
     <ClInclude Include="Source\OpenIoT\OpenIoTPersistence.h" />
     <ClInclude Include="Source\OpenIoT\OpenIoTCodeProcessor.h" />
     <ClInclude Include="Source\OpenIoT\BoardESP32WebClient.h" />
@@ -163,10 +171,12 @@
     <ClInclude Include="Source\OpenIoT\ATCommandUtils.h" />
     <ClInclude Include="Source\OpenIoT\ISMSClient.h" />
     <ClInclude Include="Source\OpenIoT\HttpUtils.h" />
+    <ClInclude Include="Source\OpenIoT\PeripheralAsynchronousDriver.h" />
     <ClInclude Include="Source\OpenIoT\PeripheralDeviceDetails.h" />
     <ClInclude Include="Source\OpenIoT\IClusterDevice.h" />
     <ClInclude Include="Source\OpenIoT\IWebClient.h" />
     <ClInclude Include="Source\OpenIoT\PeripheralGenericBluetooth.h" />
+    <ClInclude Include="Source\OpenIoT\PeripheralShiftRegisterOut.h" />
     <ClInclude Include="Source\OpenIoT\PeripheralWebAlert.h" />
     <ClInclude Include="Source\OpenIoT\PeripheralWebLink.h" />
     <ClInclude Include="Source\OpenIoT\PeripheralWifiESP8266.h" />
@@ -181,6 +191,7 @@
     <ClInclude Include="Source\OpenIoT\SerialTransmissionChannel.h" />
     <ClInclude Include="Source\OpenIoT\ServoControl.h" />
     <ClInclude Include="Source\OpenIoT\BasePropertiesObject.h" />
+    <ClInclude Include="Source\OpenIoT\SineUnitMapper.h" />
     <ClInclude Include="Source\OpenIoT\StreamManipulator.h" />
     <ClInclude Include="Source\OpenIoT\BitUtils.h" />
     <ClInclude Include="Source\OpenIoT\Board.h" />
@@ -245,14 +256,23 @@
     <ClInclude Include="Source\OpenIoT\PeripheralAirSensor.h" />
     <ClInclude Include="Source\OpenIoT\PeripheralDHT.h" />
     <ClInclude Include="Source\OpenIoT\PeripheralRotaryEncoder.h" />
+    <ClInclude Include="Source\OpenIoT\AsinUnitMapper.h" />
+    <ClInclude Include="Source\OpenIoT\TransformationFilter.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\OpenIoT\IdentityUnitMapper.cpp" />
+    <ClCompile Include="Source\OpenIoT\CNCDevice.cpp" />
+    <ClCompile Include="Source\OpenIoT\BezierUnitMapper.cpp" />
+    <ClCompile Include="Source\main.cpp" />
+    <ClCompile Include="Source\OpenIoT\DeviceChannel.cpp" />
+    <ClCompile Include="Source\OpenIoT\AsynchronousDeviceEngine.cpp" />
     <ClCompile Include="Source\OpenIoT\AggregatedTransmissionChannel.cpp" />
     <ClCompile Include="Source\OpenIoT\DHTSensor.cpp" />
     <ClCompile Include="Source\OpenIoT\GsmSim800L.cpp" />
     <ClCompile Include="Source\OpenIoT\AirSensorBMX.cpp" />
     <ClCompile Include="Source\OpenIoT\BoardFeatures.cpp" />
     <ClCompile Include="Source\OpenIoT\DebugUtils.cpp" />
+    <ClCompile Include="Source\OpenIoT\LinearUnitMapper.cpp" />
     <ClCompile Include="Source\OpenIoT\OpenIoTPersistence.cpp" />
     <ClCompile Include="Source\OpenIoT\OpenIoTCodeProcessor.cpp" />
     <ClCompile Include="Source\OpenIoT\BoardESP32WebClient.cpp" />
@@ -268,8 +288,10 @@
     <ClCompile Include="Source\OpenIoT\BoardSTM32F103C.cpp" />
     <ClCompile Include="Source\OpenIoT\ATCommandUtils.cpp" />
     <ClCompile Include="Source\OpenIoT\HttpUtils.cpp" />
+    <ClCompile Include="Source\OpenIoT\PeripheralAsynchronousDriver.cpp" />
     <ClCompile Include="Source\OpenIoT\PeripheralDeviceDetails.cpp" />
     <ClCompile Include="Source\OpenIoT\PeripheralGenericBluetooth.cpp" />
+    <ClCompile Include="Source\OpenIoT\PeripheralShiftRegisterOut.cpp" />
     <ClCompile Include="Source\OpenIoT\PeripheralWebAlert.cpp" />
     <ClCompile Include="Source\OpenIoT\PeripheralWebLink.cpp" />
     <ClCompile Include="Source\OpenIoT\PeripheralWifiESP8266.cpp" />
@@ -278,12 +300,12 @@
     <ClCompile Include="Source\OpenIoT\PeripheralGpsNmea.cpp" />
     <ClCompile Include="Source\OpenIoT\GpsNmeaProtocol.cpp" />
     <ClCompile Include="Source\OpenIoT\PeripheralAccelerometerGyroMPU6050.cpp" />
-    <ClCompile Include="Source\main.cpp" />
     <ClCompile Include="Source\OpenIoT\AccelerometerGyroscopeMPU6050.cpp" />
     <ClCompile Include="Source\OpenIoT\Matrix3.cpp" />
     <ClCompile Include="Source\OpenIoT\SerialTransmissionChannel.cpp" />
     <ClCompile Include="Source\OpenIoT\ServoControl.cpp" />
     <ClCompile Include="Source\OpenIoT\BasePropertiesObject.cpp" />
+    <ClCompile Include="Source\OpenIoT\SineUnitMapper.cpp" />
     <ClCompile Include="Source\OpenIoT\StreamManipulator.cpp" />
     <ClCompile Include="Source\OpenIoT\BitUtils.cpp" />
     <ClCompile Include="Source\OpenIoT\BoardESP8266.cpp" />
@@ -345,6 +367,8 @@
     <ClCompile Include="Source\OpenIoT\PeripheralAirSensor.cpp" />
     <ClCompile Include="Source\OpenIoT\PeripheralDHT.cpp" />
     <ClCompile Include="Source\OpenIoT\PeripheralRotaryEncoder.cpp" />
+    <ClCompile Include="Source\OpenIoT\AsinUnitMapper.cpp" />
+    <ClCompile Include="Source\OpenIoT\TransformationFilter.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

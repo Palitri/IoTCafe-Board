@@ -35,3 +35,14 @@ void BrushlessMotor::SetMotorTraction(float motorTraction)
 	int servoValue = this->minValue + (int)((float)(this->maxValue - this->minValue) * motorTraction);
 	this->servo->WriteMicroseconds(servoValue);
 }
+
+void BrushlessMotor::Begin(float origin, float vector)
+{
+	this->asyncOrigin = origin;
+	this->asyncVector = vector;
+}
+
+void BrushlessMotor::Drive(float phase)
+{
+	this->SetMotorTraction(this->asyncOrigin + this->asyncVector * phase);
+}

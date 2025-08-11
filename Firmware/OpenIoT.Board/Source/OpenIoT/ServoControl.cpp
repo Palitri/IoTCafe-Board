@@ -27,3 +27,12 @@ void ServoControl::WriteDegreece(float degreece)
 	//this->servo->write(degreece);
 }
 
+void ServoControl::Begin(float origin, float vector)
+{
+
+}
+
+void ServoControl::Drive(float phase)
+{
+
+}

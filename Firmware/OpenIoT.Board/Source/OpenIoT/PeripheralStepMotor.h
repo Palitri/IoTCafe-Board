@@ -5,16 +5,21 @@
 
 #include "StepMotorDriver.h"
 
+#include "AsynchronousDeviceEngine.h"
+
 class PeripheralStepMotor :
 	public Peripheral
 {
 private:
-	Property* pTurns, * pTurnsPerSec;
+	Property* pTurns, * pTurnsPerSec, *pTurn, *pAccelerationTime, *pDecelerationTime;
 	StepMotorDriver* motor;
 	
-	float stepsPerFullTurn;
+	float stepsPerTurn;
+	float currentStepsPerSec;
 
 	int asyncStepsRemaining;
+
+	AsynchronousDeviceEngine asyncDriver;
 
 public:
 	static const int Code_DeviceId = 17;

@@ -1,13 +1,20 @@
 #ifndef StepMotorDriver_h
 #define StepMotorDriver_h
 
-class StepMotorDriver
+#include "IDeviceDriver.h"
+
+class StepMotorDriver :
+	public IDeviceDriver
 {
 private:
-	int asyncPulsesRemaining;
 	int asyncIntervalMicros;
+	int asyncPulsesRemaining;
 	unsigned long asyncTime;
 	bool asyncStepState;
+
+	float drivePulsesTotal;
+	int drivePulsesMade;
+
 
 	bool SetDirectionAndNormalizeParameters(int& steps, float& rate);
 
@@ -31,7 +38,18 @@ public:
 
 	void BeginAsyncRotateBySpeed(int steps, float stepsPerSecond, float minStepInterval = 0.0f);
 	void RotateAsync();
+	void SetRotateAsyncSpeed(float stepsPerSecnd);
 	int GetRemainingAsyncSteps();
+
+	// IDeviceDriver
+	
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <param name="origin">Disregarded</param>
+	/// <param name="vector">Number of steps</param>
+	void Begin(float origin, float vector);
+	void Drive(float phase);
 };
 
 #endif

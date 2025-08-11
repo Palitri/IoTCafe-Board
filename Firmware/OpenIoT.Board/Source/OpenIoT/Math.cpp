@@ -13,13 +13,17 @@
 
 const float Math::Pi = 3.14159265358979f;
 
-// a.k.a. Tau
 const float Math::Pi2 = Math::Pi * 2.0f;
 
 const float Math::PiHalf = Math::Pi / 2.0f;
 
-// a.k.a The golden ratio
+const float Math::Tau = Math::Pi2;
+
+// The golden ratio
 const float Math::Phi = 1.61803398874989f;
+
+// Euler's number
+const float Math::e = 2.71828182845905;
 
 int Math::Min(int a, int b)
 {
@@ -97,7 +101,7 @@ float Math::Abs(float x)
 
 float Math::Round(float a)
 {
-	return  round(a);
+	return round(a);
 }
 
 int Math::Power(int base, int exponent)
@@ -203,5 +207,3 @@ unsigned short Math::CRC16Calculate(const void* source, unsigned int size, unsig
 
 	return crc;
 }
-
-

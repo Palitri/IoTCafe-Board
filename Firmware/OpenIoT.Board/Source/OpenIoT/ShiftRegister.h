@@ -3,19 +3,15 @@
 
 class ShiftRegister
 {
-private:
-	int bitMask;
-
 public:
 	int shiftRegSerialPin, shiftRegStoragePin, shiftRegClockPin;
+
 	int bitCount;
 
-	int bits;
-
-	ShiftRegister(int shiftRegSerialPin, int shiftRegStoragePin, int shiftRegClockPin, int bitCount);
+	ShiftRegister(int shiftRegSerialPin, int shiftRegClockPin, int shiftRegStoragePin);
 	~ShiftRegister();
 
-	void SetBits(int bits, bool force = false);
+	void SetBits(void* bits, int bitCount);
 };
 
 #endif

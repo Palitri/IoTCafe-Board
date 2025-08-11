@@ -68,7 +68,9 @@ public:
 	bool IsSubscribed();
 
 	int Size();
+	int SizeInMemory();
 
+	void Set(void* value);
 	void SetValue(void* value);
 	void GetValue(void* value);
 

@@ -9,17 +9,17 @@
 #include "PeripheralAccelerometerGyroMPU6050.h"
 
 #include "Math.h"
-
+#include "Timer.h"
 PeripheralAccelerometerGyroMPU6050::PeripheralAccelerometerGyroMPU6050(IClusterDevice* device) :
 	Peripheral(device)
 {
-	this->SetPropertiesCapacity(7);
-	this->device = new AccelerometerGyroscopeMPU6050();
+	this->SetPropertiesCapacity(10);
+	this->mpuDevice = new AccelerometerGyroscopeMPU6050();
 }
 
 PeripheralAccelerometerGyroMPU6050::~PeripheralAccelerometerGyroMPU6050()
 {
-	delete this->device;
+	delete this->mpuDevice;
 }
 
 int PeripheralAccelerometerGyroMPU6050::Load(const void* code)
@@ -32,24 +32,33 @@ int PeripheralAccelerometerGyroMPU6050::Load(const void* code)
 	this->rx = this->AddProperty(new Property((void**)&charCode, PropertyType_Float, PropertyFlag_Read));
 	this->ry = this->AddProperty(new Property((void**)&charCode, PropertyType_Float, PropertyFlag_Read));
 	this->rz = this->AddProperty(new Property((void**)&charCode, PropertyType_Float, PropertyFlag_Read));
+	this->rdx = this->AddProperty(new Property((void**)&charCode, PropertyType_Float, PropertyFlag_Read));
+	this->rdy = this->AddProperty(new Property((void**)&charCode, PropertyType_Float, PropertyFlag_Read));
+	this->rdz = this->AddProperty(new Property((void**)&charCode, PropertyType_Float, PropertyFlag_Read));
 	this->temperature = this->AddProperty(new Property((void**)&charCode, PropertyType_Float, PropertyFlag_Read));
 
 	unsigned char i2cIndex = *charCode++;
-	this->device->Init(i2cIndex);
+	this->mpuDevice->Init(i2cIndex);
+	this->mpuDevice->Calibrate();
 
 	return (unsigned int)charCode - (unsigned int)code;
 }
 
 void PeripheralAccelerometerGyroMPU6050::Update()
 {
-	this->device->ReadData();
-	this->device->ComputeFloatVectors();
+	if (this->mpuDevice->UpdateReadings())
+	{
+		this->mpuDevice->ComputeRotation(this->device->GetTimer()->time);
 
-	this->ax->SetFloat(this->device->accelerometer.x);
-	this->ay->SetFloat(this->device->accelerometer.y);
-	this->az->SetFloat(this->device->accelerometer.z);
-	this->rx->SetFloat(this->device->gyroscope.x);
-	this->ry->SetFloat(this->device->gyroscope.y);
-	this->rz->SetFloat(this->device->gyroscope.z);
-	this->temperature->SetFloat(this->device->temperature);
+		this->ax->SetFloat(this->mpuDevice->accelerometer.x);
+		this->ay->SetFloat(this->mpuDevice->accelerometer.y);
+		this->az->SetFloat(this->mpuDevice->accelerometer.z);
+		this->rx->SetFloat(this->mpuDevice->rotation.x);
+		this->ry->SetFloat(this->mpuDevice->rotation.y);
+		this->rz->SetFloat(this->mpuDevice->rotation.z);
+		this->rdx->SetFloat(this->mpuDevice->gyroscope.x);
+		this->rdy->SetFloat(this->mpuDevice->gyroscope.y);
+		this->rdz->SetFloat(this->mpuDevice->gyroscope.z);
+		this->temperature->SetFloat(this->mpuDevice->temperature);
+	}
 }

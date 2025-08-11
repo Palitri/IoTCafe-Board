@@ -2,11 +2,15 @@
 #define PeripheralPin_h
 
 #include "Peripheral.h"
+#include "BoardPinProperty.h"
 
 class PeripheralPin :
 	public Peripheral
 {
 private:
+	static const int CommandCode_SetPWM = 1;
+
+	BoardPinProperty *value;
 
 public:
 	static const int Code_DeviceId = 13;
@@ -16,6 +20,8 @@ public:
 
 	virtual int Load(const void* code);
 	virtual void Update();
+
+	virtual void ProcessCommand(char code, const char* data, int size);
 };
 
 #endif

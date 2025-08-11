@@ -64,6 +64,15 @@
     <Filter Include="Source\OpenIoT\Framework\Board\Boards\PC">
       <UniqueIdentifier>{a68c91e3-e1d2-4ae9-aad7-1d29d3ca4b9b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\OpenIoT\Framework\CNC">
+      <UniqueIdentifier>{7ee0f624-06ce-42e4-a908-13a5dcd7c9ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\OpenIoT\Framework\CNC\DeviceDriving">
+      <UniqueIdentifier>{8f3c25f7-3366-4089-92e7-5bb4288f9528}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\OpenIoT\Framework\CNC\UnitMapping">
+      <UniqueIdentifier>{d8807985-067c-42c1-9d2c-b8289d053477}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\OpenIoT\StreamManipulator.h">
@@ -381,9 +390,47 @@
     <ClInclude Include="Source\OpenIoT\PeripheralRotaryEncoder.h">
       <Filter>Source\OpenIoT\Framework\ClusterModel\Peripherals</Filter>
     </ClInclude>
+    <ClInclude Include="Source\OpenIoT\IUnitMapper.h">
+      <Filter>Source\OpenIoT\Framework\CNC\UnitMapping</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OpenIoT\LinearUnitMapper.h">
+      <Filter>Source\OpenIoT\Framework\CNC\UnitMapping</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OpenIoT\SineUnitMapper.h">
+      <Filter>Source\OpenIoT\Framework\CNC\UnitMapping</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OpenIoT\IDeviceDriver.h">
+      <Filter>Source\OpenIoT\Framework\CNC\DeviceDriving</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OpenIoT\AsynchronousDeviceEngine.h">
+      <Filter>Source\OpenIoT\Framework\CNC\DeviceDriving</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OpenIoT\DeviceChannel.h">
+      <Filter>Source\OpenIoT\Framework\CNC\DeviceDriving</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OpenIoT\AsinUnitMapper.h">
+      <Filter>Source\OpenIoT\Framework\CNC\UnitMapping</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OpenIoT\BezierUnitMapper.h">
+      <Filter>Source\OpenIoT\Framework\CNC\UnitMapping</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OpenIoT\TransformationFilter.h">
+      <Filter>Source\OpenIoT\Framework\CNC\UnitMapping</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OpenIoT\CNCDevice.h">
+      <Filter>Source\OpenIoT\Framework\CNC</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OpenIoT\IdentityUnitMapper.h">
+      <Filter>Source\OpenIoT\Framework\CNC\UnitMapping</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OpenIoT\PeripheralShiftRegisterOut.h">
+      <Filter>Source\OpenIoT\Framework\ClusterModel\Peripherals</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OpenIoT\PeripheralAsynchronousDriver.h">
+      <Filter>Source\OpenIoT\Framework\ClusterModel\Peripherals</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source\main.cpp" />
     <ClCompile Include="Source\OpenIoT\StreamManipulator.cpp">
       <Filter>Source\OpenIoT\Framework\Streams</Filter>
     </ClCompile>
@@ -673,6 +720,40 @@
       <Filter>Source\OpenIoT\Framework\Streams</Filter>
     </ClCompile>
     <ClCompile Include="Source\OpenIoT\PeripheralRotaryEncoder.cpp">
+      <Filter>Source\OpenIoT\Framework\ClusterModel\Peripherals</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\OpenIoT\LinearUnitMapper.cpp">
+      <Filter>Source\OpenIoT\Framework\CNC\UnitMapping</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\OpenIoT\SineUnitMapper.cpp">
+      <Filter>Source\OpenIoT\Framework\CNC\UnitMapping</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\OpenIoT\AsynchronousDeviceEngine.cpp">
+      <Filter>Source\OpenIoT\Framework\CNC\DeviceDriving</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\OpenIoT\DeviceChannel.cpp">
+      <Filter>Source\OpenIoT\Framework\CNC\DeviceDriving</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\main.cpp" />
+    <ClCompile Include="Source\OpenIoT\AsinUnitMapper.cpp">
+      <Filter>Source\OpenIoT\Framework\CNC\UnitMapping</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\OpenIoT\BezierUnitMapper.cpp">
+      <Filter>Source\OpenIoT\Framework\CNC\UnitMapping</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\OpenIoT\TransformationFilter.cpp">
+      <Filter>Source\OpenIoT\Framework\CNC\UnitMapping</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\OpenIoT\CNCDevice.cpp">
+      <Filter>Source\OpenIoT\Framework\CNC</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\OpenIoT\IdentityUnitMapper.cpp">
+      <Filter>Source\OpenIoT\Framework\CNC\UnitMapping</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\OpenIoT\PeripheralShiftRegisterOut.cpp">
+      <Filter>Source\OpenIoT\Framework\ClusterModel\Peripherals</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\OpenIoT\PeripheralAsynchronousDriver.cpp">
       <Filter>Source\OpenIoT\Framework\ClusterModel\Peripherals</Filter>
     </ClCompile>
   </ItemGroup>

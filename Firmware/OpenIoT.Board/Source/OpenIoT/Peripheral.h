@@ -2,6 +2,7 @@
 #define Peripheral_h
 
 #include "IClusterDevice.h"
+#include "IDeviceDriver.h"
 #include "BasePropertiesObject.h"
 #include "Board.h"
 
@@ -10,6 +11,7 @@ class Peripheral :
 {
 public:
 	IClusterDevice* device;
+	IDeviceDriver* driver;
 
 	Peripheral();
 	Peripheral(IClusterDevice* device);
@@ -17,6 +19,8 @@ public:
 
 	virtual int Load(const void* code);
 	virtual void Update();
+
+	virtual void ProcessCommand(char code, const char* data, int size);
 };
 
 #endif

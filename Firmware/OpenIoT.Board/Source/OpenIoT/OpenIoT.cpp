@@ -8,6 +8,7 @@
 
 #include "OpenIoT.h"
 
+#include "Peripheral.h"
 #include "SerialTransmissionChannel.h"
 #include "Log.h"
 
@@ -19,11 +20,10 @@ void OpenIoTInitialize()
 	if (initialized)
 		return;
 
-	//Log::SetTransmissionChannel(new SerialTransmissionChannel(0, 9600));
+	Log::SetTransmissionChannel(new SerialTransmissionChannel(0, 9600));
 
 	openIoT = new OpenIoT(new SerialTransmissionChannel(0, 9600));
 	//openIoT = new OpenIoT(new SerialTransmissionChannel(1, 9600));
-
 
 	initialized = true;
 }
@@ -194,4 +194,12 @@ void OpenIoT::SetBluetoothEnabled(bool enabled)
 bool OpenIoT::IsBluetoothEnabled()
 {
 	return this->isBluetoothEnabled;
+}
+
+Peripheral* OpenIoT::GetPeripheral(int id)
+{
+	if (id >= this->objectsCount)
+		return null;
+
+	return this->objects[id];
 }

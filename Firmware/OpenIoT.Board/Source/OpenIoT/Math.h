@@ -5,9 +5,12 @@ class Math
 {
 public:
 	static const float Pi;
-	static const float Pi2; // a.k.a. Tau
+	static const float Pi2;
 	static const float PiHalf;
-	static const float Phi; // a.k.a The golden ratio
+	static const float Tau;
+	static const float Phi; // The golden ratio
+	static const float e; // Euler's number
+
 
 	static int Min(int a, int b);
 	static float Min(float a, float b);

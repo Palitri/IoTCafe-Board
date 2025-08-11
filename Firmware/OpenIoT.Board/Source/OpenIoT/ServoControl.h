@@ -1,7 +1,10 @@
 #ifndef ServoControl_h
 #define ServoControl_h
 
-class ServoControl
+#include "IDeviceDriver.h"
+
+class ServoControl :
+	public IDeviceDriver
 {
 private:
 	void* servo;
@@ -13,6 +16,10 @@ public:
 
 	void WriteMicroseconds(int microseconds);
 	void WriteDegreece(float degreece);
+
+	// IDeviceDriver
+	void Begin(float origin, float vector);
+	void Drive(float phase);
 };
 
 #endif

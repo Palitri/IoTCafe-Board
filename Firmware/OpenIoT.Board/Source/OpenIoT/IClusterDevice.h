@@ -16,6 +16,7 @@ class Timer;
 class IPropertiesObject;
 class ITransmissionChannel;
 class PropertyTransmissionProtocol;
+class Peripheral;
 
 class IClusterDevice
 {
@@ -48,6 +49,8 @@ public:
 
 	virtual void SetBluetoothEnabled(bool enabled) = 0;
 	virtual bool IsBluetoothEnabled() = 0;
+
+	virtual Peripheral* GetPeripheral(int id) = 0;
 };
 
 #endif

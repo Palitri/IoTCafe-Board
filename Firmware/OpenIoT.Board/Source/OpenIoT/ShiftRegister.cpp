@@ -10,20 +10,15 @@
 
 #include "Board.h"
 
-ShiftRegister::ShiftRegister(int shiftRegSerialPin, int shiftRegStoragePin, int shiftRegClockPin, int bitCount)
+ShiftRegister::ShiftRegister(int shiftRegSerialPin, int shiftRegClockPin, int shiftRegStoragePin)
 {
 	this->shiftRegSerialPin = shiftRegSerialPin;
-	this->shiftRegStoragePin = shiftRegStoragePin;
 	this->shiftRegClockPin = shiftRegClockPin;
-	this->bitCount = bitCount;
+	this->shiftRegStoragePin = shiftRegStoragePin;
 
 	Board::SetPinMode(this->shiftRegSerialPin, BoardPinMode_DigitalOutput);
-	Board::SetPinMode(this->shiftRegStoragePin, BoardPinMode_DigitalOutput);
 	Board::SetPinMode(this->shiftRegClockPin, BoardPinMode_DigitalOutput);
-
-	this->bitMask = 1 << (this->bitCount - 1);
-
-	this->SetBits(0, true);
+	Board::SetPinMode(this->shiftRegStoragePin, BoardPinMode_DigitalOutput);
 }
 
 ShiftRegister::~ShiftRegister()
@@ -31,25 +26,19 @@ ShiftRegister::~ShiftRegister()
 
 }
 
-void ShiftRegister::SetBits(int bits, bool force)
+void ShiftRegister::SetBits(void* bits, int bitCount)
 {
-	if ((bits == this->bits) && (!force))
-		return;
-
 	Board::DigitalWrite(this->shiftRegStoragePin, false);
 
-	for (int i = this->bitCount - 1; i >= 0; i--)
+	for (int i = bitCount - 1; i >=0; i--)
 	{
-		Board::DigitalWrite(shiftRegClockPin, false);
-		Board::DigitalWrite(this->shiftRegSerialPin, (bits & this->bitMask) != 0);
-		Board::DigitalWrite(shiftRegClockPin, true);
+		int byteIndex = i / 8;
+		int bitIndex = i % 8;
 
-		bits <<= 1;
+		Board::DigitalWrite(shiftRegClockPin, false);
+		Board::DigitalWrite(this->shiftRegSerialPin, (((char*)bits)[byteIndex] & (1 << bitIndex)) != 0);
+		Board::DigitalWrite(shiftRegClockPin, true);
 	}
 
 	Board::DigitalWrite(this->shiftRegStoragePin, true);
-
-	this->bits = bits;
 }
-
-

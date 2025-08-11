@@ -33,3 +33,7 @@ int Peripheral::Load(const void* code)
 void Peripheral::Update()
 {
 }
+
+void Peripheral::ProcessCommand(char code, const char* data, int size)
+{
+}

@@ -58,29 +58,48 @@ void AccelerometerGyroscopeMPU6050::Init(int i2cIndex, int accelerometerRange, i
 	this->samplingTimeMilliseconds = 1000 / 250; // More precisely, it's 1000 / 260 for accelerometer and 1000 / 256 for gyro (defaults), but rounded to a bit longer time 1000/250 for both. See Device registers map specs, registers 25 and 26. Also, consider using interrupt
 
 	this->awaitingData = false;
+
+	this->ResetCalibration();
 }
 
-void AccelerometerGyroscopeMPU6050::Calibrate(int numSamples)
+void AccelerometerGyroscopeMPU6050::ResetCalibration()
 {
-	// Zero corrections, so that they don't affect measurement
-	this->accelerometerRawCorrection.Set(0.0f);
-	this->gyroscopeRawCorrection.Set(0.0f);
-
-	//this->ReadData(numSamples);
-	this->ReadData();
-	this->ComputeFloatVectors();
+	this->gyroscopeCorrection.Set(0.0f);
 
 	this->accelerometerRotationCalibration.Set(0.0f);
-	this->ComputeRotation(0.0f);
-	this->accelerometerRotationCalibration = this->accelerometerRotation;
+}
 
 
-	// Calibrating accelerometer will require more complex computations than just linear correction
-	//Vector3I accelerometerRawAtRest;
-	//accelerometerRawAtRest.Set(0, 0, -(int)(1.0f / this->accelerometerResolution));
-	//Vector3I::Subtract(this->accelerometerRawCorrection, accelerometerRawAtRest, this->accelerometerRaw);
+void AccelerometerGyroscopeMPU6050::Calibrate(int numSamples, int timeoutMilliseconds)
+{
+	this->ResetCalibration();
 
-	Vector3I16::Invert(this->gyroscopeRawCorrection, this->gyroscopeRaw);
+	unsigned long time = Board::TimeMillis();
+	int samples = 0;
+
+	while (samples < numSamples)
+	{
+		unsigned long newTime = Board::TimeMillis();
+		
+		if (this->UpdateReadings())
+		{
+			Vector3::Add(this->gyroscopeCorrection, this->gyroscopeCorrection, this->gyroscope);
+			this->accelerometerRotationCalibration.x += Math::ArcSin(Math::Trim(this->accelerationVector.y, -1.0f, 1.0f)) / Math::Pi2;
+			this->accelerometerRotationCalibration.y += Math::ArcSin(Math::Trim(this->accelerationVector.x, -1.0f, 1.0f)) / Math::Pi2;
+
+			samples++;
+		}
+
+		if (newTime - time > timeoutMilliseconds)
+			break;
+	}
+
+	if (samples == 0)
+		return;
+
+	float scaling = 1.0f / (float)samples;
+	Vector3::Scale(this->gyroscopeCorrection, this->gyroscopeCorrection, scaling);
+	Vector2::Scale(this->accelerometerRotationCalibration, this->accelerometerRotationCalibration, scaling);
 }
 
 void AccelerometerGyroscopeMPU6050::SetRanges(unsigned char accelerometerRange, unsigned char gyroscopeRange)
@@ -149,33 +168,55 @@ void AccelerometerGyroscopeMPU6050::SetRegister(unsigned char deviceId, unsigned
 	Board::I2CEndWrite(this->i2c);
 }
 
-void AccelerometerGyroscopeMPU6050::ReadData()
+bool AccelerometerGyroscopeMPU6050::RequestData()
+{
+	Board::I2CBeginWrite(this->i2c, AccelerometerGyroscopeMPU6050::DeviceID_MPU6050);
+	Board::I2CWrite(this->i2c, &AccelerometerGyroscopeMPU6050::RegisterID_MPU6050_AccelerometerX, 1); // Set read address offset to X
+	Board::I2CEndWrite(this->i2c);
+
+	Board::I2CRequestData(this->i2c, AccelerometerGyroscopeMPU6050::DeviceID_MPU6050, 14); // Request 14 bytes of data from the read offset onward (Ax, Ay, Az, T, Gx, Gy, Gz)
+
+	return true;
+}
+
+bool AccelerometerGyroscopeMPU6050::ReadData()
+{
+	if (Board::I2CBytesAvailable(this->i2c) >= 14)
+	{
+		Board::I2CReadMsbFirst(this->i2c, &this->accelerometerRaw.x, 2);
+		Board::I2CReadMsbFirst(this->i2c, &this->accelerometerRaw.y, 2);
+		Board::I2CReadMsbFirst(this->i2c, &this->accelerometerRaw.z, 2);
+		Board::I2CReadMsbFirst(this->i2c, &this->temperatureRaw, 2);
+		Board::I2CReadMsbFirst(this->i2c, &this->gyroscopeRaw.x, 2);
+		Board::I2CReadMsbFirst(this->i2c, &this->gyroscopeRaw.y, 2);
+		Board::I2CReadMsbFirst(this->i2c, &this->gyroscopeRaw.z, 2);
+
+		return true;
+	}
+
+	return false;
+}
+
+bool AccelerometerGyroscopeMPU6050::UpdateReadings()
 {
 	if (!this->awaitingData)
 	{
-		Board::I2CBeginWrite(this->i2c, AccelerometerGyroscopeMPU6050::DeviceID_MPU6050);
-		Board::I2CWrite(this->i2c, &AccelerometerGyroscopeMPU6050::RegisterID_MPU6050_AccelerometerX, 1); // Set read address offset to X
-		Board::I2CEndWrite(this->i2c);
-
-		Board::I2CRequestData(this->i2c, AccelerometerGyroscopeMPU6050::DeviceID_MPU6050, 14); // Request 14 bytes of data from the read offset onward (Ax, Ay, Az, T, Gx, Gy, Gz)
+		this->RequestData();
 		this->awaitingData = true;
 	}
 
 	if (this->awaitingData)
 	{
-		if (Board::I2CBytesAvailable(this->i2c) >= 14)
+		if (this->ReadData())
 		{
-			Board::I2CReadMsbFirst(this->i2c, &this->accelerometerRaw.x, 2);
-			Board::I2CReadMsbFirst(this->i2c, &this->accelerometerRaw.y, 2);
-			Board::I2CReadMsbFirst(this->i2c, &this->accelerometerRaw.z, 2);
-			Board::I2CReadMsbFirst(this->i2c, &this->temperatureRaw, 2);
-			Board::I2CReadMsbFirst(this->i2c, &this->gyroscopeRaw.x, 2);
-			Board::I2CReadMsbFirst(this->i2c, &this->gyroscopeRaw.y, 2);
-			Board::I2CReadMsbFirst(this->i2c, &this->gyroscopeRaw.z, 2);
+			this->ComputeFloatVectors();
 
 			this->awaitingData = false;
+			return true;
 		}
 	}
+
+	return false;
 
 	//Vector3I::Add(this->accelerometerRaw, this->accelerometerRaw, this->accelerometerRawCorrection);
 	//Vector3I16::Add(this->gyroscopeRaw, this->gyroscopeRaw, this->gyroscopeRawCorrection);
@@ -226,7 +267,7 @@ void AccelerometerGyroscopeMPU6050::ReadData()
 
 void AccelerometerGyroscopeMPU6050::ComputeFloatVectors()
 {
-	this->accelerometer.Set(accelerometerRaw.y, -accelerometerRaw.x, -accelerometerRaw.z);
+	this->accelerometer.Set(accelerometerRaw.x, accelerometerRaw.y, accelerometerRaw.z);
 	Vector3::Scale(this->accelerometer, this->accelerometer, this->accelerometerResolution);
 
 	//if (this->accelerometerAveragesX.size != 0)
@@ -244,8 +285,9 @@ void AccelerometerGyroscopeMPU6050::ComputeFloatVectors()
 
 
 
-	this->gyroscope.Set(gyroscopeRaw.y, gyroscopeRaw.x, gyroscopeRaw.z);
+	this->gyroscope.Set(gyroscopeRaw.x, gyroscopeRaw.y, gyroscopeRaw.z);
 	Vector3::Scale(this->gyroscope, this->gyroscope, this->gyroscopeResolution);
+	Vector3::Subtract(this->gyroscope, this->gyroscope, this->gyroscopeCorrection);
 
 
 
@@ -260,21 +302,17 @@ void AccelerometerGyroscopeMPU6050::ComputeFloatVectors()
 void AccelerometerGyroscopeMPU6050::ComputeRotation(float time)
 {
 	this->accelerometerRotation.x = Math::ArcSin(Math::Trim(this->accelerationVector.y, -1.0f, 1.0f)) / Math::Pi2 - this->accelerometerRotationCalibration.x;
-	this->accelerometerRotation.y = Math::ArcSin(Math::Trim(this->accelerationVector.x, -1.0f, 1.0f)) / Math::Pi2 - this->accelerometerRotationCalibration.y;
+	this->accelerometerRotation.y = Math::ArcSin(Math::Trim(-this->accelerationVector.x, -1.0f, 1.0f)) / Math::Pi2 - this->accelerometerRotationCalibration.y;
 
-	this->deltaRotation.x = this->gyroscope.x * time;
-	this->deltaRotation.y = this->gyroscope.y * time;
-	this->deltaRotation.z = this->gyroscope.z * time;
+	Vector3::Scale(this->deltaRotation, this->gyroscope, time);
+	Vector3::Add(this->rotation, this->rotation, this->deltaRotation);
 
-	this->rotation.x += this->deltaRotation.x;
-	this->rotation.y += this->deltaRotation.y;
-	this->rotation.z += this->deltaRotation.z;
+	//this->rotation.x -= this->rotation.y * Math::Sin(this->deltaRotation.z * Math::Pi2);
+	//this->rotation.y += this->rotation.x * Math::Sin(this->deltaRotation.z * Math::Pi2);
 
-	this->rotation.x -= this->rotation.y * Math::Sin(this->deltaRotation.z * Math::Pi2);
-	this->rotation.y += this->rotation.x * Math::Sin(this->deltaRotation.z * Math::Pi2);
-
-	this->rotation.x = this->rotation.x + (this->accelerometerRotation.x - this->rotation.x) * this->accelerometerRotationAnglesFactor;
-	this->rotation.y = this->rotation.y + (this->accelerometerRotation.y - this->rotation.y) * this->accelerometerRotationAnglesFactor;
+	// Correct gyro drifting by acceleropmeter
+	this->rotation.x += (this->accelerometerRotation.x - this->rotation.x) * this->accelerometerRotationAnglesFactor * time;
+	this->rotation.y += (this->accelerometerRotation.y - this->rotation.y) * this->accelerometerRotationAnglesFactor * time;
 
 	//  Matrix m;
 	//  Matrix::CreateRotationX(m, this->deltaRotation.x * Math::Pi2);

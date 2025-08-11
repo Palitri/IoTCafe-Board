@@ -59,6 +59,11 @@ private:
 
 	void* i2c;
 
+	bool RequestData();
+	bool ReadData();
+
+	void ComputeFloatVectors();
+
 public:
 	//RotationBuffer<float> accelerometerAveragesX, accelerometerAveragesY, accelerometerAveragesZ;
 	//RotationBuffer<float> temperatureAverages;
@@ -73,6 +78,8 @@ public:
 	Vector3 accelerationVector;     // Vector pointing towards the orientation of acceleration, which for stationary objects is down. Normalized to always have length of 1. The scalar acceleration strength is contained in the vectorStrength member
 	Vector2 accelerometerRotation;  // Vector holding the angles of rotation accoring to the accelerometer;
 	Vector3 gyroscope;              // Vector holding the current momentary rotation along the device's local axes in turns per second
+
+	Vector3 gyroscopeCorrection;    
 	float accelerationStrength;     // The strength of acceleration. A value of 1 means one G
 	float temperature;              // The temperature in degreece celsius
 
@@ -82,13 +89,13 @@ public:
 
 	void Init(int i2cIndex);
 	void Init(int i2cIndex, int accelerometerRange, int gyroscopeRange);
-	void Calibrate(int numSamples = 250);
+	void ResetCalibration();
+	void Calibrate(int numSamples = 20, int timeoutMilliseconds = 200);
 	void SetRegister(unsigned char deviceId, unsigned char registerAddress, unsigned char registerValue);
 	void SetRanges(unsigned char accelerometerRange, unsigned char gyroscopeRange);
-	void ReadData();
+	bool UpdateReadings();
 	//void ReadData(int numSamples);
 	//void SetAveragingSamplesCount(int accelerometerSamples, int temperatureSamples);
-	void ComputeFloatVectors();
 	void ComputeRotation(float time);
 };
 

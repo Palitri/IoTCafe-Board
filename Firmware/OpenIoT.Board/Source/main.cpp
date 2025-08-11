@@ -9,9 +9,22 @@
 
 #include "OpenIoT/OpenIoT.h"
 
+////////////////////
+// For PlatformIO //
+////////////////////
+void setup() {
+	OpenIoTInitialize();
+}
+
+void loop() {
+	OpenIoTRun();
+}
+
+#ifdef BOARD_PC
+/////////////////
+// For Desktop //
+/////////////////
 #include <iostream>
-
-
 int main()
 {
 	OpenIoTInitialize();
@@ -27,3 +40,4 @@ int main()
 
 	return 0;
 }
+#endif
