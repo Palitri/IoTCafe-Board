@@ -7,47 +7,38 @@ class StepMotorDriver :
 	public IDeviceDriver
 {
 private:
-	int asyncIntervalMicros;
-	int asyncPulsesRemaining;
-	unsigned long asyncTime;
-	bool asyncStepState;
+	// Shared
+	unsigned char rotatingDirection;
 
+	// IDeviceDriver
 	float drivePulsesTotal;
 	int drivePulsesMade;
+	bool driveStepPinValue;
 
-
-	bool SetDirectionAndNormalizeParameters(int& steps, float& rate);
+	// Stepper common
+	bool isRotating;
+	float stepsPerSecond;
+	unsigned long lastPulseTime;
+	int pulseIntervalMicros;
+	int rotationSign;
 
 public:
-	static const unsigned char DirectionForward = 0;
-	static const unsigned char DirectionBackward = 1;
+	static const bool DirectionForward = false;
+	static const bool DirectionBackward = true;
 
 	int pinStep, pinDir;
-
-	unsigned char direction;
 
 	StepMotorDriver(int pinStep, int pinDir);
 	~StepMotorDriver(void);
 
-	void SetDirection(unsigned char direction);
-	void Step();
-	void Step(unsigned char direction);
-
-	void RotateBySpeed(int steps, float stepsPerSecond);
-	void RotateByTime(int steps, float seconds);
-
-	void BeginAsyncRotateBySpeed(int steps, float stepsPerSecond, float minStepInterval = 0.0f);
-	void RotateAsync();
-	void SetRotateAsyncSpeed(float stepsPerSecnd);
-	int GetRemainingAsyncSteps();
+	void SetRotationSpeed(float stepsPerSecond);
+	void StartRotation(float stepsPerSecond);
+	void StopRotation();
+	void SetupDirection();
+	bool IsRotating();
+	int RotationRoutines();
 
 	// IDeviceDriver
-	
-	/// <summary>
-	/// 
-	/// </summary>
-	/// <param name="origin">Disregarded</param>
-	/// <param name="vector">Number of steps</param>
 	void Begin(float origin, float vector);
 	void Drive(float phase);
 };

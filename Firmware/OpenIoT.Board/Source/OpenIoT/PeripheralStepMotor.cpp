@@ -11,7 +11,8 @@
 #include "Board.h"
 
 #include "Log.h"
-#include "SineUnitMapper.h"
+
+#include "Math.h"
 
 PeripheralStepMotor::PeripheralStepMotor(IClusterDevice* device) :
 	Peripheral(device)
@@ -19,7 +20,6 @@ PeripheralStepMotor::PeripheralStepMotor(IClusterDevice* device) :
 	this->SetPropertiesCapacity(5);
 
 	this->motor = null;
-	this->asyncStepsRemaining = 0;
 }
 
 PeripheralStepMotor::~PeripheralStepMotor()
@@ -58,58 +58,52 @@ int PeripheralStepMotor::Load(const void* code)
 	this->motor = new StepMotorDriver(pinStep, pinDir);
 	this->driver = this->motor;
 
-	//
-	// Log::println("Creating test setup..");
-	// this->asyncDriver.deviceChannels.SetSize(2);
-	// this->asyncDriver.deviceChannels[0] = new DeviceChannel();
-	// this->asyncDriver.deviceChannels[1] = new DeviceChannel();
-	// this->asyncDriver.deviceChannels[0]->deviceDriver = new StepMotorDriver(pinStep, pinDir);
-	// this->asyncDriver.deviceChannels[1]->deviceDriver = new StepMotorDriver(4, 2);
-	// this->asyncDriver.deviceChannels[0]->unitMapper = new SineUnitMapper();
-	// this->asyncDriver.deviceChannels[1]->unitMapper = new SineUnitMapper();
-	// ((SineUnitMapper*)(this->asyncDriver.deviceChannels[0]->unitMapper))->Setup(0.5f, 1.0f, 0.0f, 1.0f);
-	// ((SineUnitMapper*)(this->asyncDriver.deviceChannels[1]->unitMapper))->Setup(0.5f, 1.0f, 0.25f, 1.25f);
-	// Log::println("Test setup created.");
-	//
+	this->oldTurn = this->pTurn->bValue;
+	this->oldTurns = this->pTurns->fValue;
 
 	return (unsigned int)charCode - (unsigned int)code;
 }
 
 void PeripheralStepMotor::Update()
 {
-	// if ((this->pTurns->fValue != 0.0) && (this->asyncDriver.deviceChannels.count == 2))
-	// {
-	// 	Log::println("Starting test..");
-	// 	this->asyncDriver.deviceChannels[0]->deviceDriver->Begin(0, this->stepsPerFullTurn * this->pTurns->fValue);
-	// 	this->asyncDriver.deviceChannels[1]->deviceDriver->Begin(0, this->stepsPerFullTurn * this->pTurns->fValue);
-
-	// 	this->asyncDriver.Drive(3.0);
-
-	// 	this->pTurns->SetFloat(0);
-	// 	this->UpdateProperties();
-
-	// 	Log::println("Test done..");
-	// }
-
-	if (this->asyncStepsRemaining != 0)
+	// Bool Turn
+	if (this->pTurn->bValue != this->oldTurn)
 	{
-		int stepsPerSec = (int)(this->pTurnsPerSec->fValue * this->stepsPerTurn);
-		this->motor->SetRotateAsyncSpeed(stepsPerSec);
-		this->motor->RotateAsync();
-
-		this->asyncStepsRemaining = this->motor->GetRemainingAsyncSteps();
-
-		this->pTurns->SetFloat((float)this->asyncStepsRemaining / (float)this->stepsPerTurn);
-
-		this->UpdateProperties();
-	}
-	else if (this->pTurns->fValue != 0.0)
-	{
-		int steps = (int)(this->pTurns->fValue * this->stepsPerTurn);
-		int stepsPerSec = (int)(this->pTurnsPerSec->fValue * this->stepsPerTurn);
-
-		this->motor->BeginAsyncRotateBySpeed(steps, stepsPerSec);
+		if (this->pTurn->bValue)
+		{
+			this->stepsRemaining = 0;
+			this->motor->StartRotation(this->pTurnsPerSec->fValue * this->stepsPerTurn);
+		}
+		else
+			this->motor->StopRotation();
 		
-		this->asyncStepsRemaining = this->motor->GetRemainingAsyncSteps();
+		this->oldTurn = this->pTurn->bValue;
+	}
+
+	// Float Turns
+	if (this->pTurns->fValue != this->oldTurns)
+	{
+		if (this->pTurns->fValue != 0)
+		{
+			this->stepsRemaining = (int)(this->pTurns->fValue * this->stepsPerTurn);
+			this->motor->StartRotation(this->pTurnsPerSec->fValue * this->stepsPerTurn);
+		}
+		else
+			this->motor->StopRotation();
+		
+		this->oldTurns = this->pTurns->fValue;
+	}
+
+	// Rotate
+	if (this->pTurn->bValue)
+	{
+		this->motor->SetRotationSpeed(this->pTurnsPerSec->fValue * this->stepsPerTurn);
+		this->motor->RotationRoutines();
+	}
+	else if (this->pTurns->fValue != 0)
+	{
+		this->motor->SetRotationSpeed(Math::Sign(this->stepsRemaining) * this->pTurnsPerSec->fValue * this->stepsPerTurn);
+		this->stepsRemaining -= this->motor->RotationRoutines();
+		this->pTurns->SetFloat(this->stepsRemaining / this->stepsPerTurn);
 	}
 }

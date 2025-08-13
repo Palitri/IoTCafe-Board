@@ -17,112 +17,86 @@ StepMotorDriver::StepMotorDriver(int pinStep, int pinDir)
 	this->pinStep = pinStep;
 	this->pinDir = pinDir;
 
-	this->direction = StepMotorDriver::DirectionForward;
+	this->rotatingDirection = StepMotorDriver::DirectionForward;
 
 	Board::SetPinMode(this->pinDir, BoardPinMode_DigitalOutput);
 	Board::SetPinMode(this->pinStep, BoardPinMode_DigitalOutput);
 
-	Board::DigitalWrite(this->pinDir, this->direction);
+	Board::DigitalWrite(this->pinDir, this->rotatingDirection);
 	Board::DigitalWrite(this->pinStep, false);
 
 	this->drivePulsesTotal = 0;
 	this->drivePulsesMade = 0;
-	this->asyncStepState = false;
+	this->driveStepPinValue = false;
+
+	this->isRotating = false;
 }
 
 StepMotorDriver::~StepMotorDriver()
 {
 }
 
-void StepMotorDriver::SetDirection(unsigned char direction)
+
+void StepMotorDriver::SetRotationSpeed(float stepsPerSecond)
 {
-	if (direction != this->direction)
+	this->stepsPerSecond = stepsPerSecond;
+	this->pulseIntervalMicros = Math::Abs((int)(500000.0f / stepsPerSecond));
+
+	this->SetupDirection();
+}
+
+void StepMotorDriver::StartRotation(float stepsPerSecond)
+{
+	this->isRotating = true;
+	this->lastPulseTime = Board::TimeMicros();
+
+	this->SetRotationSpeed(stepsPerSecond);
+}
+
+void StepMotorDriver::StopRotation()
+{
+	this->isRotating = false;
+}
+
+
+void StepMotorDriver::SetupDirection()
+{
+	this->rotationSign = this->stepsPerSecond > 0.0f ? 1 : (this->stepsPerSecond < 0.0f ? -1 : 0);
+	bool rotatingDirection = this->rotationSign < 0;
+	if (rotatingDirection != this->rotatingDirection)
 	{
-		this->direction = direction;
-		Board::DigitalWrite(this->pinDir, this->direction);
+		Board::DigitalWrite(this->pinDir, rotatingDirection);
+		this->rotatingDirection = rotatingDirection;
 	}
 }
 
-void StepMotorDriver::Step()
+bool StepMotorDriver::IsRotating()
 {
-	Board::DigitalWrite(this->pinStep, true);
-	Board::DigitalWrite(this->pinStep, false);
+	return this->isRotating;
 }
 
-void StepMotorDriver::Step(unsigned char direction)
+int StepMotorDriver::RotationRoutines()
 {
-	if (direction != this->direction)
+	if (!this->isRotating)
+		return 0;
+
+	unsigned long time = Board::TimeMicros();
+	if (time - this->lastPulseTime >= this->pulseIntervalMicros)
 	{
-		this->direction = direction;
-		Board::DigitalWrite(this->pinDir, this->direction);
+		this->driveStepPinValue = !this->driveStepPinValue;
+		Board::DigitalWrite(this->pinStep, this->driveStepPinValue);
+
+		this->lastPulseTime += this->pulseIntervalMicros;
+
+		return this->driveStepPinValue * this->rotationSign;
 	}
 
-	Board::DigitalWrite(this->pinStep, true);
-	Board::DigitalWrite(this->pinStep, false);
+	return 0;
 }
 
-void StepMotorDriver::RotateBySpeed(int steps, float stepsPerSecond)
-{
-	if (!this->SetDirectionAndNormalizeParameters(steps, stepsPerSecond))
-		return;
 
-	// TODO: Consider using Bressenham for precision, but must work with stepsPerSecond < 0
-	int intervalMicros = (int)(500000.0f / stepsPerSecond);
-	for (int i = 0; i < steps; i++)
-	{
-		Board::DigitalWrite(this->pinStep, true);
-		Board::DelayMicros(intervalMicros);
-		Board::DigitalWrite(this->pinStep, false);
-		Board::DelayMicros(intervalMicros);
-	}
-}
 
-void StepMotorDriver::RotateByTime(int steps, float seconds)
-{
-	if (seconds == 0)
-		return;
-
-	this->RotateBySpeed(steps, (float)steps / seconds);
-}
-
-void StepMotorDriver::BeginAsyncRotateBySpeed(int steps, float stepsPerSecond, float minStepInterval)
-{
-	if (!this->SetDirectionAndNormalizeParameters(steps, stepsPerSecond))
-		return;
-
-	this->asyncIntervalMicros = (int)(500000.0f / stepsPerSecond);
-	this->asyncPulsesRemaining = steps * 2;
-	this->asyncTime = Board::TimeMicros();
-	this->asyncStepState = false;
-
-	Board::DigitalWrite(this->pinStep, this->asyncStepState);
-}
-
-void StepMotorDriver::RotateAsync()
-{
-	if (this->asyncPulsesRemaining > 0)
-	{
-		unsigned long time = Board::TimeMicros();
-		if (time - this->asyncTime >= this->asyncIntervalMicros)
-		{
-			this->asyncStepState = !this->asyncStepState;
-			Board::DigitalWrite(this->pinStep, this->asyncStepState);
-
-			this->asyncPulsesRemaining--;
-			this->asyncTime += this->asyncIntervalMicros;
-		}
-	}
-}
-
-void StepMotorDriver::SetRotateAsyncSpeed(float stepsPerSecond)
-{
-	this->asyncIntervalMicros = (int)(500000.0f / stepsPerSecond);
-}
-
-int StepMotorDriver::GetRemainingAsyncSteps()
-{
-	return (this->direction == StepMotorDriver::DirectionForward ? this->asyncPulsesRemaining : -this->asyncPulsesRemaining) / 2;
-}
+/// IDeviceDriver methods
 
 void StepMotorDriver::Begin(float origin, float vector)
 {
@@ -152,37 +126,17 @@ void StepMotorDriver::Drive(float phase)
 		pulsesToMake = -pulsesToMake;
 	}
 
-	if (direction != this->direction)
+	if (direction != this->rotatingDirection)
 	{
-		this->direction = direction;
-		Board::DigitalWrite(this->pinDir, this->direction);
+		this->rotatingDirection = direction;
+		Board::DigitalWrite(this->pinDir, this->rotatingDirection);
 	}
 
 	do
 	{
-		this->asyncStepState = !this->asyncStepState;
-		Board::DigitalWrite(this->pinStep, this->asyncStepState);
+		this->driveStepPinValue = !this->driveStepPinValue;
+		Board::DigitalWrite(this->pinStep, this->driveStepPinValue);
 
 		pulsesToMake--;
 	} while (pulsesToMake > 0);
-}
-
-bool StepMotorDriver::SetDirectionAndNormalizeParameters(int& steps, float& rate)
-{
-	float work = (float)steps * rate;
-
-	if (work == 0)
-		return false;
-
-	unsigned char direction = work >= 0 ? StepMotorDriver::DirectionForward : StepMotorDriver::DirectionBackward;
-	steps = Math::Abs(steps);
-	rate = Math::Abs(rate);
-
-	if (direction != this->direction)
-	{
-		this->direction = direction;
-		Board::DigitalWrite(this->pinDir, this->direction);
-	}
-
-	return true;
 }

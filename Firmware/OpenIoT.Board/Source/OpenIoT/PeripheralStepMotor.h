@@ -15,9 +15,10 @@ private:
 	StepMotorDriver* motor;
 	
 	float stepsPerTurn;
-	float currentStepsPerSec;
 
-	int asyncStepsRemaining;
+	bool oldTurn;
+	float oldTurns;
+	int stepsRemaining;
 
 	AsynchronousDeviceEngine asyncDriver;
 
