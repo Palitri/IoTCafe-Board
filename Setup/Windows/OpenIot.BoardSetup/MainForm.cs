@@ -4,26 +4,19 @@ using OpenIot.BoardSetup.UI;
 using System;
 using System.Drawing;
 using System.Windows.Forms;
-using OpenIoT.Lib.Board.Scanner;
-using OpenIoT.Lib.Composite;
-using OpenIoT.Lib.Board.Api;
-using OpenIoT.Lib.Board.Transmission.Com;
 using System.Linq;
 using System.Threading;
-using System.IO.Ports;
-using OpenIoT.Lib.Board.Protocol.Events;
-using Microsoft.VisualBasic.ApplicationServices;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using System.Diagnostics;
-using System.IO;
-using OpenIoT.Lib.Web.Api;
-using System.CodeDom.Compiler;
-using OpenIoT.Lib.Board.Protocol;
-using OpenIoT.Lib.Web.Models;
 using OpenIot.BoardSetup.Flashing.Boards.ESP8266;
 using OpenIot.BoardSetup.Flashing.Boards.ESP32;
 using OpenIot.BoardSetup.Flashing.Boards.STM32;
+using Palitri.OpenIoT.Board.Scanner;
+using Palitri.OpenIoT.Web.Api;
+using Palitri.OpenIoT.Board.Api;
+using Palitri.OpenIoT.Board.Protocol.Events;
+using Palitri.OpenIoT.Board.Protocol;
+using Palitri.OpenIoT.Board.Transmission.Com;
 
 namespace OpenIot.BoardSetup
 {
@@ -31,7 +24,7 @@ namespace OpenIot.BoardSetup
     {
         internal SetupUI ui;
 
-        private BoardScanner boardScanner;
+        private OpenIoTBoardScanner boardScanner;
 
         private string userToken = String.Empty;
 
@@ -94,7 +87,7 @@ namespace OpenIot.BoardSetup
             this.ui.Log = new OuiTextLog(this.ui.logText, this.pbBackground);
 
 
-            this.boardScanner = new BoardScanner();
+            this.boardScanner = new OpenIoTBoardScanner();
             this.boardScanner.ScanInterval = TimeSpan.FromSeconds(0.5);
             this.boardScanner.ScanPorts();
             //this.boardScanner.ScanOnce();
@@ -163,7 +156,7 @@ namespace OpenIot.BoardSetup
         private void Ui_OnStartDeviceSearch(object sender)
         {
             this.boardScanner.OnPortAvailable = OnPortAvailable;
-            this.boardScanner.ScanContinuously();
+            this.boardScanner.StartScanning();
         }
 
         private void Ui_OnEndDeviceSearch(object sender)
@@ -171,7 +164,7 @@ namespace OpenIot.BoardSetup
             this.BeginInvoke(delegate
             {
                 this.boardScanner.OnPortAvailable = null;
-                this.boardScanner.StopScan(false);
+                this.boardScanner.StopScanning(false);
             });
         }
 
@@ -235,7 +228,7 @@ namespace OpenIot.BoardSetup
                 while (!events.IsDone && (i++ < 10))
                 {
                     if (!events.IsResponsive)
-                        board.requestDeviceName();
+                        board.RequestDeviceName();
 
                     Thread.Sleep(500);
                 }
@@ -275,25 +268,25 @@ namespace OpenIot.BoardSetup
             this.IsResponsive = false;
         }
 
-        public override void onDeviceNameReceived(object sender, string name)
+        public override void OnDeviceNameReceived(object sender, string name)
         {
             this.IsResponsive = true;
-            this.board.resetLogic();
+            this.board.ResetLogic();
         }
 
-        public override void onResetLogic(object sender)
+        public override void OnResetLogic(object sender)
         {
-            this.board.requestSetDeviceName(this.deviceName);
+            this.board.RequestSetDeviceName(this.deviceName);
         }
 
-        public override void onDevicePropertiesSet(object sender, Dictionary<int, byte[]> properties)
+        public override void OnDevicePropertiesSet(object sender, Dictionary<int, byte[]> properties)
         {
             if (properties != null)
             {
                 if (properties.ContainsKey(OpenIoTProtocol.DevicePropertyId_Name))
                 {
                     if (this.embedWeblink)
-                        this.board.requestSetUserId(this.userId);
+                        this.board.RequestSetUserId(this.userId);
                     else
                         this.IsDone = true;
                 }
@@ -307,10 +300,10 @@ namespace OpenIot.BoardSetup
         public void UploadWeblink()
         {
             //byte[] weblink = "34,0,0,1,1,2,0,0,112,66".Split(',').Select(i => Byte.Parse(i)).ToArray();
-            this.board.uploadSchemeLogic(this.GenerateSchemeCode());
+            this.board.UploadSchemeLogic(this.GenerateSchemeCode());
         }
 
-        public override void onSchemeLogicUploaded(object sender)
+        public override void OnSchemeLogicUploaded(object sender)
         {
             this.IsDone = true;
         }

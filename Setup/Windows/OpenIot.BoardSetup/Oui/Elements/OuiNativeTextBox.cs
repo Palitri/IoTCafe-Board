@@ -42,7 +42,7 @@ namespace OpenIot.BoardSetup.Oui.Elements
             float desiredFontHeight = desiredHeight - (originalControlHeight - originalFontHeight);
             float sizeFactor = desiredFontHeight / originalFontHeight;
 
-            this.nativeTextBox.Font = new Font(this.nativeTextBox.Font.FontFamily, this.nativeTextBox.Font.Size * sizeFactor);
+            this.nativeTextBox.Font = new System.Drawing.Font(this.nativeTextBox.Font.FontFamily, this.nativeTextBox.Font.Size * sizeFactor);
 
             float resultingFontHeight = screenSpace.GetUnitHeight(this.nativeTextBox.Font.Height);
         }

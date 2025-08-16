@@ -1,4 +1,4 @@
-﻿using OpenIoT.BoardSetup.Transmission;
+﻿using Palitri.OpenIoT.Board.Transmission.Com;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
