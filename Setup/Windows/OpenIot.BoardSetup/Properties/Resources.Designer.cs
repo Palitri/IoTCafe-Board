@@ -113,6 +113,16 @@ namespace OpenIot.BoardSetup.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Cog {
+            get {
+                object obj = ResourceManager.GetObject("Cog", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap copy_icon {
             get {
                 object obj = ResourceManager.GetObject("copy_icon", resourceCulture);
@@ -126,6 +136,16 @@ namespace OpenIot.BoardSetup.Properties {
         internal static System.Drawing.Bitmap copy_icon_selected {
             get {
                 object obj = ResourceManager.GetObject("copy_icon_selected", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Download {
+            get {
+                object obj = ResourceManager.GetObject("Download", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

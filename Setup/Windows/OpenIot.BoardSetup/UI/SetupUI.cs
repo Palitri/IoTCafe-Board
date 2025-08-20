@@ -4,11 +4,10 @@ using System.Drawing;
 using System.Windows.Forms;
 using System;
 using System.Diagnostics;
-using System.Security.Policy;
-using OpenIot.BoardSetup.Flashing;
 using OpenIot.BoardSetup.Oui.Elements;
 using OpenIot.BoardSetup.Oui.Resources;
 using OpenIot.BoardSetup.Oui.Common;
+using Palitri.OpenIoT.Setup.Shared.Flashing;
 
 namespace OpenIot.BoardSetup.UI
 {
@@ -30,11 +29,15 @@ namespace OpenIot.BoardSetup.UI
         public int Flow { get; set; }
 
         private PictureBox pictureBox;
-        private string[] boardTypes;
+        private IEnumerable<string> boardTypes;
+
+        private OuiFont whiteFont, grayFont, infoHeaderFont, infoHintFont, linkFont, warningFont;
+        private OuiBitmap closeImage, closeSelectedImage, minimizeImage, minimizeSelectedImage, underscoreLineImage,
+            treeImage, pluginImage, cogImage, copyImage, copySelectedImage, deviceButtonPressImage, deviceButtonPressAndHoldImage, deviceButtonReleaseImage;
 
         private OuiStatesElement flashingContinueButton;
         private List<OuiElementCollection> pages;
-        private OuiElementCollection pageDeviceSearch, pageHoldBootButton, pageFlashing;
+        private OuiElementCollection pageDeviceSearch, pageUpdateFirmware, pageSelectBoardType, pageHoldBootButton, pageFlashing;
         private OuiNativeTextBox tbAccountName, tbAccountPassword, tbWifiName, tbWifiPassword, tbDeviceName;
 
         public BoardTypeSelectedDelegate OnBoardTypeSelected;
@@ -43,10 +46,13 @@ namespace OpenIot.BoardSetup.UI
         public BasicEventDelegate OnMinimized;
         public BasicEventDelegate OnStartDeviceSearch;
         public BasicEventDelegate OnEndDeviceSearch;
+        public BasicEventDelegate OnStartFirmwareDownload;
+        public BasicEventDelegate OnEndFirmwareDownload;
         public AccountCredentialsEnteredDelegate OnAccountCredentialsEntered;
         public WifiNetworkCredentialsEntered OnWifiNetworkCredentialsEntered;
 
         public OuiText logText;
+        public OuiText textUpdateFirmwareStatus;
 
         public string ComPort { get; private set; }
         public string SelectedBoardType { get; private set; }
@@ -59,7 +65,7 @@ namespace OpenIot.BoardSetup.UI
 
         public IFlashLog Log { get; set; }
 
-        public SetupUI(PictureBox pictureBox, PointF size, string[] boardTypes)
+        public SetupUI(PictureBox pictureBox, PointF size, IEnumerable<string> boardTypes)
             : base(pictureBox.CreateGraphics(), size)
         {
             this.pictureBox = pictureBox;
@@ -68,31 +74,30 @@ namespace OpenIot.BoardSetup.UI
             this.pictureBox.MouseMove += PictureBox_MouseMove;
             this.pictureBox.Paint += PictureBox_Paint;
 
-            this.boardTypes = boardTypes;
-
             this.pages = new List<OuiElementCollection>();
 
             this.Flow = Flow_Default;
 
-            OuiFont whiteFont = (OuiFont)this.AddResource(new OuiFont(this, "Arial", this.GetUnitHeight(77.0f), Color.White));
-            OuiFont grayFont = (OuiFont)this.AddResource(new OuiFont(this, "Arial", this.GetUnitHeight(77.0f), Color.FromArgb(179, 207, 230)));
-            OuiFont infoHeaderFont = (OuiFont)this.AddResource(new OuiFont(this, "Arial", this.GetUnitHeight(50.0f), Color.White, true));
-            OuiFont infoHintFont = (OuiFont)this.AddResource(new OuiFont(this, "Arial", this.GetUnitHeight(33.0f), Color.White));
-            OuiFont linkFont = (OuiFont)this.AddResource(new OuiFont(this, "Arial", this.GetUnitHeight(33.0f), Color.FromArgb(194, 255, 139)));
-            OuiFont warningFont = (OuiFont)this.AddResource(new OuiFont(this, "Arial", this.GetUnitHeight(33.0f), Color.FromArgb(255, 134, 100)));
+            whiteFont = (OuiFont)this.AddResource(new OuiFont(this, "Arial", this.GetUnitHeight(77.0f), Color.White));
+            grayFont = (OuiFont)this.AddResource(new OuiFont(this, "Arial", this.GetUnitHeight(77.0f), Color.FromArgb(179, 207, 230)));
+            infoHeaderFont = (OuiFont)this.AddResource(new OuiFont(this, "Arial", this.GetUnitHeight(50.0f), Color.White, true));
+            infoHintFont = (OuiFont)this.AddResource(new OuiFont(this, "Arial", this.GetUnitHeight(33.0f), Color.White));
+            linkFont = (OuiFont)this.AddResource(new OuiFont(this, "Arial", this.GetUnitHeight(33.0f), Color.FromArgb(194, 255, 139)));
+            warningFont = (OuiFont)this.AddResource(new OuiFont(this, "Arial", this.GetUnitHeight(33.0f), Color.FromArgb(255, 134, 100)));
 
-            OuiBitmap closeImage = (OuiBitmap)this.AddResource(new OuiBitmap(this, Properties.Resources.Close));
-            OuiBitmap closeSelectedImage = (OuiBitmap)this.AddResource(new OuiBitmap(this, Properties.Resources.Close_selected));
-            OuiBitmap minimizeImage = (OuiBitmap)this.AddResource(new OuiBitmap(this, Properties.Resources.Minimize));
-            OuiBitmap minimizeSelectedImage = (OuiBitmap)this.AddResource(new OuiBitmap(this, Properties.Resources.Minimize_selected));
-            OuiBitmap underscoreLineImage = (OuiBitmap)this.AddResource(new OuiBitmap(this, Properties.Resources.Thin_Line_Underscore));
-            OuiBitmap treeImage = (OuiBitmap)this.AddResource(new OuiBitmap(this, Properties.Resources.Tree));
-            OuiBitmap pluginImage = (OuiBitmap)this.AddResource(new OuiBitmap(this, Properties.Resources.Plug_in));
-            OuiBitmap copyImage = (OuiBitmap)this.AddResource(new OuiBitmap(this, Properties.Resources.copy_icon));
-            OuiBitmap copySelectedImage = (OuiBitmap)this.AddResource(new OuiBitmap(this, Properties.Resources.copy_icon_selected));
-            OuiBitmap deviceButtonPressImage = (OuiBitmap)this.AddResource(new OuiBitmap(this, Properties.Resources.button_push));
-            OuiBitmap deviceButtonPressAndHoldImage = (OuiBitmap)this.AddResource(new OuiBitmap(this, Properties.Resources.button_push_hold));
-            OuiBitmap deviceButtonReleaseImage = (OuiBitmap)this.AddResource(new OuiBitmap(this, Properties.Resources.button_release));
+            closeImage = (OuiBitmap)this.AddResource(new OuiBitmap(this, Properties.Resources.Close));
+            closeSelectedImage = (OuiBitmap)this.AddResource(new OuiBitmap(this, Properties.Resources.Close_selected));
+            minimizeImage = (OuiBitmap)this.AddResource(new OuiBitmap(this, Properties.Resources.Minimize));
+            minimizeSelectedImage = (OuiBitmap)this.AddResource(new OuiBitmap(this, Properties.Resources.Minimize_selected));
+            underscoreLineImage = (OuiBitmap)this.AddResource(new OuiBitmap(this, Properties.Resources.Thin_Line_Underscore));
+            treeImage = (OuiBitmap)this.AddResource(new OuiBitmap(this, Properties.Resources.Tree));
+            pluginImage = (OuiBitmap)this.AddResource(new OuiBitmap(this, Properties.Resources.Plug_in));
+            cogImage = (OuiBitmap)this.AddResource(new OuiBitmap(this, Properties.Resources.Cog));
+            copyImage = (OuiBitmap)this.AddResource(new OuiBitmap(this, Properties.Resources.copy_icon));
+            copySelectedImage = (OuiBitmap)this.AddResource(new OuiBitmap(this, Properties.Resources.copy_icon_selected));
+            deviceButtonPressImage = (OuiBitmap)this.AddResource(new OuiBitmap(this, Properties.Resources.button_push));
+            deviceButtonPressAndHoldImage = (OuiBitmap)this.AddResource(new OuiBitmap(this, Properties.Resources.button_push_hold));
+            deviceButtonReleaseImage = (OuiBitmap)this.AddResource(new OuiBitmap(this, Properties.Resources.button_release));
 
             OuiStatesElement close = (OuiStatesElement)this.AddElement(new OuiStatesElement(this, new Dictionary<OuiElementState, OuiElementCollection>()
             {
@@ -163,23 +168,12 @@ namespace OpenIot.BoardSetup.UI
 
 
             pageElement = new OuiElementCollection();
+            this.pageSelectBoardType = pageElement;
 
             pageElement.AddElement(new OuiText(infoHeaderFont, this.GetUnitCoords(82, 326), "Select board"));
             pageElement.AddElement(new OuiText(infoHintFont, this.GetUnitCoords(56, 480), "Please select your board"));
 
-            float y = 600;
-            foreach (string boardType in this.boardTypes)
-            {
-                OuiText txtBoard = new OuiText(infoHintFont, this.GetUnitCoords(250, y), boardType);
-                OuiStatesElement btnBoard = (OuiStatesElement)pageElement.AddElement(new OuiStatesElement(this, new Dictionary<OuiElementState, OuiElementCollection>()
-                {
-                    { OuiElementState.Default, new OuiElementCollection(new List<IOuiElement>() { txtBoard }) },
-                    { OuiElementState.Hover, new OuiElementCollection(new List<IOuiElement>() { txtBoard, new OuiImage(underscoreLineImage, new PointF(txtBoard.Position.X + txtBoard.Metrics.Size.X / 2, txtBoard.Position.Y + txtBoard.Metrics.Size.Y * 0.3f), new PointF(txtBoard.Metrics.Size.X, underscoreLineImage.Size.Y)) }) },
-                }));
-                y += 70;
-
-                btnBoard.Clicked += BtnBoardSelect_Clicked;
-            }
+            this.SetupBoardTypes(boardTypes);
 
             txtBack = new OuiText(grayFont, this.GetUnitCoords(87, 1033), "Back");
             btnBack = (OuiStatesElement)pageElement.AddElement(new OuiStatesElement(this, new Dictionary<OuiElementState, OuiElementCollection>()
@@ -191,6 +185,29 @@ namespace OpenIot.BoardSetup.UI
             btnBack.Clicked += BtnPageBack_Clicked;
 
             pageElement.AddToFlow(Flow_Default);
+            this.pages.Add(pageElement);
+
+
+
+
+            pageElement = new OuiElementCollection();
+
+            pageElement.AddElement(new OuiText(infoHeaderFont, this.GetUnitCoords(82, 326), "Acquirig firmware"));
+            pageElement.AddElement(new OuiText(infoHintFont, this.GetUnitCoords(56, 480), "Please wait to get the latest firmware"));
+            this.textUpdateFirmwareStatus = (OuiText)pageElement.AddElement(new OuiText(infoHintFont, this.GetUnitCoords(56, 520), ""));
+
+            pageElement.AddElement(new OuiImage(cogImage, this.GetUnitCoords(480, 780)));
+
+            txtBack = new OuiText(grayFont, this.GetUnitCoords(87, 1033), "Back");
+            btnBack = (OuiStatesElement)pageElement.AddElement(new OuiStatesElement(this, new Dictionary<OuiElementState, OuiElementCollection>()
+            {
+                { OuiElementState.Default, new OuiElementCollection(new List<IOuiElement>() { txtBack }) },
+                { OuiElementState.Hover, new OuiElementCollection(new List<IOuiElement>() { txtBack, new OuiImage(underscoreLineImage, new PointF(txtBack.Position.X + txtBack.Metrics.Size.X / 2, this.GetUnitHeight(1054))) }) },
+            }));
+            btnBack.Clicked += BtnPageBack_Clicked;
+
+            pageElement.AddToFlow(Flow_Default);
+            this.pageUpdateFirmware = pageElement;
             this.pages.Add(pageElement);
 
 
@@ -224,7 +241,6 @@ namespace OpenIot.BoardSetup.UI
             btnNext.Clicked += BtnDeviceNamePageNext_Clicked;
 
             pageElement.AddToFlow(Flow_Default);
-            //this.pageDeviceSearch = pageElement;
             this.pages.Add(pageElement);
 
 
@@ -236,7 +252,7 @@ namespace OpenIot.BoardSetup.UI
             pageElement.AddElement(new OuiText(infoHeaderFont, this.GetUnitCoords(82, 326), "Weblink"));
             pageElement.AddElement(new OuiText(infoHintFont, this.GetUnitCoords(56, 480), "Please choose whether to embed Weblink.\r\n\r\nWeblink will make your device\r\nimmediately accessible from the internet"));
 
-            y = 720;
+            int y = 720;
             OuiText txtWeblinkOption = new OuiText(infoHintFont, this.GetUnitCoords(250, y), "No");
             OuiStatesElement btnWeblinkOption = (OuiStatesElement)pageElement.AddElement(new OuiStatesElement(this, new Dictionary<OuiElementState, OuiElementCollection>()
             {
@@ -299,7 +315,6 @@ namespace OpenIot.BoardSetup.UI
             btnNext.Clicked += BtnAccountPageNext_Clicked;
 
             pageElement.AddToFlow(Flow_EmbedWeblink);
-            //this.pageDeviceSearch = pageElement;
             this.pages.Add(pageElement);
 
 
@@ -336,7 +351,6 @@ namespace OpenIot.BoardSetup.UI
             btnNext.Clicked += BtnWifiPageNext_Clicked;
 
             pageElement.AddToFlow(Flow_EmbedWeblink);
-            //this.pageDeviceSearch = pageElement;
             this.pages.Add(pageElement);
 
 
@@ -526,6 +540,27 @@ namespace OpenIot.BoardSetup.UI
 
         }
 
+        public void SetupBoardTypes(IEnumerable<string> boardTypes)
+        {
+            this.boardTypes = boardTypes;
+
+            this.pageSelectBoardType.Elements.RemoveRange(2, Math.Max(this.pageSelectBoardType.Elements.Count - 3, 0));
+
+            float y = 600;
+            foreach (string boardType in this.boardTypes)
+            {
+                OuiText txtBoard = new OuiText(infoHintFont, this.GetUnitCoords(250, y), boardType);
+                OuiStatesElement btnBoard = (OuiStatesElement)this.pageSelectBoardType.AddElement(new OuiStatesElement(this, new Dictionary<OuiElementState, OuiElementCollection>()
+                {
+                    { OuiElementState.Default, new OuiElementCollection(new List<IOuiElement>() { txtBoard }) },
+                    { OuiElementState.Hover, new OuiElementCollection(new List<IOuiElement>() { txtBoard, new OuiImage(underscoreLineImage, new PointF(txtBoard.Position.X + txtBoard.Metrics.Size.X / 2, txtBoard.Position.Y + txtBoard.Metrics.Size.Y * 0.3f), new PointF(txtBoard.Metrics.Size.X, underscoreLineImage.Size.Y)) }) },
+                }));
+                y += 70;
+
+                btnBoard.Clicked += BtnBoardSelect_Clicked;
+            }
+        }
+
         public void SetSize(int width, int height)
         {
             base.SetSize(width, height);
@@ -681,6 +716,11 @@ namespace OpenIot.BoardSetup.UI
             this.flashingContinueButton.Visible = true;
         }
 
+        public virtual void FinishFirmwareUpdate()
+        {
+            this.NextPage();
+        }
+
         private void PreviousPage()
         {
             for (int i = 0; i < this.pages.Count; i++)
@@ -742,6 +782,11 @@ namespace OpenIot.BoardSetup.UI
                 this.OnStartDeviceSearch?.Invoke(this);
             if (oldPage == this.pageDeviceSearch)
                 this.OnEndDeviceSearch?.Invoke(this);
+
+            if (newPage == this.pageUpdateFirmware)
+                this.OnStartFirmwareDownload?.Invoke(this);
+            if (oldPage == this.pageUpdateFirmware)
+                this.OnEndFirmwareDownload?.Invoke(this);
 
             if (newPage == this.pageFlashing)
                 this.flashingContinueButton.Visible = false;
