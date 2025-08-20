@@ -1,39 +1,41 @@
-﻿using OpenIot.BoardSetup.Flashing;
-using OpenIot.BoardSetup.Oui.Elements;
+﻿using OpenIot.BoardSetup.Oui.Elements;
 using OpenIot.BoardSetup.UI;
 using System;
 using System.Drawing;
 using System.Windows.Forms;
-using OpenIoT.Lib.Board.Scanner;
-using OpenIoT.Lib.Composite;
-using OpenIoT.Lib.Board.Api;
-using OpenIoT.Lib.Board.Transmission.Com;
 using System.Linq;
 using System.Threading;
-using System.IO.Ports;
-using OpenIoT.Lib.Board.Protocol.Events;
-using Microsoft.VisualBasic.ApplicationServices;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using System.Diagnostics;
+using Palitri.OpenIoT.Board.Scanner;
+using Palitri.OpenIoT.Web.Api;
+using Palitri.OpenIoT.Board.Api;
+using Palitri.OpenIoT.Board.Protocol.Events;
+using Palitri.OpenIoT.Board.Protocol;
+using Palitri.OpenIoT.Board.Transmission.Com;
+using OpenIot.BoardSetup.API;
+using OpenIot.BoardSetup.API.Models;
+using OpenIot.BoardSetup.SetupConfigModels;
+using OpenIot.BoardSetup.ResourceDownload;
 using System.IO;
-using OpenIoT.Lib.Web.Api;
-using System.CodeDom.Compiler;
-using OpenIoT.Lib.Board.Protocol;
-using OpenIoT.Lib.Web.Models;
-using OpenIot.BoardSetup.Flashing.Boards.ESP8266;
-using OpenIot.BoardSetup.Flashing.Boards.ESP32;
-using OpenIot.BoardSetup.Flashing.Boards.STM32;
+using Palitri.OpenIoT.Setup.Shared.Flashing;
 
 namespace OpenIot.BoardSetup
 {
     public partial class MainForm : Form
     {
+        private const string OS = "Windows";
+        private const string FirmwaresDownloadDirectory = "Firmwares";
+
         internal SetupUI ui;
 
-        private BoardScanner boardScanner;
+        private OpenIoTBoardScanner boardScanner;
 
         private string userToken = String.Empty;
+
+        private FirmwareSetupInfo setupInfo;
+        private FirmwareSetupConfig setupConfig;
+        private IFlashProgrammer programmer;
 
         class OuiTextLog : IFlashLog
         {
@@ -58,46 +60,41 @@ namespace OpenIot.BoardSetup
             }
         }
 
-        class BoardDescription
-        {
-            public string Name { get; set; }
-            public bool IsInternetEnabled { get; set; }
-            public bool RequiresButtonPressToFlash { get; set; }
-            public bool RequiresButtonHoldToFlash { get; set; }
-        }
-
-        private Dictionary<string, BoardDescription> boardsDescription = new Dictionary<string, BoardDescription>()
-        {
-            { ESP32FlashProgrammer.BoardName,       new BoardDescription() { Name = ESP32FlashProgrammer.BoardName,      IsInternetEnabled = true,   RequiresButtonPressToFlash = true,  RequiresButtonHoldToFlash = true } },
-            { ESP8266FlashProgrammer.BoardName,     new BoardDescription() { Name = ESP8266FlashProgrammer.BoardName,    IsInternetEnabled = true,   RequiresButtonPressToFlash = true,  RequiresButtonHoldToFlash = true } },
-            { STM32F103CFlashProgrammer.BoardName,  new BoardDescription() { Name = STM32F103CFlashProgrammer.BoardName, IsInternetEnabled = false,  RequiresButtonPressToFlash = true,  RequiresButtonHoldToFlash = false } }
-        };
-
         public MainForm()
         {
             InitializeComponent();
+
+            Task.Run(async () =>
+            {
+                VersionInfoResponse response = await VersionsAPI.ReadCurrentVersionAsync();
+
+                this.setupInfo = FirmwareSetupInfo.FromJson(response.Version.Notes);
+            }).Wait();
 
             this.Width = Screen.PrimaryScreen.WorkingArea.Width / 4;
             this.Height = this.Width * 9 / 8;
             this.Left = (Screen.PrimaryScreen.WorkingArea.Width - this.Width) / 2;
             this.Top = (Screen.PrimaryScreen.WorkingArea.Height - this.Height) / 2;
 
-            this.ui = new SetupUI(this.pbBackground, new PointF(960.0f, 1080.0f), this.boardsDescription.Select(p => p.Key).ToArray());
+            this.ui = new SetupUI(this.pbBackground, new PointF(960.0f, 1080.0f), setupInfo.Configs.Select(c => c.Board));
             this.ui.OnFlashInitiated = Ui_OnFlashInitiated;
             this.ui.OnMinimized = Ui_OnMinimized;
             this.ui.OnClosed = Ui_OnClosed;
             this.ui.OnStartDeviceSearch = Ui_OnStartDeviceSearch;
             this.ui.OnEndDeviceSearch = Ui_OnEndDeviceSearch;
+            this.ui.OnStartFirmwareDownload = Ui_OnStartFirmwareDownload;
             this.ui.OnBoardTypeSelected = Ui_OnBoardTypeSelected;
             this.ui.OnAccountCredentialsEntered = Ui_OnAccountCredentialsEntered;
             this.ui.SetSize(this.Width, this.Height);
             this.ui.Log = new OuiTextLog(this.ui.logText, this.pbBackground);
 
 
-            this.boardScanner = new BoardScanner();
+            this.boardScanner = new OpenIoTBoardScanner();
             this.boardScanner.ScanInterval = TimeSpan.FromSeconds(0.5);
             this.boardScanner.ScanPorts();
             //this.boardScanner.ScanOnce();
+
+
         }
 
         private void OnPortAvailable(object sender, BoardPortEventArgs args)
@@ -111,23 +108,15 @@ namespace OpenIot.BoardSetup
             {
                 this.ui.logText.Text = String.Empty;
 
-                IFlashProgrammer programmer = null;
-                if (boardType == STM32F103CFlashProgrammer.BoardName)
-                    programmer = new STM32F103CFlashProgrammer(comPort, this.ui.Log);
-
-                else if (boardType == ESP8266FlashProgrammer.BoardName)
-                    programmer = new ESP8266FlashProgrammer(comPort, this.ui.Log);
-
-                else if (boardType == ESP32FlashProgrammer.BoardName)
-                    programmer = new ESP32FlashProgrammer(comPort, this.ui.Log);
-
-                if (programmer != null)
+                if (this.programmer != null)
                 {
-                    programmer.BeganFlashing += Programmer_BeganFlashing;
-                    
-                    bool flashSuccessfull = await programmer.FlashBoardAsync();
+                    this.Programmer_BeganFlashing();
 
-                    programmer.BeganFlashing -= Programmer_BeganFlashing;
+                    this.programmer.BeganFlashing += Programmer_BeganFlashing;
+
+                    bool flashSuccessfull = await this.programmer.FlashBoardAsync();
+
+                    this.programmer.BeganFlashing -= Programmer_BeganFlashing;
 
                     if (flashSuccessfull)
                     {
@@ -163,7 +152,7 @@ namespace OpenIot.BoardSetup
         private void Ui_OnStartDeviceSearch(object sender)
         {
             this.boardScanner.OnPortAvailable = OnPortAvailable;
-            this.boardScanner.ScanContinuously();
+            this.boardScanner.StartScanning();
         }
 
         private void Ui_OnEndDeviceSearch(object sender)
@@ -171,26 +160,50 @@ namespace OpenIot.BoardSetup
             this.BeginInvoke(delegate
             {
                 this.boardScanner.OnPortAvailable = null;
-                this.boardScanner.StopScan(false);
+                this.boardScanner.StopScanning(false);
             });
+        }
+
+        private void Ui_OnStartFirmwareDownload(object sender)
+        {
+            Task.Run(async () =>
+            {
+                this.ui.textUpdateFirmwareStatus.Text = "Downloading firmware";
+                this.pbBackground.Invalidate();
+
+                this.setupConfig = setupInfo.GetSetupConfigForBoardAndOs(this.ui.SelectedBoardType, OS);
+
+                Dictionary<string, string> downloadedFiles = await ResourceDownloader.DownloadFilesAsync(setupConfig.Files.Values, Path.Combine(AppDomain.CurrentDomain.BaseDirectory, FirmwaresDownloadDirectory));
+
+                var commandParams = setupConfig.TranslateFiles(downloadedFiles);
+                commandParams.Add("PORT", this.ui.ComPort);
+                commandParams.Add("BOARD", setupConfig.Board);
+
+                var commands = setupConfig.TranslateCommands(commandParams);
+
+                this.programmer = new CommandLineProgrammer(this.ui.Log, commands, FirmwaresDownloadDirectory);
+
+                this.ui.textUpdateFirmwareStatus.Text = "";
+                this.pbBackground.Invalidate();
+
+                this.ui.FinishFirmwareUpdate();
+            }).Wait();
         }
 
         private void Ui_OnBoardTypeSelected(object sender, string boardType)
         {
-            BoardDescription boardDescription;
-            if (!this.boardsDescription.TryGetValue(boardType, out boardDescription))
+            FirmwareSetupConfig config =  this.setupInfo.Configs.FirstOrDefault(c => c.Board.Equals(boardType, StringComparison.OrdinalIgnoreCase));
+
+            if (config == null)
                 return;
 
-            if (boardDescription.IsInternetEnabled)
+            if (config.IsInternetEnabled)
                 this.ui.Flow |= SetupUI.Flow_InternetEnabled;
 
-            if (boardDescription.RequiresButtonPressToFlash)
-            {
-                if (boardDescription.RequiresButtonHoldToFlash)
-                    this.ui.Flow |= SetupUI.Flow_PressAndHold;
-                else
-                    this.ui.Flow |= SetupUI.Flow_Press;
-            }
+            if (config.FlashRequiresBootButtonHold)
+                this.ui.Flow |= SetupUI.Flow_PressAndHold;
+            else if (config.FlashRequiresBootButtonPress)
+                this.ui.Flow |= SetupUI.Flow_Press;
             else
                 this.ui.Flow |= SetupUI.Flow_NoPress;
         }
@@ -235,7 +248,7 @@ namespace OpenIot.BoardSetup
                 while (!events.IsDone && (i++ < 10))
                 {
                     if (!events.IsResponsive)
-                        board.requestDeviceName();
+                        board.RequestDeviceName();
 
                     Thread.Sleep(500);
                 }
@@ -275,25 +288,25 @@ namespace OpenIot.BoardSetup
             this.IsResponsive = false;
         }
 
-        public override void onDeviceNameReceived(object sender, string name)
+        public override void OnDeviceNameReceived(object sender, string name)
         {
             this.IsResponsive = true;
-            this.board.resetLogic();
+            this.board.ResetLogic();
         }
 
-        public override void onResetLogic(object sender)
+        public override void OnResetLogic(object sender)
         {
-            this.board.requestSetDeviceName(this.deviceName);
+            this.board.RequestSetDeviceName(this.deviceName);
         }
 
-        public override void onDevicePropertiesSet(object sender, Dictionary<int, byte[]> properties)
+        public override void OnDevicePropertiesSet(object sender, Dictionary<int, byte[]> properties)
         {
             if (properties != null)
             {
                 if (properties.ContainsKey(OpenIoTProtocol.DevicePropertyId_Name))
                 {
                     if (this.embedWeblink)
-                        this.board.requestSetUserId(this.userId);
+                        this.board.RequestSetUserId(this.userId);
                     else
                         this.IsDone = true;
                 }
@@ -306,11 +319,10 @@ namespace OpenIot.BoardSetup
 
         public void UploadWeblink()
         {
-            //byte[] weblink = "34,0,0,1,1,2,0,0,112,66".Split(',').Select(i => Byte.Parse(i)).ToArray();
-            this.board.uploadSchemeLogic(this.GenerateSchemeCode());
+            this.board.UploadSchemeLogic(this.GenerateSchemeCode());
         }
 
-        public override void onSchemeLogicUploaded(object sender)
+        public override void OnSchemeLogicUploaded(object sender)
         {
             this.IsDone = true;
         }
