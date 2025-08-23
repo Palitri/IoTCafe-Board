@@ -8,6 +8,7 @@ using OpenIot.BoardSetup.Oui.Elements;
 using OpenIot.BoardSetup.Oui.Resources;
 using OpenIot.BoardSetup.Oui.Common;
 using Palitri.OpenIoT.Setup.Shared.Flashing;
+using System.Linq;
 
 namespace OpenIot.BoardSetup.UI
 {
@@ -40,6 +41,8 @@ namespace OpenIot.BoardSetup.UI
         private OuiElementCollection pageDeviceSearch, pageUpdateFirmware, pageSelectBoardType, pageHoldBootButton, pageFlashing;
         private OuiNativeTextBox tbAccountName, tbAccountPassword, tbWifiName, tbWifiPassword, tbDeviceName;
 
+        private string appUpdateUrl;
+
         public BoardTypeSelectedDelegate OnBoardTypeSelected;
         public FlashInitiatedDelegate OnFlashInitiated;
         public BasicEventDelegate OnClosed;
@@ -65,7 +68,7 @@ namespace OpenIot.BoardSetup.UI
 
         public IFlashLog Log { get; set; }
 
-        public SetupUI(PictureBox pictureBox, PointF size, IEnumerable<string> boardTypes)
+        public SetupUI(PictureBox pictureBox, PointF size, IEnumerable<string> boardTypes, string updateUrl)
             : base(pictureBox.CreateGraphics(), size)
         {
             this.pictureBox = pictureBox;
@@ -73,6 +76,8 @@ namespace OpenIot.BoardSetup.UI
             this.pictureBox.MouseUp += PictureBox_MouseUp;
             this.pictureBox.MouseMove += PictureBox_MouseMove;
             this.pictureBox.Paint += PictureBox_Paint;
+
+            this.appUpdateUrl = updateUrl;
 
             this.pages = new List<OuiElementCollection>();
 
@@ -122,6 +127,20 @@ namespace OpenIot.BoardSetup.UI
             pageElement.AddElement(new OuiText(infoHintFont, this.GetUnitCoords(56, 480), "This app will install OpenIoT firmware on a board device"));
 
             pageElement.AddElement(new OuiImage(treeImage, this.GetUnitCoords(480, 728)));
+
+            OuiText txtLink;
+            OuiStatesElement btnLink;
+            if (!string.IsNullOrWhiteSpace(this.appUpdateUrl))
+            {
+                txtLink = new OuiText(linkFont, this.GetUnitCoords(620, 900), "Update available");
+                btnLink = (OuiStatesElement)pageElement.AddElement(new OuiStatesElement(this, new Dictionary<OuiElementState, OuiElementCollection>()
+                {
+                    { OuiElementState.Default, new OuiElementCollection(new List<IOuiElement>() { txtLink }) },
+                    { OuiElementState.Hover, new OuiElementCollection(new List<IOuiElement>() { txtLink, new OuiImage(underscoreLineImage, new PointF(txtLink.Position.X + txtLink.Metrics.Size.X / 2, txtLink.Position.Y + txtLink.Metrics.Size.Y / 3)) }) },
+                }));
+
+                btnLink.Clicked += BtnLinkIoAppUpdate_Clicked;
+            }
 
             OuiText txtBack = new OuiText(grayFont, this.GetUnitCoords(87, 1033), "Cancel");
             OuiStatesElement btnBack = (OuiStatesElement)pageElement.AddElement(new OuiStatesElement(this, new Dictionary<OuiElementState, OuiElementCollection>()
@@ -513,8 +532,8 @@ namespace OpenIot.BoardSetup.UI
             pageElement.AddElement(new OuiText(infoHeaderFont, this.GetUnitCoords(82, 326), "Finished"));
             pageElement.AddElement(new OuiText(infoHintFont, this.GetUnitCoords(56, 480), "Setup has finished!\r\n\r\nTo create projects for your device, visit"));
 
-            OuiText txtLink = new OuiText(linkFont, this.GetUnitCoords(56, 600), "https://iot.cafe");
-            OuiStatesElement btnLink = (OuiStatesElement)pageElement.AddElement(new OuiStatesElement(this, new Dictionary<OuiElementState, OuiElementCollection>()
+            txtLink = new OuiText(linkFont, this.GetUnitCoords(56, 600), "https://iot.cafe");
+            btnLink = (OuiStatesElement)pageElement.AddElement(new OuiStatesElement(this, new Dictionary<OuiElementState, OuiElementCollection>()
             {
                 { OuiElementState.Default, new OuiElementCollection(new List<IOuiElement>() { txtLink }) },
                 { OuiElementState.Hover, new OuiElementCollection(new List<IOuiElement>() { txtLink, new OuiImage(underscoreLineImage, new PointF(txtLink.Position.X + txtLink.Metrics.Size.X / 2, txtLink.Position.Y + txtLink.Metrics.Size.Y / 3)) }) },
@@ -542,22 +561,32 @@ namespace OpenIot.BoardSetup.UI
 
         public void SetupBoardTypes(IEnumerable<string> boardTypes)
         {
+            Point gridSize = GetGridDistribution(boardTypes.Count(), 5);
+            Rectangle gridAlignment = GetGridAlignment(new Rectangle(100, 580, 800, 360), gridSize, new Point(400, 85));
+
             this.boardTypes = boardTypes;
 
             this.pageSelectBoardType.Elements.RemoveRange(2, Math.Max(this.pageSelectBoardType.Elements.Count - 3, 0));
 
-            float y = 600;
+            int i = 0;
             foreach (string boardType in this.boardTypes)
             {
-                OuiText txtBoard = new OuiText(infoHintFont, this.GetUnitCoords(250, y), boardType);
+                int gridX = i / gridSize.Y;
+                int gridY = i % gridSize.Y;
+
+                float x = gridAlignment.X + gridX * gridAlignment.Width;
+                float y = gridAlignment.Y + gridY * gridAlignment.Height;
+
+                OuiText txtBoard = new OuiText(infoHintFont, this.GetUnitCoords(x, y), boardType);
                 OuiStatesElement btnBoard = (OuiStatesElement)this.pageSelectBoardType.AddElement(new OuiStatesElement(this, new Dictionary<OuiElementState, OuiElementCollection>()
                 {
                     { OuiElementState.Default, new OuiElementCollection(new List<IOuiElement>() { txtBoard }) },
                     { OuiElementState.Hover, new OuiElementCollection(new List<IOuiElement>() { txtBoard, new OuiImage(underscoreLineImage, new PointF(txtBoard.Position.X + txtBoard.Metrics.Size.X / 2, txtBoard.Position.Y + txtBoard.Metrics.Size.Y * 0.3f), new PointF(txtBoard.Metrics.Size.X, underscoreLineImage.Size.Y)) }) },
                 }));
-                y += 70;
 
                 btnBoard.Clicked += BtnBoardSelect_Clicked;
+
+                i++;
             }
         }
 
@@ -639,6 +668,15 @@ namespace OpenIot.BoardSetup.UI
             Process.Start(new System.Diagnostics.ProcessStartInfo()
             {
                 FileName = "https://iot.cafe",
+                UseShellExecute = true
+            });
+        }
+
+        private void BtnLinkIoAppUpdate_Clicked(object sender, EventArgs e)
+        {
+            Process.Start(new System.Diagnostics.ProcessStartInfo()
+            {
+                FileName = this.appUpdateUrl,
                 UseShellExecute = true
             });
         }
@@ -794,5 +832,41 @@ namespace OpenIot.BoardSetup.UI
             this.OnInvalidated();
         }
 
+        /// <summary>
+        /// Returns the number of columns and rows as to best distribute a given number of items within a grid with a given maximum number of rows
+        /// The resulting grid would have a maximum of the given number of rows, and the number of columns, while unlimited, is kept as little as possible.
+        /// The items would be distributed in such a way, so that they fill the columns in a balanced way
+        /// </summary>
+        /// <param name="numItems">Number of items to distribute in a grid</param>
+        /// <param name="maxRows">The maximum number of items that are allowed in a single column</param>
+        /// <returns>A Point object, where X is the number of columns and Y is the number of rows</returns>
+        private static Point GetGridDistribution(int numItems, int maxRows)
+        {
+            Point result = new Point();
+
+            result.X = 1 + (numItems - 1) / maxRows;
+            result.Y = numItems / result.X + ((numItems % result.X) == 0 ? 0 : 1);
+
+            return result;
+        }
+
+        /// <summary>
+        /// Returns an alignment of a grid within a given available space, such that the grid is centered and its cells have the best size
+        /// </summary>
+        /// <param name="availableSpace">The space available to fit the grid in</param>
+        /// <param name="gridSize">The size of the grid there X is the number of columns and Y is the number of rows</param>
+        /// <param name="gridMaxCellSize">The maximum allowed size of a grid cell</param>
+        /// <returns>The alignment of the grid, where X and Y are the origin location within the given available space, and Width and Height are the cell size</returns>
+        private static Rectangle GetGridAlignment(Rectangle availableSpace, Point gridSize, Point gridMaxCellSize)
+        {
+            Rectangle result = new Rectangle();
+
+            result.Width = Math.Min(availableSpace.Width / gridSize.X, gridMaxCellSize.X);
+            result.X = availableSpace.X + (availableSpace.Width - result.Width * gridSize.X) / 2;
+            result.Height = Math.Min(availableSpace.Height / gridSize.Y, gridMaxCellSize.Y);
+            result.Y = availableSpace.Y + (availableSpace.Height - result.Height * gridSize.Y) / 2;
+
+            return result;
+        }
     }
 }
