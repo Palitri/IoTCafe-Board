@@ -40,7 +40,7 @@ class Program
 
     static void PrintGeneralInformation()
     {
-        Console.WriteLine("OpenIoT Board Flashing utility v0.89");
+        Console.WriteLine("OpenIoT Board Flashing utility v0.8.9");
         Console.WriteLine();
         Console.WriteLine("Usage:");
         Console.WriteLine("--flash <BoardName> <Port> <FirmwareFileName>");

@@ -20,7 +20,7 @@
         {
             base.OnMessageReceived(message, messageType);
 
-            string[] beganFlashingKeywords = { "Erasing", "Writing" };
+            string[] beganFlashingKeywords = { "Writing" };
 
             foreach (var keyword in beganFlashingKeywords)
             {

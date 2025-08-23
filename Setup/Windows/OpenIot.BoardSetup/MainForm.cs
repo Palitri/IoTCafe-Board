@@ -19,11 +19,13 @@ using OpenIot.BoardSetup.SetupConfigModels;
 using OpenIot.BoardSetup.ResourceDownload;
 using System.IO;
 using Palitri.OpenIoT.Setup.Shared.Flashing;
+using System.Web;
 
 namespace OpenIot.BoardSetup
 {
     public partial class MainForm : Form
     {
+        private const string AppVersion = "0.9.1";
         private const string OS = "Windows";
         private const string FirmwaresDownloadDirectory = "Firmwares";
 
@@ -64,11 +66,15 @@ namespace OpenIot.BoardSetup
         {
             InitializeComponent();
 
+            string appUpdateUrl = string.Empty;
+
             Task.Run(async () =>
             {
-                VersionInfoResponse response = await VersionsAPI.ReadCurrentVersionAsync();
+                VersionInfoResponse firmwareVersionInfo = await VersionsAPI.GetCurrentFirmwareVersionAsync();
+                this.setupInfo = FirmwareSetupInfo.FromJson(firmwareVersionInfo.Version.Notes);
 
-                this.setupInfo = FirmwareSetupInfo.FromJson(response.Version.Notes);
+                VersionInfoResponse appVersionInfo = await VersionsAPI.GetAppVersionAsync();
+                appUpdateUrl = new Version(appVersionInfo.Version.Version) > new Version(AppVersion) ? appVersionInfo.Version.Notes : string.Empty;
             }).Wait();
 
             this.Width = Screen.PrimaryScreen.WorkingArea.Width / 4;
@@ -76,7 +82,7 @@ namespace OpenIot.BoardSetup
             this.Left = (Screen.PrimaryScreen.WorkingArea.Width - this.Width) / 2;
             this.Top = (Screen.PrimaryScreen.WorkingArea.Height - this.Height) / 2;
 
-            this.ui = new SetupUI(this.pbBackground, new PointF(960.0f, 1080.0f), setupInfo.Configs.Select(c => c.Board));
+            this.ui = new SetupUI(this.pbBackground, new PointF(960.0f, 1080.0f), setupInfo.Configs.Select(c => c.Board), appUpdateUrl);
             this.ui.OnFlashInitiated = Ui_OnFlashInitiated;
             this.ui.OnMinimized = Ui_OnMinimized;
             this.ui.OnClosed = Ui_OnClosed;
