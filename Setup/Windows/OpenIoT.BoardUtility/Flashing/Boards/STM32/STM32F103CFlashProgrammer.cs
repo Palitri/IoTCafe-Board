@@ -61,10 +61,10 @@ namespace Palitri.OpenIoT.BoardFlash.Flashing.Boards.STM32
 
         public async Task<bool> FlashBoardAsync()
         {
-            return await Task.Run(() => FlashBoard());
+            return await Task.Run(() => FlashBoard()) == FlashingResult.Success;
         }
 
-        public bool FlashBoard()
+        public FlashingResult FlashBoard()
         {
             try
             {
@@ -74,31 +74,35 @@ namespace Palitri.OpenIoT.BoardFlash.Flashing.Boards.STM32
                 serial.Open();
 
                 if (!SendDataFrame())
-                    return false;
+                    return FlashingResult.CommunicationProtocolError;
 
                 if (!GetVersionAndSupportedCommands())
-                    return false;
+                    return FlashingResult.CommunicationProtocolError;
 
                 if (!GetVersionAndProtectionStatus())
-                    return false;
+                    return FlashingResult.CommunicationProtocolError;
 
                 if (!GetChipId())
-                    return false;
+                    return FlashingResult.CommunicationProtocolError;
 
                 if (!EraseFlash())
-                    return false;
+                    return FlashingResult.FlashingError;
 
                 BeganFlashing?.Invoke();
 
                 if (!WriteFlash(programData, 0, programData.Length, 0x08000000))
-                    return false;
+                    return FlashingResult.FlashingError;
 
                 if (!Go(0x08000000))
-                    return false;
+                    return FlashingResult.FlashingError;
 
                 this.OnMessageReceived("Programming sequence completed", FlashMessageType.Info);
 
-                return true;
+                return FlashingResult.Success;
+            }
+            catch (Exception ex)
+            {
+                return FlashingResult.CommunicationOpeningError;
             }
             finally
             {
