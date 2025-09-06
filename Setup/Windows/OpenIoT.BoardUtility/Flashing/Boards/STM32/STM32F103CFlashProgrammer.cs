@@ -1,4 +1,5 @@
-﻿using Palitri.OpenIoT.Board.Transmission.Com;
+﻿using Palitri.OpenIoT.Board.Transmission;
+using Palitri.OpenIoT.BoardUtility.Flashing.Boards.STM32;
 using Palitri.OpenIoT.Setup.Shared.Flashing;
 using System.Diagnostics;
 
@@ -22,7 +23,7 @@ namespace Palitri.OpenIoT.BoardFlash.Flashing.Boards.STM32
 
         private byte[] programData;
         private string comPort;
-        private ComTransmissionChannel serial;
+        private ITransmissionChannel serial;
         private IFlashLog log;
 
         private Stopwatch idleTimer;
@@ -70,7 +71,8 @@ namespace Palitri.OpenIoT.BoardFlash.Flashing.Boards.STM32
             {
                 this.OnMessageReceived("Initiating programming sequence on STM32F103C, port " + comPort, FlashMessageType.Info);
 
-                serial = new ComTransmissionChannel(comPort, 115200);
+                //serial = new ComTransmissionChannel(comPort, 115200);
+                serial = new ComTransmissionChannelEvenParity(comPort, 115200);
                 serial.Open();
 
                 if (!SendDataFrame())
@@ -135,7 +137,7 @@ namespace Palitri.OpenIoT.BoardFlash.Flashing.Boards.STM32
             return totalRead;
         }
 
-        private int ReadData(int length, int timeoutMillis = 200)
+        private int ReadData(int length, int timeoutMillis = 100)
         {
             return ReadData(buffer, 0, length, timeoutMillis);
         }
