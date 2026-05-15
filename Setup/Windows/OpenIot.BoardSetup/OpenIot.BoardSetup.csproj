@@ -4,11 +4,11 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net8.0-windows7.0</TargetFramework>
     <UseWindowsForms>true</UseWindowsForms>
-    <ApplicationIcon>openIoT_logo_v2_ico.ico</ApplicationIcon>
+    <ApplicationIcon>Resources\openIoT_logo_setup.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="openIoT_logo_v2_ico.ico" />
+    <Content Include="Resources\openIoT_logo_setup.ico" />
   </ItemGroup>
 
   <ItemGroup>

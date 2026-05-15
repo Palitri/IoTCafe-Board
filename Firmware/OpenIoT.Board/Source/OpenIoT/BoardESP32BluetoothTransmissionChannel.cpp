@@ -27,7 +27,7 @@ BoardESP32BluetoothTransmissionChannel::BoardESP32BluetoothTransmissionChannel(c
 BoardESP32BluetoothTransmissionChannel::~BoardESP32BluetoothTransmissionChannel()
 {
 	((BluetoothSerial*)this->esp32Bluetooth)->end();
-	delete this->esp32Bluetooth;
+	delete ((BluetoothSerial*)this->esp32Bluetooth);
 }
 
 int BoardESP32BluetoothTransmissionChannel::AvailableInputBytes()

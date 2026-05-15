@@ -9,6 +9,8 @@
 #ifndef Vectors_h
 #define Vectors_h
 
+#include "Math.h"
+
 
 template <typename T> class Vector2Generic
 {
@@ -184,7 +186,7 @@ public:
 
 	static float Length(Vector3Generic<T>& v)
 	{
-		return sqrt(v.x * v.x + v.y * v.y + v.z * v.z);
+		return Math::Sqrt(v.x * v.x + v.y * v.y + v.z * v.z);
 	}
 
 	static void Add(Vector3Generic<T>& result, Vector3Generic<T>& v1, Vector3Generic<T>& v2)
@@ -217,7 +219,7 @@ public:
 
 	static T Normalize(Vector3Generic<T>& result, Vector3Generic<T>& v)
 	{
-		T length = sqrt(v.x * v.x + v.y * v.y + v.z * v.z);
+		T length = Math::Sqrt(v.x * v.x + v.y * v.y + v.z * v.z);
 		if (length == 0)
 			return 0;
 

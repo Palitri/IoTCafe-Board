@@ -35,18 +35,13 @@ void PeripheralCNC::Update()
 {
 }
 
-void PeripheralCNC::ProcessCommand(char code, const char* data, int size)
+bool PeripheralCNC::ProcessCommand(unsigned char command, void* data, int dataSize)
 {
-	const float speed = 200.0f;
-
-	switch (code)
+	switch (command)
 	{
 		case PeripheralCNC::CommandCode_SetAsyncDevice:
 		{
-			unsigned char peripheralId = *data;
-
-			if (peripheralId > 3)
-				break;
+			unsigned char peripheralId = *(unsigned char*)data;
 
 			PeripheralAsynchronousDriver* asyncDriverPeripheral = (PeripheralAsynchronousDriver*)this->device->GetPeripheral(peripheralId);
 			if (asyncDriverPeripheral == null)
@@ -66,7 +61,7 @@ void PeripheralCNC::ProcessCommand(char code, const char* data, int size)
 			float speed = *(float*)((unsigned int)data + offset);
 			offset += 4;
 
-			int numPoints = (size - 4) / (dimensionality * 4);
+			int numPoints = (dataSize - 4) / (dimensionality * 4);
 
 			this->cncDevice.PlotPolyline(speed, numPoints, (float*)((unsigned int)data + offset));
 
@@ -82,7 +77,7 @@ void PeripheralCNC::ProcessCommand(char code, const char* data, int size)
 			float speed = *(float*)((unsigned int)data + offset);
 			offset += 4;
 
-			int numPoints = (size - 4) / (dimensionality * 4);
+			int numPoints = (dataSize - 4) / (dimensionality * 4);
 
 			this->cncDevice.PlotBezier(speed, numPoints, (float*)((unsigned int)data + offset));
 
@@ -93,7 +88,7 @@ void PeripheralCNC::ProcessCommand(char code, const char* data, int size)
 		{
 			const int dimensionality = this->cncDevice.asyncEngine->deviceChannels.count;
 
-			if (size < (2 + 2 * dimensionality) * 4)
+			if (dataSize < (2 + 2 * dimensionality) * 4)
 				break;
 
 			int offset = 0;
@@ -116,11 +111,11 @@ void PeripheralCNC::ProcessCommand(char code, const char* data, int size)
 			break;
 		}
 
-		case PeripheralCNC::CommandCode_Wait:
+		default:
 		{
-			float time = *(float*)data;
-			Board::DelayMillis((int)(time * 1000.0f));
-			break;
+			return Peripheral::ProcessCommand(command, data, dataSize);
 		}
 	}
+
+	return true;
 }

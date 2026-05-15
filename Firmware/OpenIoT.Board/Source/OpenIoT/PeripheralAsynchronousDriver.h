@@ -16,6 +16,8 @@ private:
 	static const int CommandCode_SetChannelMapper = 3;
 	static const int CommandCode_SetVector = 4;
 	static const int CommandCode_Drive = 5;
+	static const int CommandCode_ResetVectors = 6;
+	static const int CommandCode_SetChannelMapperParameters = 7;
 	
 	AsynchronousDeviceEngine asyncEngine;
 
@@ -29,7 +31,7 @@ public:
 	virtual int Load(const void* code);
 	virtual void Update();
 
-	virtual void ProcessCommand(char code, const char* data, int size);
+	virtual bool ProcessCommand(unsigned char command, void* data, int dataSize);
 
 	virtual AsynchronousDeviceEngine* GetAsyncEngine();
 };

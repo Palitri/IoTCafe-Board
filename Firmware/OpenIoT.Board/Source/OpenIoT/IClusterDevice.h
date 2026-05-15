@@ -51,6 +51,9 @@ public:
 	virtual bool IsBluetoothEnabled() = 0;
 
 	virtual Peripheral* GetPeripheral(int id) = 0;
+
+	virtual int AddMapper(IUnitMapper* unitMapper) = 0;
+	virtual IUnitMapper* GetMapper(int id) = 0;
 };
 
 #endif

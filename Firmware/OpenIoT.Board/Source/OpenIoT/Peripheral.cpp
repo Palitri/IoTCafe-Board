@@ -34,6 +34,7 @@ void Peripheral::Update()
 {
 }
 
-void Peripheral::ProcessCommand(char code, const char* data, int size)
+bool Peripheral::ProcessCommand(unsigned char command, void* data, int dataSize)
 {
+	return false;
 }

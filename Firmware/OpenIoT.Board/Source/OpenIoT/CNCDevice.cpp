@@ -60,7 +60,7 @@ void CNCDevice::PlotBezier(float speed, int numPoints, float* points)
         // X, Y, Z, ...
         for (int dimension = 0; dimension < dimensionality; dimension++)
         {
-            this->bezierMapper.UsePointsFromMemory(points + dimension, pointsMemoryStride);
+            this->bezierMapper.UsePointsInMemory(points + dimension, pointsMemoryStride);
             float newCoord = this->bezierMapper.Map(u);
 
             if(i > 0)
@@ -86,7 +86,7 @@ void CNCDevice::PlotArc(float speed, float startAngle, float endAngle, float* ax
 
     this->lastCoords.SetSize(dimensionality);
 
-    // !! Delta angle with -10, 10 range
+    // !! Delta angle with -10, 10 range : should it go 20 or 340 degreece?
     float deltaAngle = endAngle - startAngle;
     int discretizationSteps = Math::Max((int)Math::Abs(180.0f * deltaAngle / Math::Pi), 1);
     for (int i = 0; i <= discretizationSteps; i++)
@@ -103,9 +103,9 @@ void CNCDevice::PlotArc(float speed, float startAngle, float endAngle, float* ax
         {
             float newCoord = axisX[dimension] * rx + axisY[dimension] * ry;
 
-            if(i > 0)
+            if (i > 0)
             {
-                float deltaCoord = newCoord - this->lastCoords[dimension - 1];
+                float deltaCoord = newCoord - this->lastCoords[dimension];
                 length += deltaCoord * deltaCoord;
 
                 this->asyncEngine->deviceChannels[dimension]->deviceDriver->Begin(0.0f, deltaCoord);

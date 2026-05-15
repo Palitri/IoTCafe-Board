@@ -12,6 +12,10 @@
 #include "SerialTransmissionChannel.h"
 #include "Log.h"
 
+#include "LinearUnitMapper.h"
+#include "SineUnitMapper.h"
+#include "BezierUnitMapper.h"
+
 OpenIoT* openIoT;
 bool initialized = false;
 
@@ -38,12 +42,6 @@ void OpenIoTRun()
 OpenIoT::OpenIoT(ITransmissionChannel* transmissionChannel) :
 	Cluster()
 {
-	//for (int i = 0; i < 5; i++)
-	//{
-	//	Board::DelayMillis(500);
-	//	Log::println("Waking up..");
-	//}
-
 	this->wifiNetworkName = null;
 	this->wifiNetworkPassword = null;
 	this->isBluetoothEnabled = false;
@@ -202,4 +200,17 @@ Peripheral* OpenIoT::GetPeripheral(int id)
 		return null;
 
 	return this->objects[id];
+}
+
+int OpenIoT::AddMapper(IUnitMapper* unitMapper)
+{
+	this->mappers.Add(unitMapper);
+}
+
+IUnitMapper* OpenIoT::GetMapper(int id)
+{
+	if (id >= this->mappers.count)
+		return null;
+
+	return this->mappers[id];
 }

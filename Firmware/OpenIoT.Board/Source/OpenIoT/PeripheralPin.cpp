@@ -36,15 +36,22 @@ void PeripheralPin::Update()
 	this->UpdateProperties();
 }
 
-void PeripheralPin::ProcessCommand(char code, const char* data, int size)
+bool PeripheralPin::ProcessCommand(unsigned char command, void* data, int dataSize)
 {
-	switch (code)
+	switch (command)
 	{
-		 case PeripheralPin::CommandCode_SetPWM:
-		 {
+		case PeripheralPin::CommandCode_SetPWM:
+		{
 			this->value->SetFloat(*(float*)data);
 			this->value->Update();
 			break;
-		 }
+		}
+
+		default:
+		{
+			return Peripheral::ProcessCommand(command, data, dataSize);
+		}
 	}
+
+	return true;
 }

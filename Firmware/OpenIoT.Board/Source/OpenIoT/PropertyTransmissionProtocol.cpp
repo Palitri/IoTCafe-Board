@@ -51,6 +51,11 @@ void PropertyTransmissionProtocol::OnReceiveChunk(void* data, int dataSize)
 
 bool PropertyTransmissionProtocol::OnReceiveCommand(unsigned char command, void* data, int dataSize)
 {
+	return this->ProcessCommand(command, data, dataSize);
+}
+
+bool PropertyTransmissionProtocol::ProcessCommand(unsigned char command, void* data, int dataSize)
+{
 	switch (command)
 	{
 		case ResponseCode_Ping:
@@ -76,6 +81,17 @@ bool PropertyTransmissionProtocol::OnReceiveCommand(unsigned char command, void*
 		{
 			Log::println("Sending info");
 			this->SendCommand(ResponseCode_Info, Board::name, Strings::Length(Board::name));
+
+			break;
+		}
+
+		case CommandCode_Wait:
+		{
+			float time = *(float*)data;
+			data = (unsigned char*)data + 4;
+			Board::DelayMillis((int)(time * 1000.0f));
+
+			this->SendCommand(ResponseCode_Wait);
 
 			break;
 		}

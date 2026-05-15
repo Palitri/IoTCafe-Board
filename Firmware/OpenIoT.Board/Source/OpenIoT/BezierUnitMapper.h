@@ -7,10 +7,17 @@ class BezierUnitMapper
   : public IUnitMapper
 {
 private:
+	float *bufferPoints;
+	int numBufferPoints;
+
 	float *subPoints;
 	int pointsMemoryStride;
 
+	void SetPointsBuffer(int numPoints);
+
 public:
+	static const int ClassId = 3;
+
 	int numPoints;
 	void *points;
 
@@ -19,9 +26,11 @@ public:
 
 
 	void SetNumberOfPoints(int numPoints);
-	void UsePointsFromMemory(void* points, int memoryStride = 4);
+	void UsePointsInMemory(void* points, int memoryStride = 4);
+	void LoadPointsFromMemory(void* pointsSource, int memoryStride = 4);
 
 	virtual float Map(float value);
+	void* Setup(void *data);
 };
 
 #endif

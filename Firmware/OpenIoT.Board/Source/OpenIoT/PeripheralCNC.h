@@ -13,7 +13,6 @@ private:
 	static const int CommandCode_Polyline = 11;
 	static const int CommandCode_Bezier = 12;
 	static const int CommandCode_Arc = 13;
-	static const int CommandCode_Wait = 14;
 	
 	CNCDevice cncDevice;
 
@@ -26,7 +25,7 @@ public:
 	virtual int Load(const void* code);
 	virtual void Update();
 
-	virtual void ProcessCommand(char code, const char* data, int size);
+	virtual bool ProcessCommand(unsigned char command, void* data, int dataSize);
 };
 
 #endif

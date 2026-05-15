@@ -8,6 +8,7 @@ class IUnitMapper
 {
 public:
   virtual float Map(float value) = 0;
+  virtual void* Setup(void *data) = 0;
 };
 
 #endif

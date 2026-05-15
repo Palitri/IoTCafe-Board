@@ -10,10 +10,13 @@ private:
   float offset, amplitude, phaseStart, phaseDelta;
   
 public:
+	static const int ClassId = 2;
+
   void Setup(float offset, float amplitude, float phaseStart, float phaseEnd);
-  void SetupSigmoidSmoothing();
+  void SetupSigmoid();
 
   virtual float Map(float value);
+  virtual void* Setup(void *data);
 };
 
 #endif

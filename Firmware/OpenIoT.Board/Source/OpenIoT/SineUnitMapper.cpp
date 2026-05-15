@@ -10,7 +10,23 @@ void SineUnitMapper::Setup(float offset, float amplitude, float phaseStart, floa
   this->phaseDelta = (phaseEnd - phaseStart) * Math::Pi2;
 }
 
-void SineUnitMapper::SetupSigmoidSmoothing()
+void* SineUnitMapper::Setup(void *data)
+{
+	float offset = *(float*)data;
+	data += 4;
+	float amplitude = *(float*)data;
+	data += 4;
+	float phaseStart = *(float*)data;
+	data += 4;
+	float phaseEnd = *(float*)data;
+	data += 4;
+
+  this->Setup(offset, amplitude, phaseStart, phaseEnd);
+
+	return data;
+}
+
+void SineUnitMapper::SetupSigmoid()
 {
 	this->Setup(0.5f, 1.0f, -0.25f, 0.25f);
 }
