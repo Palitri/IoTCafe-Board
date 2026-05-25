@@ -61,15 +61,22 @@ void PeripheralShiftRegisterOut::Update()
 	}
 }
 
-void PeripheralShiftRegisterOut::ProcessCommand(char code, const char* data, int size)
+bool PeripheralShiftRegisterOut::ProcessCommand(unsigned char command, void* data, int dataSize)
 {
-	switch (code)
+	switch (command)
 	{
-		 case PeripheralShiftRegisterOut::CommandCode_SetBits:
-		 {
-			this->pBits->SetDataValue((void*)data, size);
+		case PeripheralShiftRegisterOut::CommandCode_SetBits:
+		{
+			this->pBits->SetDataValue((void*)data, dataSize);
 			this->Update();
 			break;
-		 }
+		}
+
+		default:
+		{
+			return Peripheral::ProcessCommand(command, data, dataSize);
+		}
 	}
+
+	return true;
 }

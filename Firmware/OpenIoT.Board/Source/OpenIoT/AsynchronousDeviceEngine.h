@@ -11,6 +11,7 @@ class AsynchronousDeviceEngine
 {
 public:
 	List<DeviceChannel*> deviceChannels;
+	IUnitMapper* unitMapper;
 
 	AsynchronousDeviceEngine();
 	virtual ~AsynchronousDeviceEngine();
@@ -25,7 +26,7 @@ public:
 	//void SetGeometryDimen
 
 	void SetNumberOfChannels(int numChannels);
-	void SetChannelMapper(int channel, int mapper);
+	void SetChannelMapper(int channel, IUnitMapper* mapper);
 	void SetChannelDevice(int channel, IDeviceDriver* driver);
 };
 

@@ -12,9 +12,10 @@
 class IPersistence;
 class IWebClient;
 class ISMSClient;
-class Timer;
 class IPropertiesObject;
 class ITransmissionChannel;
+class IUnitMapper;
+class Timer;
 class PropertyTransmissionProtocol;
 class Peripheral;
 
@@ -51,6 +52,9 @@ public:
 	virtual bool IsBluetoothEnabled() = 0;
 
 	virtual Peripheral* GetPeripheral(int id) = 0;
+
+	virtual int AddMapper(IUnitMapper* unitMapper) = 0;
+	virtual IUnitMapper* GetMapper(int id) = 0;
 };
 
 #endif

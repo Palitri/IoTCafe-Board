@@ -27,7 +27,7 @@ public:
 	virtual int Load(const void* code);
 	virtual void Update();
 
-	virtual void ProcessCommand(char code, const char* data, int size);
+	virtual bool ProcessCommand(unsigned char command, void* data, int dataSize);
 };
 
 #endif

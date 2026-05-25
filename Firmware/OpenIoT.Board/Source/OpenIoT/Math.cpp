@@ -25,6 +25,8 @@ const float Math::Phi = 1.61803398874989f;
 // Euler's number
 const float Math::e = 2.71828182845905;
 
+const float Math::AbsoluteZeroCelsius = -273.15f;
+
 int Math::Min(int a, int b)
 {
 	if (a < b)
@@ -174,6 +176,25 @@ float Math::Exponent(float x, float surface)
 	return powf(x, 1.0f / surface - 1.0f);
 }
 
+float Math::Log(float x, float base)
+{
+	return logf(x) / logf(base);
+}
+
+float Math::Ln(float x)
+{
+	return logf(x);
+}
+
+float Math::Lg(float x)
+{
+	return log10f(x);
+}
+
+float Math::Lb(float x)
+{
+	return log2f(x);
+}
 
 unsigned short Math::CRC16(const void* source, unsigned int size, unsigned short seed)
 {

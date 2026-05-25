@@ -2,9 +2,11 @@
 
 #include "Board.h"
 
+#include "SineUnitMapper.h"
+
 AsynchronousDeviceEngine::AsynchronousDeviceEngine()
 {
-
+    this->unitMapper = null;
 }
 
 AsynchronousDeviceEngine::~AsynchronousDeviceEngine()
@@ -24,6 +26,10 @@ void AsynchronousDeviceEngine::Drive(float time)
     while (now < end)
     {
         float u = (float)((double)(now - start) / (double)timeMicroseconds);
+
+        if (this->unitMapper != null)
+            u = this->unitMapper->Map(u);
+
         for (int i = 0; i < channelsCount; i++)
             this->deviceChannels[i]->Run(u);
 
@@ -45,9 +51,9 @@ void AsynchronousDeviceEngine::SetNumberOfChannels(int numChannels)
     }
 }
 
-void AsynchronousDeviceEngine::SetChannelMapper(int channel, int mapper)
+void AsynchronousDeviceEngine::SetChannelMapper(int channel, IUnitMapper* mapper)
 {
-
+    this->deviceChannels[channel]->unitMapper = mapper;
 }
 
 void AsynchronousDeviceEngine::SetChannelDevice(int channel, IDeviceDriver* driver)

@@ -29,36 +29,36 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            this.pbBackground = new System.Windows.Forms.PictureBox();
-            ((System.ComponentModel.ISupportInitialize)(this.pbBackground)).BeginInit();
-            this.SuspendLayout();
+            pbBackground = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)pbBackground).BeginInit();
+            SuspendLayout();
             // 
             // pbBackground
             // 
-            this.pbBackground.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pbBackground.BackgroundImage")));
-            this.pbBackground.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pbBackground.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pbBackground.ErrorImage = null;
-            this.pbBackground.Location = new System.Drawing.Point(0, 0);
-            this.pbBackground.Name = "pbBackground";
-            this.pbBackground.Size = new System.Drawing.Size(960, 1080);
-            this.pbBackground.TabIndex = 5;
-            this.pbBackground.TabStop = false;
+            pbBackground.BackgroundImage = (System.Drawing.Image)resources.GetObject("pbBackground.BackgroundImage");
+            pbBackground.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            pbBackground.Dock = System.Windows.Forms.DockStyle.Fill;
+            pbBackground.ErrorImage = null;
+            pbBackground.Location = new System.Drawing.Point(0, 0);
+            pbBackground.Name = "pbBackground";
+            pbBackground.Size = new System.Drawing.Size(960, 1080);
+            pbBackground.TabIndex = 5;
+            pbBackground.TabStop = false;
             // 
             // MainForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(13F, 32F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(960, 1080);
-            this.Controls.Add(this.pbBackground);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name = "MainForm";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "OpenIoT Flash Programmer";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
-            ((System.ComponentModel.ISupportInitialize)(this.pbBackground)).EndInit();
-            this.ResumeLayout(false);
+            AutoScaleDimensions = new System.Drawing.SizeF(13F, 32F);
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            ClientSize = new System.Drawing.Size(960, 1080);
+            Controls.Add(pbBackground);
+            FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            Icon = (System.Drawing.Icon)resources.GetObject("$this.Icon");
+            Name = "MainForm";
+            StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            Text = "OpenIoT Flash Programmer";
+            FormClosing += MainForm_FormClosing;
+            ((System.ComponentModel.ISupportInitialize)pbBackground).EndInit();
+            ResumeLayout(false);
 
         }
 

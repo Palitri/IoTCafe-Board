@@ -175,7 +175,11 @@ int Board::EEPROMRead(int address, void* destination, int size)
 
 	int endAddress = address + size;
 	while (address < endAddress)
-		*(char*)destination++ = EEPROM.read(address++);
+	{
+		*(char*)destination = EEPROM.read(address);
+		destination = (void*)((unsigned int)destination + 1);
+		address++;
+	}
 
 	return size;
 }
@@ -289,10 +293,10 @@ int Board::I2CReadMsbFirst(void* i2c, const void* destination, int count)
 	TwoWire* wire = (TwoWire*)i2c;
 
 	int result = 0;
-	destination = destination + count;
+	*((unsigned char*)destination) = (unsigned int)destination + count;
 	while ((wire->available() > 0) && (count > result))
 	{
-		destination = destination - 1;
+		destination = (void*)((unsigned int)destination - 1);
 		*((unsigned char*)destination) = wire->read();
 		result++;
 	}
@@ -308,7 +312,7 @@ int Board::I2CReadLsbFirst(void* i2c, const void* destination, int count)
 	while ((wire->available() > 0) && (count > result))
 	{
 		*((unsigned char*)destination) = wire->read();
-		destination = destination + 1;
+		destination = (void*)((unsigned int)destination + 1);
 		result++;
 	}
 

@@ -31,14 +31,18 @@ private:
 	IWebClient* webClient  = null;
 	ISMSClient* smsClient = null;
 
+	List<IUnitMapper*> mappers;
+
 	char* wifiNetworkName, * wifiNetworkPassword;
 	bool isBluetoothEnabled;
-
 
 	float updateInterval = 1.0f;
 
 	void SendPropertyUpdates();
 	void WriteEepRomProperties();
+
+	void FreeUnitMappers();
+	void LoadUnitMappers();
 
 public:
 	Timer* timer;
@@ -78,6 +82,9 @@ public:
 	virtual bool IsBluetoothEnabled();
 
 	virtual Peripheral* GetPeripheral(int id);
+
+	virtual int AddMapper(IUnitMapper* unitMapper);
+	virtual IUnitMapper* GetMapper(int id);
 };
 
 #endif

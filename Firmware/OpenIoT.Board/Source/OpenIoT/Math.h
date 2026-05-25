@@ -10,7 +10,7 @@ public:
 	static const float Tau;
 	static const float Phi; // The golden ratio
 	static const float e; // Euler's number
-
+	static const float AbsoluteZeroCelsius; // Consider moving to a Physics.h
 
 	static int Min(int a, int b);
 	static float Min(float a, float b);
@@ -37,6 +37,10 @@ public:
 	static float ArcTan2(float y, float x);
 	static int Random(int max);
 	static float Exponent(float x, float surface);
+	static float Log(float x, float base);
+	static float Ln(float x);
+	static float Lg(float x);
+	static float Lb(float x);
 
 	static unsigned short CRC16(const void* source, unsigned int size, unsigned short seed = 0x1D0F);
 

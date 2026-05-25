@@ -6,6 +6,18 @@ void LinearUnitMapper::Setup(float start, float end)
 	this->delta = end - start;
 }
 
+void* LinearUnitMapper::Setup(void *data)
+{
+	float start = *(float*)data;
+	data += 4;
+	float end = *(float*)data;
+	data += 4;
+
+	this->Setup(start, end);
+
+	return data;
+}
+
 void LinearUnitMapper::SetupIdentity()
 {
 	this->Setup(0.0f, 1.0f);
@@ -15,4 +27,3 @@ float LinearUnitMapper::Map(float value)
 {
   return this->start + this->delta * value;
 }
-

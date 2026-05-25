@@ -5,8 +5,8 @@
 
 #include "Board.h"
 
-class CommandTransmissionProtocol
-	: public ChunkTransmissionProtocol
+class CommandTransmissionProtocol :
+	public ChunkTransmissionProtocol
 {
 public:
 	CommandTransmissionProtocol();

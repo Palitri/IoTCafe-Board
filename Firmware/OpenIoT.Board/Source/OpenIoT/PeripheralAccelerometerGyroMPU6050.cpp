@@ -59,6 +59,8 @@ void PeripheralAccelerometerGyroMPU6050::Update()
 		this->rdx->SetFloat(this->mpuDevice->gyroscope.x);
 		this->rdy->SetFloat(this->mpuDevice->gyroscope.y);
 		this->rdz->SetFloat(this->mpuDevice->gyroscope.z);
+		//this->rdx->SetFloat(this->mpuDevice->accelerometerRotation.x);
+		//this->rdy->SetFloat(this->mpuDevice->accelerometerRotation.y);
 		this->temperature->SetFloat(this->mpuDevice->temperature);
 	}
 }

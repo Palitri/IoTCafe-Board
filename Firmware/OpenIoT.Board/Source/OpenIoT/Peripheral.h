@@ -4,10 +4,12 @@
 #include "IClusterDevice.h"
 #include "IDeviceDriver.h"
 #include "BasePropertiesObject.h"
+#include "ICommandProcessor.h"
 #include "Board.h"
 
 class Peripheral :
-	public BasePropertiesObject
+	public BasePropertiesObject,
+	public ICommandProcessor
 {
 public:
 	IClusterDevice* device;
@@ -20,7 +22,8 @@ public:
 	virtual int Load(const void* code);
 	virtual void Update();
 
-	virtual void ProcessCommand(char code, const char* data, int size);
+	// ICommandProcessor
+	virtual bool ProcessCommand(unsigned char command, void* data, int dataSize);
 };
 
 #endif

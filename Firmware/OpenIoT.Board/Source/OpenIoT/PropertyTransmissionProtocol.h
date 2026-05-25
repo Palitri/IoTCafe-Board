@@ -3,9 +3,11 @@
 
 #include "CommandTransmissionProtocol.h"
 #include "IPropertiesObject.h"
+#include "ICommandProcessor.h"
 
 class PropertyTransmissionProtocol :
-	public CommandTransmissionProtocol
+	public CommandTransmissionProtocol,
+	public ICommandProcessor
 {
 private:
 	void SubscriptionRoutines();
@@ -23,6 +25,7 @@ protected:
 
 	static const unsigned char CommandCode_Ping						= 0x10;
 	static const unsigned char CommandCode_Info						= 0x11;
+	static const unsigned char CommandCode_Wait						= 0x12;
 	static const unsigned char CommandCode_QueryParamsInfo			= 0x21;
 	static const unsigned char CommandCode_QueryParamsValues		= 0x22;
 	static const unsigned char CommandCode_SetParamsValues			= 0x23;
@@ -31,6 +34,7 @@ protected:
 
 	static const unsigned char ResponseCode_Ping					= 0x10 | Code_ResponseBit;
 	static const unsigned char ResponseCode_Info					= 0x11 | Code_ResponseBit;
+	static const unsigned char ResponseCode_Wait					= 0x12 | Code_ResponseBit;
 	static const unsigned char ResponseCode_QueryParamsInfo			= 0x21 | Code_ResponseBit;
 	static const unsigned char ResponseCode_QueryParamsValues		= 0x22 | Code_ResponseBit;
 	static const unsigned char ResponseCode_SetParamsValues			= 0x23 | Code_ResponseBit;
@@ -55,9 +59,12 @@ public:
 
 	virtual void SetPropertiesObject(IPropertiesObject* propertiesObject);
 
+	// CommandTransmissionProtocol
 	virtual void OnReceiveChunk(void* data, int dataSize);
-
 	virtual bool OnReceiveCommand(unsigned char command, void* data, int dataSize);
+
+	// ICommandProcessor
+	virtual bool ProcessCommand(unsigned char command, void* data, int dataSize);
 
 	virtual void SendChangedSubscribedProperties();
 

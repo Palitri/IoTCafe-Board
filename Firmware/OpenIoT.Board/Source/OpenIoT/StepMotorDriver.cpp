@@ -97,7 +97,6 @@ int StepMotorDriver::RotationRoutines()
 
 
 /// IDeviceDriver methods
-
 void StepMotorDriver::Begin(float origin, float vector)
 {
 	float pulsesRemainder = this->drivePulsesTotal - this->drivePulsesMade;

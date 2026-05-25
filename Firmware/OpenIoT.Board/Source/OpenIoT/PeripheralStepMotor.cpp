@@ -26,17 +26,6 @@ PeripheralStepMotor::~PeripheralStepMotor()
 {
 	if (this->motor != null)
 		delete this->motor;
-
-	for (int i = 0; i < this->asyncDriver.deviceChannels.count; i++)
-	{
-		if (this->asyncDriver.deviceChannels[i]->deviceDriver != null)
-			delete this->asyncDriver.deviceChannels[i]->deviceDriver;
-
-		if (this->asyncDriver.deviceChannels[i]->unitMapper != null)
-			delete this->asyncDriver.deviceChannels[i]->unitMapper;
-
-		delete this->asyncDriver.deviceChannels[i];
-	}
 }
 
 

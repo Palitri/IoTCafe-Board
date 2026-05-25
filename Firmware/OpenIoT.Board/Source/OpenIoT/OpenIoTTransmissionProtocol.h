@@ -17,7 +17,7 @@ private:
 	static const int CommandCode_ResetLogic					= 0x45;
 	static const int CommandCode_Reset						= 0x46;
 	static const int CommandCode_ListCommands				= 0x47;
-	static const int CommandCode_ExecuteCommand				= 0x48;
+	static const int CommandCode_ExecutePeripheralCommand	= 0x48;
 	//Add: static const int CommandCode_WriteUserInfo			= 0x;
 	//Add: static const int CommandCode_ReadUserInfo			= 0x;
 
@@ -28,7 +28,8 @@ private:
 	static const int ResponseCode_ResetLogic				= Code_ResponseBit | CommandCode_ResetLogic;
 	static const int ResponseCode_Reset						= Code_ResponseBit | CommandCode_Reset;
 	static const int ResponseCode_ListCommands				= Code_ResponseBit | CommandCode_ListCommands;
-	static const int ResponseCode_ExecuteCommand			= Code_ResponseBit | CommandCode_ExecuteCommand;
+	static const int ResponseCode_ExecutePeripheralCommand	= Code_ResponseBit | CommandCode_ExecutePeripheralCommand;
+	//static const int ResponseCode_Wait						= Code_ResponseBit | CommandCode_Wait;
 	//Add: static const int ResponseCode_WriteUserInfo		= Code_ResponseBit | CommandCode_WriteUserInfo;
 	//Add: static const int ResponseCode_ReadUserInfo		= Code_ResponseBit | CommandCode_ReadUserInfo;
 
@@ -60,7 +61,7 @@ public:
 	virtual int Read(void* destination, int count);
 	virtual int Write(const void* source, int count);
 
-	virtual bool OnReceiveCommand(unsigned char command, void* data, int dataSize);
+	virtual bool ProcessCommand(unsigned char command, void* data, int dataSize);
 
 	void LoadSchemeLogic(void* data, int dataSize);
 	void LoadProgramLogic(void* data, int dataSize);

@@ -33,7 +33,7 @@ OpenIoTTransmissionProtocol::OpenIoTTransmissionProtocol(ITransmissionChannel* t
 }
 
 
-bool OpenIoTTransmissionProtocol::OnReceiveCommand(unsigned char command, void* data, int dataSize)
+bool OpenIoTTransmissionProtocol::ProcessCommand(unsigned char command, void* data, int dataSize)
 {
 	switch (command)
 	{
@@ -147,7 +147,7 @@ bool OpenIoTTransmissionProtocol::OnReceiveCommand(unsigned char command, void* 
 			break;
 		}
 
-		case CommandCode_ExecuteCommand:
+		case CommandCode_ExecutePeripheralCommand:
 		{
 			char* commandData = (char*)data;
 
@@ -162,13 +162,13 @@ bool OpenIoTTransmissionProtocol::OnReceiveCommand(unsigned char command, void* 
 				commandData += commandSize;
 			}
 			
-			this->SendCommand(ResponseCode_ExecuteCommand);
+			this->SendCommand(ResponseCode_ExecutePeripheralCommand);
 
 			break;
 		}
 
 		default:
-			return PropertyTransmissionProtocol::OnReceiveCommand(command, data, dataSize);
+			return PropertyTransmissionProtocol::ProcessCommand(command, data, dataSize);
 	}
 
 	return true;
