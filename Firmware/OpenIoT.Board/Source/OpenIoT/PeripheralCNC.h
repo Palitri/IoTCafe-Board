@@ -10,6 +10,7 @@ class PeripheralCNC :
 {
 private:
 	static const int CommandCode_SetAsyncDevice = 1;
+	static const int CommandCode_SetAxesChannels = 2;
 	static const int CommandCode_Polyline = 11;
 	static const int CommandCode_Bezier = 12;
 	static const int CommandCode_Arc = 13;

@@ -77,6 +77,13 @@ public:
 		this->values[index] = value;
 	};
 
+	// Sets all the elements to the given value
+	void SetAll(T value)
+	{
+		for (int i = 0; i < this->count; i++)
+			this->values[i] = value;
+	};
+
 	// Returns the number of elements in the list
 	int Size()
 	{

@@ -52,9 +52,21 @@ bool PeripheralCNC::ProcessCommand(unsigned char command, void* data, int dataSi
 			break;
 		}
 
+		case PeripheralCNC::CommandCode_SetAxesChannels:
+		{
+			int offset = 0;
+			unsigned char numChannels = *(unsigned char*)((unsigned int)data + offset++);
+			
+			this->cncDevice.asyncEngineChannels.SetSize(numChannels);
+			for (int i = 0; i < numChannels; i++)
+				this->cncDevice.asyncEngineChannels[i] = *(unsigned char*)((unsigned int)data + offset++);
+
+			break;
+		}
+
 		case PeripheralCNC::CommandCode_Polyline:
 		{
-			const int dimensionality = this->cncDevice.asyncEngine->deviceChannels.count;
+			const int dimensionality = this->cncDevice.asyncEngineChannels.count;
 
 			int offset = 0;
 
@@ -70,7 +82,7 @@ bool PeripheralCNC::ProcessCommand(unsigned char command, void* data, int dataSi
 
 		case PeripheralCNC::CommandCode_Bezier:
 		{
-			const int dimensionality = this->cncDevice.asyncEngine->deviceChannels.count;
+			const int dimensionality = this->cncDevice.asyncEngineChannels.count;
 
 			int offset = 0;
 
@@ -86,7 +98,7 @@ bool PeripheralCNC::ProcessCommand(unsigned char command, void* data, int dataSi
 
 		case PeripheralCNC::CommandCode_Arc:
 		{
-			const int dimensionality = this->cncDevice.asyncEngine->deviceChannels.count;
+			const int dimensionality = this->cncDevice.asyncEngineChannels.count;
 
 			if (dataSize < (2 + 2 * dimensionality) * 4)
 				break;

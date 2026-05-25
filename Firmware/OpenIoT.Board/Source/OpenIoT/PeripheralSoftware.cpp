@@ -8,8 +8,6 @@
 
 #include "PeripheralSoftware.h"
 
-#include "BoardPinProperty.h"
-
 #include "BitUtils.h"
 
 PeripheralSoftware::PeripheralSoftware(IClusterDevice* device) :

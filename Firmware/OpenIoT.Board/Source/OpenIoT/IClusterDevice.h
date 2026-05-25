@@ -12,9 +12,10 @@
 class IPersistence;
 class IWebClient;
 class ISMSClient;
-class Timer;
 class IPropertiesObject;
 class ITransmissionChannel;
+class IUnitMapper;
+class Timer;
 class PropertyTransmissionProtocol;
 class Peripheral;
 

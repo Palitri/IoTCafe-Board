@@ -17,6 +17,8 @@ private:
 	BezierUnitMapper bezierMapper;
 	
 public:
+	List<int> asyncEngineChannels;
+
 	AsynchronousDeviceEngine* asyncEngine;
 	
 	CNCDevice(AsynchronousDeviceEngine* asyncEngine = null);

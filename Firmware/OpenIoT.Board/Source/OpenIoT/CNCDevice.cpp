@@ -14,12 +14,18 @@ CNCDevice::~CNCDevice()
 void CNCDevice::SetAsyncEngine(AsynchronousDeviceEngine* asyncEngine)
 {
     this->asyncEngine = asyncEngine;
-}
 
+    if (this->asyncEngine != null)
+    {
+        this->asyncEngineChannels.SetSize(this->asyncEngine->deviceChannels.count);
+        for (int i = 0; i < this->asyncEngineChannels.count; i++)
+            this->asyncEngineChannels[i] = i;
+    }
+}
 
 void CNCDevice::PlotPolyline(float speed, int numPoints, float* points)
 {
-    int dimensionality = this->asyncEngine->deviceChannels.count;
+    int dimensionality = this->asyncEngineChannels.count;
 
     int offset = 0;
     for (int i = 0; i < numPoints; i++)
@@ -28,8 +34,9 @@ void CNCDevice::PlotPolyline(float speed, int numPoints, float* points)
 
         for (int dimension = 0; dimension < dimensionality; dimension++)
         {
+            int channel = this->asyncEngineChannels[dimension];
             float coord = points[offset];
-            this->asyncEngine->deviceChannels[dimension]->deviceDriver->Begin(0.0f, coord);
+            this->asyncEngine->deviceChannels[channel]->deviceDriver->Begin(0.0f, coord);
             offset++;
 
             length += coord * coord;
@@ -43,7 +50,7 @@ void CNCDevice::PlotPolyline(float speed, int numPoints, float* points)
 
 void CNCDevice::PlotBezier(float speed, int numPoints, float* points)
 {
-    int dimensionality = this->asyncEngine->deviceChannels.count;
+    int dimensionality = this->asyncEngineChannels.count;
 
     this->lastCoords.SetSize(dimensionality);
 
@@ -60,15 +67,17 @@ void CNCDevice::PlotBezier(float speed, int numPoints, float* points)
         // X, Y, Z, ...
         for (int dimension = 0; dimension < dimensionality; dimension++)
         {
+            int channel = this->asyncEngineChannels[dimension];
+
             this->bezierMapper.UsePointsInMemory(points + dimension, pointsMemoryStride);
             float newCoord = this->bezierMapper.Map(u);
 
-            if(i > 0)
+            if (i > 0)
             {
                 float deltaCoord = newCoord - this->lastCoords[dimension];
                 length += deltaCoord * deltaCoord;
 
-                this->asyncEngine->deviceChannels[dimension]->deviceDriver->Begin(0.0f, deltaCoord);
+                this->asyncEngine->deviceChannels[channel]->deviceDriver->Begin(0.0f, deltaCoord);
             }
 
             this->lastCoords[dimension] = newCoord;
@@ -82,11 +91,11 @@ void CNCDevice::PlotBezier(float speed, int numPoints, float* points)
 
 void CNCDevice::PlotArc(float speed, float startAngle, float endAngle, float* axisX, float* axisY)
 {
-    const int dimensionality = this->asyncEngine->deviceChannels.count;
+    int dimensionality = this->asyncEngineChannels.count;
 
     this->lastCoords.SetSize(dimensionality);
 
-    // !! Delta angle with -10, 10 range : should it go 20 or 340 degreece?
+    // !! Delta angle with [-10,10] range : should it go 20 or 340 degreece? should go 20 if it's [-10,10] and 340 if it's [10,-10]
     float deltaAngle = endAngle - startAngle;
     int discretizationSteps = Math::Max((int)Math::Abs(180.0f * deltaAngle / Math::Pi), 1);
     for (int i = 0; i <= discretizationSteps; i++)
@@ -105,10 +114,12 @@ void CNCDevice::PlotArc(float speed, float startAngle, float endAngle, float* ax
 
             if (i > 0)
             {
+                int channel = this->asyncEngineChannels[dimension];
+
                 float deltaCoord = newCoord - this->lastCoords[dimension];
                 length += deltaCoord * deltaCoord;
 
-                this->asyncEngine->deviceChannels[dimension]->deviceDriver->Begin(0.0f, deltaCoord);
+                this->asyncEngine->deviceChannels[channel]->deviceDriver->Begin(0.0f, deltaCoord);
             }
 
             this->lastCoords[dimension] = newCoord;

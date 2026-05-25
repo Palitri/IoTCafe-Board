@@ -11,8 +11,7 @@ class PeripheralAsynchronousDriver :
 	public Peripheral
 {
 private:
-	static const int CommandCode_SetNumberOfChannels = 1;
-	static const int CommandCode_SetChannelDevice = 2;
+	static const int CommandCode_SetChannelsDevices = 1;
 	static const int CommandCode_SetChannelMapper = 3;
 	static const int CommandCode_SetVector = 4;
 	static const int CommandCode_Drive = 5;

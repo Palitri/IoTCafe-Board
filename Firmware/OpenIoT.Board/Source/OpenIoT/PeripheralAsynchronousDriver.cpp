@@ -41,22 +41,18 @@ bool PeripheralAsynchronousDriver::ProcessCommand(unsigned char command, void* d
 {
 	switch (command)
 	{
-		case PeripheralAsynchronousDriver::CommandCode_SetNumberOfChannels:
+		case PeripheralAsynchronousDriver::CommandCode_SetChannelsDevices:
 		{
+			int offset = 0;
+			unsigned char numChannels = *(unsigned char*)((unsigned int)data + offset++);
+
 			this->asyncEngine.SetNumberOfChannels(*(unsigned char*)data);
-			break;
-		}
 
-		case PeripheralAsynchronousDriver::CommandCode_SetChannelDevice:
-		{
-			unsigned channel = *(unsigned char*)data;
-			data += 1;
-			unsigned char peripheralId = *(unsigned char*)data;
-			
-			if (channel >= this->asyncEngine.deviceChannels.count)
-				break;
-
-			this->asyncEngine.SetChannelDevice(channel, this->device->GetPeripheral(peripheralId)->driver);
+			for (int channel = 0; channel < numChannels; channel++)
+			{
+				unsigned char peripheralId = *(unsigned char*)((unsigned int)data + offset++);
+				this->asyncEngine.SetChannelDevice(channel, this->device->GetPeripheral(peripheralId)->driver);
+			}
 
 			break;
 		}
@@ -64,8 +60,7 @@ bool PeripheralAsynchronousDriver::ProcessCommand(unsigned char command, void* d
 		case PeripheralAsynchronousDriver::CommandCode_SetChannelMapper:
 		{
 			unsigned char channel = *(unsigned char*)data;
-			data += 1;
-			unsigned char mapperId = *(unsigned char*)data;
+			unsigned char mapperId = *(unsigned char*)((unsigned int)data + 1);
 
 			if (channel >= this->asyncEngine.deviceChannels.count)
 				break;
@@ -90,9 +85,10 @@ bool PeripheralAsynchronousDriver::ProcessCommand(unsigned char command, void* d
 		case PeripheralAsynchronousDriver::CommandCode_SetVector:
 		{
 			unsigned char channelId = *(unsigned char*)data;
-			float vector = *(float*)(data + 1);
+			float origin = *(float*)((unsigned int)data + 1);
+			float vector = *(float*)((unsigned int)data + 1 + 4);
 
-			this->asyncEngine.deviceChannels[channelId]->deviceDriver->Begin(0, vector);
+			this->asyncEngine.deviceChannels[channelId]->deviceDriver->Begin(origin, vector);
 			break;
 		}
 

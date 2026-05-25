@@ -2,7 +2,8 @@
 #define PeripheralPin_h
 
 #include "Peripheral.h"
-#include "BoardPinProperty.h"
+
+#include "PinDriver.h"
 
 class PeripheralPin :
 	public Peripheral
@@ -10,7 +11,11 @@ class PeripheralPin :
 private:
 	static const int CommandCode_SetPWM = 1;
 
-	BoardPinProperty *value;
+	static unsigned char pinModeToPropertyTypeMap[6];
+	static unsigned char pinModeToPropertyFlagsMap[6];
+
+	Property *value;
+	PinDriver* pinDriver;
 
 public:
 	static const int Code_DeviceId = 13;

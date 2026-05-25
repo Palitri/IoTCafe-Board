@@ -20,8 +20,6 @@ private:
 	float oldTurns;
 	int stepsRemaining;
 
-	AsynchronousDeviceEngine asyncDriver;
-
 public:
 	static const int Code_DeviceId = 17;
 
